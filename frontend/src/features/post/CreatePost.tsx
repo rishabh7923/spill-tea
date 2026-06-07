@@ -1,16 +1,18 @@
 import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import ImageInput from "@/components/ImageInput"
-import useCreatePost from "./hooks/useCreatePost"
 import type { CreatePostSchema } from "@/types/post"
 import { SelectPostCategory } from "./SelectPostCategory"
+import ImageInput from "@/components/ImageInput"
+import useCreatePost from "./hooks/useCreatePost"
+import useNavigateToLogin from "../auth/useNavigateToLogin"
 
 export default function CreatePost() {
   const [content, setContent] = useState("")
   const [images, setImages] = useState<string[]>([])
   const [files, setFiles] = useState<File[]>([])
   const [category, setCategory] = useState<string>("5");
+  const navigateToLogin = useNavigateToLogin();
   const { createPost, status } = useCreatePost({ onSuccess: cleanup, onError: cleanup });
 
   function cleanup() {
@@ -37,7 +39,8 @@ export default function CreatePost() {
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+    e.preventDefault();
+    navigateToLogin();
     const formData = new FormData()
 
     formData.append("content", content);

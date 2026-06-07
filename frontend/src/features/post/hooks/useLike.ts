@@ -3,7 +3,7 @@ import { likePostApi } from "@/api/post"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-function useLike(postId: string) {
+function useLike(postId: string|number) {
     const queryClient = useQueryClient()
     const { data, mutate: like, status } = useMutation({
         mutationFn: likePostApi,

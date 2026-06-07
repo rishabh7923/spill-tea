@@ -29,7 +29,7 @@ function Home() {
         <Container>
             <div className='top-16 relative flex md:px-2'>
                 <FloatingSidebar />
-                <div className='max-w-120 w-full mx-auto min-h-screen  border'>
+                <div className='max-w-xl w-full mx-auto min-h-screen border'>
                     <div className='mx-auto'>
                         <div className='border-b py-4 px-2'>
                             <CreatePost />

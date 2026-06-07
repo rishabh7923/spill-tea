@@ -11,7 +11,7 @@ import { EllipsisVertical } from "lucide-react"
 import PostCardDeleteButton from "./PostCardDeleteButton"
 import { useAuth } from "../auth/AuthContext"
 
-export function PostCardDropDown({ postId, userId }: { postId: string, userId: string }) {
+export function PostCardDropDown({ postId, userId }: { postId: string|number, userId: string }) {
   const { user } = useAuth();
   return (
     <DropdownMenu>

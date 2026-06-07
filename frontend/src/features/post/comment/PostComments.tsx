@@ -1,28 +1,23 @@
-import { lazy, Suspense } from "react";
-import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
-import MobileScreenComments from "./CommentsDrawer";
-import useMediaQuery from "@/hooks/useMediaQuery";
-const PostDialog = lazy(() => import("../PostDialog"));
+import Comment from "./Comment"
+import useComments from "./hooks/useComments";
+
 
 function PostComments() {
-    const isDesktop = useMediaQuery("(min-width: 768px)");
-    const navigate = useNavigate();
+    const { comments, status, } = useComments();
+
     return (
-        <div>
-            {isDesktop ? <Dialog defaultOpen onOpenChange={() => navigate(-1)}>
-                <DialogContent className="w-screen h-screen max-w-none sm:max-w-none bg-transparent">
-                    <Suspense fallback={<div>loading...</div>}>
-                        <PostDialog />
-                    </Suspense>
-                </DialogContent>
-            </Dialog> : <Drawer defaultOpen onOpenChange={() => navigate(-1)}>
-                <DrawerContent>
-                    <MobileScreenComments />
-                </DrawerContent>
-            </Drawer>}
-        </div>
+        <div className="my-4">
+            <ul className="divide-y px-2">
+                {status === "pending" ? <>
+                    <li className="w-full animate-pulse"></li>
+                    <li className="w-full animate-pulse"></li>
+                    <li className="w-full animate-pulse"></li>
+                </>
+                    :
+                    status === "error" ? "Something went wrong" : comments!.map(c => <Comment comment={c} />)
+                }
+            </ul>
+        </div >
     )
 }
 
