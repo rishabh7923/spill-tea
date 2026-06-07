@@ -24,7 +24,7 @@ CREATE TABLE categories (
 );
 
 INSERT INTO categories
-VALUES (1, 'issues'), (2, 'confession'), (3, 'meme'), (4, 'question');
+VALUES (1, 'issues'), (2, 'confession'), (3, 'meme'), (4, 'question'), (5, 'general');
 
 CREATE TABLE posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
