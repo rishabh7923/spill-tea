@@ -3,7 +3,7 @@ import { ScrollArea } from "./ui/scroll-area"
 
 function TrendingSection() {
     return (
-        <aside className='hidden border min-w-76 max-h-96 max-w-80 ml-auto bg-popover rounded-lg my-2 text-foreground lg:block lg:py-4 sticky top-20'>
+        <aside className='hidden border min-w-76 max-h-96 max-w-80 bg-popover rounded-lg my-2 text-foreground lg:block lg:py-4 sticky top-20'>
             <ScrollArea className='h-full'>
                 <h3 className='text-base mb-3 text-muted-foreground uppercase px-4'>
                     Trending Today

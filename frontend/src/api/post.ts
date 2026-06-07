@@ -47,7 +47,7 @@ export async function getPostsApi(cursor: string | null = null): Promise<GetPost
         throw new Error("Something went wrong");
     }
 }
-export async function likePostApi(postId: string) {
+export async function likePostApi(postId: string|number) {
     try {
         await axios.post(`posts/${postId}/likes`);
     }
@@ -59,7 +59,7 @@ export async function likePostApi(postId: string) {
     }
 }
 
-export async function unlikePostApi(postId: string) {
+export async function unlikePostApi(postId: string|number) {
     try {
         await axios.delete(`posts/${postId}/likes`);
     }
@@ -71,7 +71,7 @@ export async function unlikePostApi(postId: string) {
     }
 }
 
-export async function deletePostApi(postId: string) {
+export async function deletePostApi(postId: string|number) {
     try {
         await axios.delete(`posts/${postId}`)
     } catch (e) {

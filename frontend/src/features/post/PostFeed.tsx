@@ -1,4 +1,3 @@
-import { Outlet } from 'react-router-dom';
 import useInfinitePosts from './hooks/useInfinitePosts';
 import usePosts from './hooks/usePosts'
 import PostCard from './PostCard'
@@ -41,7 +40,6 @@ function PostFeed() {
 
             {isFetchingNextPage && <PostCardSkeleton />}
             {status === "error" && <p>{error?.message}</p>}
-            <Outlet/>
         </ul>
     );
 }

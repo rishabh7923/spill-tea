@@ -37,9 +37,10 @@ export type PostImage = {
 }
 
 export type PostCardProps = {
-    id: string;
+    id: string | number;
     author: string;
     avatar?: string;
+    title?:string;
     content: string;
     user: User
     image?: string;

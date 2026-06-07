@@ -15,9 +15,12 @@ import {
   Settings,
   User,
 } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 export function DropdownMenuAvatar() {
+  const navigate = useNavigate();
   const {logout} = useAuth();
+  const navigateToProfilePage = () => navigate('/u');
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,7 +33,7 @@ export function DropdownMenuAvatar() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={navigateToProfilePage}>
             <User />
             Profile
           </DropdownMenuItem>

@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const categories = [
-  { value: "1", label: "Issue" },
+  { value: "1", label: "News" },
   { value: "2", label: "Confession" },
-  { value: "3", label: "Memes" },
-  { value: "4", label: "Question" },
-  { value: "5", label: "General" },
+  { value: "3", label: "Question" },
+  { value: "4", label: "General" },
+  { value: "5", label: "Meme" },
+  { value: "6", label: "Issue" },
 ];
 
 export function SelectPostCategory({

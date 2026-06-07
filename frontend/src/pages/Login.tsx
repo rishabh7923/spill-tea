@@ -4,7 +4,7 @@ import AuthForm from '@/features/auth/AuthForm'
 function Login() {
     return (
         <Container>
-            <div className='flex items-center min-h-screen p-2 lg:p-4'>
+            <div className='flex items-center min-h-screen px-2 lg:px-4'>
                 <AuthForm variant='login' />
             </div>
         </Container>

@@ -2,7 +2,7 @@
 import { unlikePostApi } from "@/api/post"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-function useUnlike(postId: string) {
+function useUnlike(postId: string|number) {
   const queryClient = useQueryClient()
 
   const { mutate: unlike, status } = useMutation({
