@@ -7,6 +7,7 @@ import multer from "multer";
 import { Post } from "../../database/entity/Post.js";
 import { Hashtag } from "../../database/entity/Hashtag.js";
 import { In } from "typeorm";
+import { optionalAuthenticated } from "../../middlewares/optionalAuthenticated.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -62,7 +63,7 @@ export const post: Handler[] = [
 ]
 
 export const get: Handler[] = [
-    isAuthenticated,
+    optionalAuthenticated,
     async (req, res) => {
         const cursor = req.query.cursor as string | undefined;
         const [cursorCreatedAt, cursorId] = cursor ? cursor.split("_") : [undefined, undefined];
@@ -70,15 +71,19 @@ export const get: Handler[] = [
         //set default limit and make sure it can not be set more than 50
         const limit = Math.min(Number(req.query.limit) || 10, 50);
 
-        let { entities: posts, raw } = await Post.createQueryBuilder("post")
+        const qb = Post.createQueryBuilder("post")
             .leftJoinAndSelect("post.user", "user")
             .leftJoinAndSelect("post.attachments", "attachments")
             .leftJoinAndSelect("post.category", "category")
-            .leftJoinAndSelect("post.hashtags", "hashtags")
+            .leftJoinAndSelect("post.hashtags", "hashtags");
 
+        if (req.user && req.user.id) {
+            qb
             .leftJoin("reactions", "reaction", "reaction.post_id = post.id AND reaction.user_id = :userId", { userId: req.user.id })
-            .addSelect("CASE WHEN reaction.id IS NOT NULL THEN true ELSE false END", "liked")
+            .addSelect("CASE WHEN reaction.id IS NOT NULL THEN true ELSE false END", "liked");
+        }
 
+        let { entities: posts, raw } = await qb
             .where(
                 (cursorCreatedAt && cursorId)
                     ? "(post.created_at < :createdAt) OR (post.created_at = :createdAt AND post.id < :id)"
@@ -90,7 +95,7 @@ export const get: Handler[] = [
             .take(limit)
             .getRawAndEntities();
 
-        posts = posts.map((post:any, i) => Object.assign(post, { liked: Boolean(+raw[i].liked) }))
+        posts = posts.map((post:any, i) => Object.assign(post, { liked: req.user ? Boolean(+raw[i].liked) : false }))
 
         const lastPost = posts[posts.length - 1];
 
