@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import {useState } from 'react';
 import {useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import useAddComment from './hooks/useAddComment'
@@ -17,23 +17,23 @@ import useNavigateToLogin from '@/features/auth/useNavigateToLogin';
 function AddComment() {
     const { mutate, status } = useAddComment();
     const { pid } = useParams();
-    const ref = useRef<HTMLTextAreaElement>(null);
+    const [comment, setComment] = useState("");
     const navigateToLogin = useNavigateToLogin();
     function addComment() {
         navigateToLogin();
-        if (!ref.current) return;
+        if (!comment) return;
 
-        if (ref.current.value.trim() === "") {
+        if (comment.trim() === "") {
             toast.error("comment too short");
             return;
         }
 
         mutate({
-            content: ref.current.value,
+            content: comment,
             postId: pid!
         });
 
-        ref.current.value = "";
+        setComment("");
     }
 
     return (
@@ -44,10 +44,11 @@ function AddComment() {
                         <InputGroupTextarea
                             id="block-end-textarea"
                             placeholder="Write a comment..."
-                            ref={ref}
+                            value={comment}
+                            onChange={(e)=> setComment(e.target.value)}
                         />
                         <InputGroupAddon align="block-end">
-                            <InputGroupText>0/280</InputGroupText>
+                            <InputGroupText>{comment.length}/280</InputGroupText>
                             <div className='ml-auto flex gap-2'>
                                 <InputGroupButton variant="destructive" size="sm">
                                     Cancel

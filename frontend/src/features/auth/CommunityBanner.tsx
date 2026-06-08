@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function CommunityBanner() {
   return (
-    <div className="flex items-center gap-8">
+    <div className="flex items-center flex-col md:flex-row gap-8">
       <div className="flex -space-x-3">
         <Avatar size="lg" className="border-2 border-background">
           <AvatarImage src="https://i.pravatar.cc/100?img=1" />
@@ -20,13 +20,13 @@ function CommunityBanner() {
         </Avatar>
 
         <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-background bg-muted text-sm font-medium">
-          +5k
+          +1k
         </div>
       </div>
 
       <p className="text-sm text-muted-foreground">
-        Join <span className="font-semibold">5,000+</span> students from
-        <span className="font-medium"> Obsidian University</span>
+        Join <span className="font-semibold">1,000+</span> students from
+        <span className="font-medium"> MPGI </span>
       </p>
     </div>
   );

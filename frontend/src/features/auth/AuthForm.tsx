@@ -12,6 +12,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import CommunityBanner from './CommunityBanner';
 import { toast } from 'sonner';
+import { CupSoda } from 'lucide-react';
 
 function AuthForm({ variant }: { variant: "login" | "signup" }) {
     const title = variant === "login" ? "Login" : "Create Account";
@@ -35,10 +36,9 @@ function AuthForm({ variant }: { variant: "login" | "signup" }) {
     }
     if (isAuthenticated) return <Navigate to="/" replace />
     return (
-        <div className='flex flex-col lg:flex-row'>
-
-            <div className="lg:w-1/2 bg-[url('/images/bg.jpg')] bg-top bg-cover lg:min-h-screen p-4 md:p-0">
-                <div className='flex h-full flex-col gap-16 lg:gap-8 justify-center lg:pl-8'>
+        <div className='flex flex-col lg:flex-row lg:justify-between w-full'>
+            <div className="lg:w-1/2 bg-background bg-[url('/images/waves.png')] bg-top bg-cover lg:min-h-screen pt-2 md:p-0">
+                <div className='flex h-full flex-col gap-4 lg:gap-8 items-center md:items-start justify-center p-4 lg:pl-8'>
                     <Badge className="p-2 flex items-center gap-2" variant="secondary">
                         <span className="relative flex h-2 w-2">
                             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
@@ -47,25 +47,23 @@ function AuthForm({ variant }: { variant: "login" | "signup" }) {
                         </span>
                         Live community
                     </Badge>
-                    <h1 className='text-4xl font-bold'>
-                        Connect With your <br /> campus.
+                    <h1 className='text-2xl font-bold'>
+                        Connect With your <br className='hidden md:block' /> campus.
                     </h1>
                     <p className='text-sm max-w-lg'>Join the exclusive digital discourse designed for students. Real-time updates, study groups, and campus events—all in one place.</p>
                     <CommunityBanner />
                 </div>
             </div>
-            <div className='lg:w-1/2 text-left justify-center p-4 py-8 md:p-0'>
-                <div className='lg:px-20'>
-                    <div className='w-10 h-10 border border-amber-600 my-8'></div>
-                    <h3 className='text-3xl font-semibold'>
+            <div className='lg:w-1/2 text-left p-4 lg:py-8 md:p-0 lg:flex items-center'>
+                <div className='lg:px-20 mr-auto flex-1'>
+                    {/* Logo */}
+                    <div className='hidden lg:inline-flex justify-center my-8 items-center'>
+                        <CupSoda size={30}/>
+                    </div>
+                    <h3 className='hidden text-3xl font-semibold lg:block mb-4'>
                         {title}
                     </h3>
-                    <p className='mt-2 text-gray-500'>Join the exclusive digital discourse designed for students. Real-time updates, study groups, and campus events—all in one place.</p>
-                    <div className='mt-8'>
-                        <Button className="w-full  text-base py-4" variant="outline" onClick={()=>toast("coming soon...")}><FcGoogle /> Continue with google</Button>
-                        {/* <Button className="w-full  text-base py-4 mt-2" variant="outline"><FaDiscord /> Continue with Discord</Button> */}
-                    </div>
-                    <p className='text-center my-4 uppercase text-gray-500'>or</p>
+                    {/* <p className='mt-2 text-gray-500'>Join the exclusive digital discourse designed for students. Real-time updates, study groups, and campus events—all in one place.</p> */}
                     <form onSubmit={handleSubmit}>
                         <FieldGroup>
                             <Field>
@@ -107,14 +105,19 @@ function AuthForm({ variant }: { variant: "login" | "signup" }) {
                         <Button className="w-full  text-base py-4 mt-4" disabled={isLoading}>{submitBtnText}</Button>
                         {variant === "login" ?
                             <div className='text-center'>
-                               New to spill? <Button className='px-0' variant="link" onClick={()=> navigate("/signup")}>Create an account</Button>
+                                New to spill? <Button className='px-0' variant="link" onClick={() => navigate("/signup")}>Create an account</Button>
                             </div>
-                        :
-                        <div className='text-center'>
-                               Already have an account <Button className='px-0' variant="link" onClick={()=> navigate("/login")}>Login</Button>
+                            :
+                            <div className='text-center'>
+                                Already have an account <Button className='px-0' variant="link" onClick={() => navigate("/login")}>Login</Button>
                             </div>
                         }
                     </form>
+                    <p className='text-center my-4 uppercase text-gray-500'>or</p>
+                    <div className='mt-8'>
+                        <Button className="w-full  text-base py-4" variant="outline" onClick={() => toast("coming soon ...")}><FcGoogle /> Continue with google</Button>
+                        {/* <Button className="w-full  text-base py-4 mt-2" variant="outline"> Continue with Discord</Button> */}
+                    </div>
                 </div>
             </div>
         </div>
