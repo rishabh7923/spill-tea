@@ -1,36 +1,13 @@
 import type { Handler } from 'express';
-import { z } from 'zod';
-import knex from '../../database/connection.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { INVALID_PARAMETERS, EMAIL_EXIST, USERNAME_EXISTS } from '../../errors.js';
 import { User } from '../../database/entity/User.js';
-
-const signUpSchema = z.object({
-    username: z
-        .string()
-        .min(3, "Username must be at least 3 characters")
-        .max(20, "Username must be at most 20 characters")
-        .regex(/^[a-zA-Z0-9_]+$/, "Only letters, numbers, and underscores allowed")
-        .transform((val) => val.toLowerCase()),
-
-    email: z
-        .email("Invalid email format")
-        .toLowerCase(),
-
-    password: z
-        .string()
-        .min(6, "Password must be at least 6 characters")
-        .max(100, "Password must not be greater than 100 characters")
-        .regex(/[A-Z]/, "Must include at least one uppercase letter")
-        .regex(/[a-z]/, "Must include at least one lowercase letter")
-        .regex(/[0-9]/, "Must include at least one number")
-})
-
+import { signUpRequestBodySchema } from '../../schemas/signup.js';
 
 export const post: Handler = async (req, res) => {
-    const body = signUpSchema.safeParse(req.body);
+    const body = signUpRequestBodySchema.safeParse(req.body);
 
     if (!body.success) {
         return res.status(400).json({
@@ -39,7 +16,7 @@ export const post: Handler = async (req, res) => {
         });
     }
 
-    const { username, password, email } = body.data;
+    const { password, email, username } = req.body;
 
     /* Check if the email is unique */
     if (await User.findOneBy({ email })) {

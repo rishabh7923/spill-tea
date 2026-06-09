@@ -1,37 +1,21 @@
 import type { Handler } from 'express';
-import { z } from "zod";
+import { success, z } from "zod";
 import { isAuthenticated } from '../../../../middlewares/isAuthenticated.js';
 import { INVALID_PARAMETERS } from '../../../../errors.js';
 import { Comment } from '../../../../database/entity/Comment.js';
+import { commentSchema } from '../../../../schemas/comment.js';
 
 export const post: Handler[] = [
     isAuthenticated,
-    (req, res, next) => {
-        const { success, data, error } = z.object({
-            content: z.string().min(1)
-        }).safeParse(req.body)
-
-        if (!success) {
-            return res.status(400).json({
-                success: false,
-                error: {
-                    ...INVALID_PARAMETERS,
-                    message: `(${error.issues[0]?.path.join('.')}) ${error.issues[0]?.message}`,
-                },
-            });
-        }
-
-        req.body = data as any;
-        next();
-    },
     async (req, res) => {
-        const { postId } = req.params;
-        const { content } = req.body;
+        const parsed = commentSchema.pick({ content: true }).safeParse(req.body);
+        if (!parsed.success) return res.status(400)
+            .json({ success: false, error: Object.assign(INVALID_PARAMETERS, { message: parsed.error.issues[0]?.message })})
 
         const addedComment = await Comment.save({
-            post: { id: Number(postId) },
+            post: { id: Number(req.params.postId) },
             user: { id: req.user.id },
-            content
+            content: parsed.data.content
         })
 
         const comment = await Comment.findOne({
@@ -49,9 +33,8 @@ export const post: Handler[] = [
 export const get: Handler[] = [
     isAuthenticated,
     async (req, res) => {
-        const { postId: post_id } = req.params;
         const comments = await Comment.find({
-            where: { post: { id: Number(post_id) } },
+            where: { post: { id: Number(req.params.postId) } },
             relations: { user: true }
         })
 

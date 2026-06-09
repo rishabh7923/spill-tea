@@ -1,15 +1,13 @@
 import type { Handler } from "express";
 import { isAuthenticated } from "../../../middlewares/isAuthenticated.js";
-import {  NOT_FOUND } from "../../../errors.js";
+import {  INVALID_PARAMETERS, NOT_FOUND } from "../../../errors.js";
 import { Post } from "../../../database/entity/Post.js";
 
 export const get: Handler[] = [
     isAuthenticated,
     async (req, res) => {
-        const { postId } = req.params;
-
         const post = await Post.findOne({
-            where: { id: Number(postId) },
+            where: { id: Number(req.params.postId) },
             relations: { user: true, category: true, attachments: true, hashtags: true }
         })
 
@@ -23,10 +21,8 @@ export const get: Handler[] = [
 export const del: Handler[] = [
     isAuthenticated,
     async (req, res) => {
-        const { postId } = req.params;
-
         const deleted = await Post.delete({
-            id: Number(postId),
+            id: Number(req.params.postId),
             user: { id: req.user.id }
         })
 

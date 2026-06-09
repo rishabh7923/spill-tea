@@ -1,10 +1,8 @@
-import { z } from "zod";
 import { INVALID_PARAMETERS } from "../../errors.js";
+import { postSchema } from "../../schemas/post.js";
 
 export const validatePostId = (req, res, next) => {
-    const { success, data, error } = z
-        .object({ postId: z.coerce.number().int().positive() })
-        .safeParse(req.params);
+    const { success, data, error } = postSchema.pick({ id: true }).safeParse(req.params);
 
     if (!success) {
         return res.status(400).json({
@@ -16,6 +14,6 @@ export const validatePostId = (req, res, next) => {
         });
     }
 
-    req.params = data as any;
+    req.params.postId = data.id;
     next();
 }

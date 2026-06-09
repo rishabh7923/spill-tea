@@ -3,52 +3,65 @@ export type ApiError = {
   message: string;
 };
 
+export enum ErrorCode {
+  INVALID_PARAMETERS = 'INVALID_PARAMETERS',
+  INVALID_INPUT = 'INVALID_INPUT',
+  EMAIL_EXIST = 'EMAIL_EXIST',
+  USERNAME_EXISTS = 'USERNAME_EXISTS',
+  INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
+  UNAUTHORIZED = 'UNAUTHORIZED',
+  OTP_SEND_FAILED = 'OTP_SEND_FAILED',
+  OTP_ALREADY_SENT = 'OTP_ALREADY_SENT',
+  NOT_FOUND = 'NOT_FOUND',
+  SERVER_ERROR = 'SERVER_ERROR'
+}
+
 export const INVALID_PARAMETERS: ApiError = {
-  code: 'INVALID_PARAMETERS',
+  code: ErrorCode.INVALID_PARAMETERS,
   message: 'Required parameters are missing',
 };
 
 export const INVALID_INPUT: ApiError = {
-  code: 'INVALID_INPUT',
+  code: ErrorCode.INVALID_INPUT,
   message: 'All fields are required',
 };
 
 export const EMAIL_EXIST: ApiError = {
-  code: 'EMAIL_EXIST',
+  code: ErrorCode.EMAIL_EXIST,
   message: 'Email already exists',
 };
 
 export const USERNAME_EXISTS: ApiError = {
-  code: 'USERNAME_EXISTS',
+  code: ErrorCode.USERNAME_EXISTS,
   message: 'Username already exists',
 };
 
 export const INVALID_CREDENTIALS: ApiError = {
-  code: 'INVALID_CREDENTIALS',
+  code: ErrorCode.INVALID_CREDENTIALS,
   message: 'User with given credentials does not exist',
 };
 
 export const UNAUTHORIZED: ApiError = {
-  code: 'UNAUTHORIZED',
+  code: ErrorCode.UNAUTHORIZED,
   message: 'Unauthorized access',
 };
 
 export const OTP_SEND_FAILED: ApiError = {
-  code: 'OTP_SEND_FAILED',
+  code: ErrorCode.OTP_SEND_FAILED,
   message: 'Failed to send OTP email',
 };
 
 export const OTP_ALREADY_SENT: ApiError = {
-  code: 'OTP_ALREADY_SENT',
+  code: ErrorCode.OTP_ALREADY_SENT,
   message: 'An OTP has already been sent. Please wait until it expires.',
 };
 
 export const NOT_FOUND: ApiError = {
-  code: 'NOT_FOUND',
+  code: ErrorCode.NOT_FOUND,
   message: 'Requested resource is not found'
 }
 
 export const SERVER_ERROR: ApiError = {
-  code: "SERVER_ERROR",
+  code: ErrorCode.SERVER_ERROR,
   message: "Something went wrong at server side."
 }

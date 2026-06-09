@@ -4,16 +4,19 @@ import { INVALID_PARAMETERS, INVALID_CREDENTIALS } from '../../errors.js';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { loginRequestBodySchema } from '../../schemas/login.js';
 
 export const post: Handler = async (req, res) => {
-  const { username, password } = req.body || {};
+  const body = loginRequestBodySchema.safeParse(req.body);
 
-  if (!username || !password) {
+  if (!body.success) {
     return res.status(400).json({
       success: false,
-      error: INVALID_PARAMETERS
-    });
+      error: Object.assign(INVALID_PARAMETERS, { message: body.error.issues[0]?.message })
+    })
   }
+
+  const { username, password } = body.data;
 
   const user = await User.findOne({
     select: ['email', 'id', 'password', 'username', 'verified'],
@@ -21,7 +24,7 @@ export const post: Handler = async (req, res) => {
   })
 
   if (!user) {
-    return res.status(400).json({
+    return res.status(401).json({
       success: false,
       error: INVALID_CREDENTIALS
     });
@@ -30,7 +33,7 @@ export const post: Handler = async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    return res.status(400).json({
+    return res.status(401).json({
       success: false,
       error: INVALID_CREDENTIALS
     });

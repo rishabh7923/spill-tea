@@ -8,6 +8,9 @@ import { Post } from "../../database/entity/Post.js";
 import { Hashtag } from "../../database/entity/Hashtag.js";
 import { In } from "typeorm";
 import { optionalAuthenticated } from "../../middlewares/optionalAuthenticated.js";
+import { INVALID_PARAMETERS } from "../../errors.js";
+import { listPostRequestSchema } from "../../schemas/post.js";
+import { createPostRequestSchema } from "../../schemas/post.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -15,7 +18,10 @@ export const post: Handler[] = [
     isAuthenticated,
     upload.array("attachments"),
     async (req, res) => {
-        const { content, category_id } = req.body || {};
+        const parsed = createPostRequestSchema.safeParse(req.body);
+        if (!parsed.success) return res.status(400).json({ success: false, error: INVALID_PARAMETERS })
+
+        const { content, category_id } = parsed.data;
 
         const files = Array.isArray(req.files) ? req.files : [];
         const tags = Array.from(
@@ -65,11 +71,11 @@ export const post: Handler[] = [
 export const get: Handler[] = [
     optionalAuthenticated,
     async (req, res) => {
-        const cursor = req.query.cursor as string | undefined;
-        const [cursorCreatedAt, cursorId] = cursor ? cursor.split("_") : [undefined, undefined];
+        const parsed = listPostRequestSchema.safeParse(req.query);
+        if (!parsed) return res.status(400).json({ success: false, error: INVALID_PARAMETERS });
 
-        //set default limit and make sure it can not be set more than 50
-        const limit = Math.min(Number(req.query.limit) || 10, 50);
+        const { cursor, limit } = parsed.data;   
+        const [cursorCreatedAt, cursorId] = cursor ? cursor.split("_") : [undefined, undefined];
 
         const qb = Post.createQueryBuilder("post")
             .leftJoinAndSelect("post.user", "user")

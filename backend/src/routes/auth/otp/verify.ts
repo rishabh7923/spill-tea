@@ -1,5 +1,6 @@
 import type { Handler } from 'express';
 import { isAuthenticated } from '../../../middlewares/isAuthenticated.js';
+import { verifyOtpRequestBodySchema } from '../../../schemas/otp.js';
 import { MoreThan } from 'typeorm';
 
 import DataSource from '../../../database/connection.js'
@@ -7,9 +8,10 @@ import { Otp } from '../../../database/entity/Otp.js';
 import { User } from '../../../database/entity/User.js';
 
 export const post: Handler[] = [isAuthenticated, async (req, res) => {
-    const otp = req.body.otp;
-    if (!otp || otp.length != 6 || isNaN(otp))
-        return res.status(400).end();
+    const parsed = verifyOtpRequestBodySchema.safeParse(req.body);
+    if (!parsed.success) return res.status(400).end();
+    
+    const { otp } = parsed.data;
 
     if (
         !await Otp.findOneBy({

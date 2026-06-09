@@ -6,10 +6,13 @@ import cors from 'cors';
 import path from 'path';
 import createRouter from 'express-file-routing';
 import AppDataSource from "./database/connection.js";
+
 import { errorHandler } from "./middlewares/errorHandler.js";
-import { validatePostId } from "./middlewares/validation/validatePostId.js";
 import { validateCommentId } from "./middlewares/validation/validateCommentId.js";
 import { seedCategories } from "./database/seeds/seedCategories.js";
+import { openApiDoc } from "./docs/registry.js";
+import { apiReference } from "@scalar/express-api-reference"
+import { validatePostId } from "./middlewares/validation/validatePostId.js";
 
 const app = express();
 app.use(cors());
@@ -24,7 +27,19 @@ await createRouter(app, {
 app.param('postId', validatePostId);
 app.param('commentId', validateCommentId);
 
+
+/* Other */
 app.use(errorHandler);
+app.use(
+  "/docs",
+  apiReference({
+    spec: {
+      url: "/openapi.json"
+    }
+  })
+)
+
+app.get("/openapi.json", (_, res) => res.json(openApiDoc))
 
 AppDataSource.initialize()
   .then(() => {

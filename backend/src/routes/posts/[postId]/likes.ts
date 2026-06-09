@@ -1,7 +1,5 @@
-import knex from "../../../database/connection.js"
 import type { Handler } from "express";
 import { isAuthenticated } from "../../../middlewares/isAuthenticated.js";
-import { INVALID_PARAMETERS } from "../../../errors.js";
 
 import DataSource from '../../../database/connection.js'
 import { Reaction } from "../../../database/entity/Reaction.js";
