@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import type { CreatePostSchema } from "@/types/post"
@@ -14,6 +14,25 @@ export default function CreatePost() {
   const [category, setCategory] = useState<string>("5");
   const navigateToLogin = useNavigateToLogin();
   const { createPost, status } = useCreatePost({ onSuccess: cleanup, onError: cleanup });
+  const [activeFormats, setActiveFormats] = useState({
+    bold: false,
+    italic: false,
+  })
+
+  const editorRef = useRef<HTMLDivElement>(null)
+
+  function updateToolbarState() {
+    setActiveFormats({
+      bold: document.queryCommandState("bold"),
+      italic: document.queryCommandState("italic"),
+    })
+  }
+
+  function toggleFormat(command: "bold" | "italic") {
+    editorRef.current?.focus()
+    document.execCommand(command)
+    updateToolbarState()
+  }
 
   function cleanup() {
     images.forEach(img => URL.revokeObjectURL(img));
@@ -64,13 +83,39 @@ export default function CreatePost() {
 
         {/* Textarea */}
         <div
+          ref={editorRef}
           contentEditable
           suppressContentEditableWarning
           className="border-b pb-2 w-full min-h-24 outline-none"
           onInput={(e) => {
             setContent(e.currentTarget.innerHTML)
+            updateToolbarState()
           }}
+          onKeyUp={updateToolbarState}
+          onMouseUp={updateToolbarState}
         />
+
+        {/* Formatting toolbar */}
+        <div className="flex gap-2 mb-2">
+          <Button
+            size="icon-sm"
+            type="button"
+            variant={activeFormats.bold ? "default" : "outline"}
+            onClick={() => toggleFormat("bold")}
+          >
+            B
+          </Button>
+
+          <Button
+            className="italic"
+            size="icon-sm"
+            type="button"
+            variant={activeFormats.italic ? "default" : "outline"}
+            onClick={() => toggleFormat("italic")}
+          >
+            I
+          </Button>
+        </div>
 
         {/* Image preview */}
 
@@ -81,7 +126,6 @@ export default function CreatePost() {
             ))}
           </div>
         }
-
 
         {/* Bottom Row */}
         <div className="flex items-center justify-between">

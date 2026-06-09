@@ -1,6 +1,7 @@
 import type { PostCardProps } from "@/types/post";
 import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bookmark, Dot, ShareIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -47,10 +48,14 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       </div>
 
       {/* Content */}
-      <div className="mt-3">
+      <div>
         <p className="text-sm leading-relaxed whitespace-pre-line">
-          {post.content}
         </p>
+        <div className="mt-3"
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post.content),
+          }}
+        />
       </div>
 
       {/* Image */}
