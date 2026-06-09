@@ -19,7 +19,10 @@ export const post: Handler[] = [
     upload.array("attachments"),
     async (req, res) => {
         const parsed = createPostRequestSchema.safeParse(req.body);
-        if (!parsed.success) return res.status(400).json({ success: false, error: INVALID_PARAMETERS })
+        if (!parsed.success) return res.status(400).json({
+            success: false,
+            error: Object.assign(INVALID_PARAMETERS, { message: parsed.error.issues[0]?.message })
+        })
 
         const { content, category_id } = parsed.data;
 

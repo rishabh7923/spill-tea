@@ -42,14 +42,14 @@ export const postSchema = z.object({
 /** Request */
 export const createPostRequestSchema = z.object({
   content: postSchema.shape.content,
-    category_id: categorySchema.shape.id,
-    attachments: z.any().optional()
+  category_id: categorySchema.shape.id,
+  attachments: z.any().optional()
 });
 
 
 export const listPostRequestSchema = z.object({
-    cursor: z.string().optional(),
-    limit: z.coerce
+  cursor: z.string().optional(),
+  limit: z.coerce
     .number()
     .min(1)
     .default(10)
@@ -61,9 +61,9 @@ export const listPostRequestSchema = z.object({
 export const createPostResponseSchema = z.object({ success: z.boolean(), data: z.object({ post: postSchema }) })
 
 export const listPostResponseSchema = z.object({
-    success: z.literal(true),
-    data: z.object({ posts: z.array(postSchema) }),
-    pagination: z.object({ next_cursor: z.string().nullable() })
+  success: z.literal(true),
+  data: z.object({ posts: z.array(postSchema) }),
+  pagination: z.object({ next_cursor: z.string().nullable() })
 })
 
 export const getPostByIdResponseSchema = z.object({

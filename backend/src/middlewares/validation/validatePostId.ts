@@ -16,6 +16,6 @@ export const validatePostId = (req: Request, res: Response, next: NextFunction) 
         });
     }
 
-    req.params = data as any;
+    req.params.postId = data.postId as any;
     next();
 }

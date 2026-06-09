@@ -1,4 +1,3 @@
-
 import type { Handler } from "express";
 import { isAuthenticated } from "../../../../middlewares/isAuthenticated.js";
 import { NOT_FOUND } from "../../../../errors.js";

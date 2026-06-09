@@ -6,7 +6,7 @@ import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
 extendZodWithOpenApi(z);
 
 export const commentSchema = z.object({
-  id: z.number().int().positive().openapi({
+  id: z.coerce.number().int().positive().openapi({
     description: "Unique identifier of the comment",
     example: 1
   }),

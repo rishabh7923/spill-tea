@@ -1,9 +1,11 @@
 import { z } from "zod";
 import { INVALID_PARAMETERS } from "../../errors.js";
+import { commentSchema } from "../../schemas/comment.js";
+import type { Request, Response, NextFunction } from "express";
 
-export const validateCommentId = (req, res, next) => {
+export const validateCommentId = (req: Request, res: Response, next: NextFunction) => {
     const { success, data, error } = z
-        .object({ commentId: z.coerce.number().int().positive() })
+        .object({ commentId: commentSchema.shape.id })
         .safeParse(req.params);
 
     if (!success) {
@@ -16,6 +18,6 @@ export const validateCommentId = (req, res, next) => {
         });
     }
     
-    req.params = data as any;
+    req.params.commentId = data.commentId as any;
     next();
 }

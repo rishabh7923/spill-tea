@@ -4,11 +4,10 @@ import { z } from "zod";
 extendZodWithOpenApi(z);
 
 export const categorySchema = z.object({
-  id: z.number().int().positive().openapi({
+  id: z.coerce.number().int().positive().openapi({
     description: "Unique identifier of the category",
     example: 1
   }),
-
   name: z.string().openapi({
     description: "Name of the category",
     example: "Technology"
