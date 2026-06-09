@@ -4,12 +4,12 @@ import { z } from "zod";
 extendZodWithOpenApi(z);
 
 export const attachmentSchema = z.object({
-  id: z.number().int().positive().openapi({
+  id: z.coerce.number().int().positive().openapi({
     description: "Unique identifier of the attachment",
     example: 1
   }),
 
-  url: z.string().url().openapi({
+  url: z.url().openapi({
     description: "Public URL of the attachment",
     example: "https://cdn.example.com/uploads/image.jpg"
   }),

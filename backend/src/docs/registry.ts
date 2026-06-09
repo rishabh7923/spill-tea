@@ -427,7 +427,7 @@ registry.registerPath({
   tags: ["Posts"],
   request: {
     params: postIdParam,
-    body: { content: { "application/json": { schema: editPostRequestSchema }} }
+    body: { content: { "multipart/form-data": { schema: editPostRequestSchema }} }
   },
   responses: {
     200: {

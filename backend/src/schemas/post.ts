@@ -1,4 +1,4 @@
-import { success, z } from "zod";
+import { number, success, z } from "zod";
 import { userSchema } from "./user.js";
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
 import { attachmentSchema } from "./attachment.js";
@@ -46,7 +46,6 @@ export const createPostRequestSchema = z.object({
   attachments: z.any().optional()
 });
 
-
 export const listPostRequestSchema = z.object({
   cursor: z.string().optional(),
   limit: z.coerce
@@ -56,8 +55,32 @@ export const listPostRequestSchema = z.object({
     .transform(limit => Math.min(limit, 50))
 })
 
-export const editPostRequestSchema = postSchema.pick({ content: true })
+export const editPostRequestSchema = z.object({
+  content: postSchema.shape.content.optional().openapi({
+    description: "Updated post content"
+  }),
 
+  categoryId: categorySchema.shape.id.optional().openapi({
+    description: "Updated Category ID"
+  }),
+
+  attachmentsToRemove: z.preprocess(
+    (value) => {
+      if (value === undefined) return value;
+      return Array.isArray(value) ? value : [value];
+    },
+    z.array(attachmentSchema.shape.id)
+  )
+  .optional()
+  .openapi({ description: "Id of attachments to remove"}),
+
+  attachmentsToAdd: z
+    .array(z.any())
+    .optional()
+    .openapi({
+      description: "New files to attach to the post",
+    }),
+});
 
 /** Response */
 export const createPostResponseSchema = z.object({ success: z.boolean(), data: z.object({ post: postSchema }) })
