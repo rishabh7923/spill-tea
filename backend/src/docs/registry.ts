@@ -6,7 +6,7 @@ import { signUpRequestBodySchema, signUpResponseBodySchema } from "../schemas/si
 import { errorResponseSchema } from "../schemas/error.js"
 import { loginRequestBodySchema, loginResponseBodySchema } from "../schemas/login.js"
 import { verifyOtpRequestBodySchema } from "../schemas/otp.js"
-import { postSchema } from "../schemas/post.js"
+import { editPostRequestSchema, editPostResponseSchema, postSchema } from "../schemas/post.js"
 import { z } from "zod"
 import { hashtagSchema } from "../schemas/hashtag.js"
 import { userSchema } from "../schemas/user.js"
@@ -419,6 +419,29 @@ registry.registerPath({
 });
 
 registry.registerPath({
+  method: "patch",
+  path: "/posts/{postId}",
+  summary: "Edit Post Content",
+  description: "",
+  security: [{ bearerAuth: [] }],
+  tags: ["Posts"],
+  request: {
+    params: postIdParam,
+    body: { content: { "application/json": { schema: editPostRequestSchema }} }
+  },
+  responses: {
+    200: {
+      description: "Updated the content successfully",
+      content: {
+        "application/json": {
+          schema: editPostResponseSchema
+        }
+      }
+    }
+  }
+})
+
+registry.registerPath({
   method: "delete",
   path: "/posts/{postId}",
   summary: "Delete Post",
@@ -611,6 +634,8 @@ registry.registerPath({
     },
   }
 });
+
+
 
 const generator = new OpenApiGeneratorV3(
   registry.definitions

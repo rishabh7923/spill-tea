@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { success, z } from "zod";
 import { userSchema } from "./user.js";
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
 import { attachmentSchema } from "./attachment.js";
@@ -13,7 +13,7 @@ export const postSchema = z.object({
     example: 123
   }),
 
-  content: z.string().nullable().openapi({
+  content: z.string().min(1).openapi({
     description: "Content of the post",
     example: "Hello, world!"
   }),
@@ -56,6 +56,8 @@ export const listPostRequestSchema = z.object({
     .transform(limit => Math.min(limit, 50))
 })
 
+export const editPostRequestSchema = postSchema.pick({ content: true })
+
 
 /** Response */
 export const createPostResponseSchema = z.object({ success: z.boolean(), data: z.object({ post: postSchema }) })
@@ -72,3 +74,8 @@ export const getPostByIdResponseSchema = z.object({
     post: postSchema.nullable()
   })
 });
+
+export const editPostResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.object({ post: postSchema })
+})

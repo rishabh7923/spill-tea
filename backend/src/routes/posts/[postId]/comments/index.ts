@@ -4,6 +4,8 @@ import { isAuthenticated } from '../../../../middlewares/isAuthenticated.js';
 import { INVALID_PARAMETERS } from '../../../../errors.js';
 import { Comment } from '../../../../database/entity/Comment.js';
 import { commentSchema } from '../../../../schemas/comment.js';
+import { Post } from '../../../../database/entity/Post.js';
+import { editPostRequestSchema } from '../../../../schemas/post.js';
 
 export const post: Handler[] = [
     isAuthenticated,
