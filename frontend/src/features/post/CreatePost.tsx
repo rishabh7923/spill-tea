@@ -63,11 +63,13 @@ export default function CreatePost() {
       <form className="flex-1 space-y-3" onSubmit={handleSubmit}>
 
         {/* Textarea */}
-        <textarea
-          placeholder="What’s happening?"
-          value={content}
-          onChange={handleContentChange}
-          className="border-b pb-2 w-full bg-transparent overflow-hidden resize-y wrap-break-word outline-none text-lg placeholder:text-muted-foreground focus:border-b-foreground transition-all ease-in"
+        <div
+          contentEditable
+          suppressContentEditableWarning
+          className="border-b pb-2 w-full min-h-24 outline-none"
+          onInput={(e) => {
+            setContent(e.currentTarget.innerHTML)
+          }}
         />
 
         {/* Image preview */}

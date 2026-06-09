@@ -1,15 +1,16 @@
 import Layout from "@/components/Layout"
 import TrendingSection from "@/components/TrendingSection"
 import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import PostCard from "@/features/post/PostCard"
+import UpdateProfileModal from "@/features/user/UpdateProfileModal"
 import {
   CalendarDays,
   LinkIcon,
   MapPin,
 } from "lucide-react"
 
-function Profile() {
-  const posts = [
+const posts = [
   {
     id: 1,
     author: "Alex Rivera",
@@ -34,11 +35,13 @@ function Profile() {
   },
 ];
 
+function Profile() {
+
   return (
     <Layout>
       <main className="max-w-xl w-full mx-auto min-h-screen border">
         {/* Banner */}
-        <div className="h-64 w-full overflow-hidden bg-muted">
+        <div className="h-60 w-full overflow-hidden bg-muted">
           <img
             src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200"
             alt="banner"
@@ -63,7 +66,7 @@ function Profile() {
                 Share Profile
               </Button>
 
-              <Button>Edit Profile</Button>
+              <UpdateProfileModal/>
             </div>
           </div>
 
@@ -140,38 +143,30 @@ function Profile() {
               </div>
             </div>
           </div>
-
-          {/* Tabs */}
-          <div className="mt-8 flex border-b border-border">
-            {["Posts", "Replies", "Media", "Likes"].map(
-              (tab) => (
-                <button
-                  key={tab}
-                  className={`relative flex-1 py-5 text-center text-lg transition hover:bg-muted/40 ${tab === "Posts"
-                    ? "font-semibold text-foreground"
-                    : "text-muted-foreground"
-                    }`}
-                >
-                  {tab}
-
-                  {tab === "Posts" && (
-                    <span className="absolute bottom-0 left-1/2 h-1 w-16 -translate-x-1/2 rounded-full bg-primary" />
-                  )}
-                </button>
-              )
-            )}
-          </div>
         </section>
 
-        {/* Posts */}
+        {/* Tabs */}
+
         <section>
-          {posts.map((post) => (
-            <PostCard
-              key={post.id}
-              {...post}
-            />
-          ))}
+          <Tabs defaultValue="Posts">
+            <TabsList className="mt-8 flex w-full border-b border-border" variant="line">
+              {["posts", "replies", "media", "likes"].map(tab => <TabsTrigger className="flex-1 capitalize text-lg mb-0" value={tab}>{tab}</TabsTrigger>)}
+            </TabsList>
+            <TabsContent value="posts">
+              {/* Posts */}
+                {posts.map((post) => (
+                  <PostCard
+                    key={post.id}
+                    {...post}
+                  />
+                ))}
+              </TabsContent>
+            <TabsContent value="replies">coming soon...</TabsContent>
+            <TabsContent value="media">coming soon...</TabsContent>
+            <TabsContent value="likes">coming soon...</TabsContent>
+          </Tabs>
         </section>
+
       </main>
       <TrendingSection />
     </Layout>

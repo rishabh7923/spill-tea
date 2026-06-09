@@ -73,8 +73,13 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
             postId={post.id}
           />
 
-          <CommentButton onClick={() => navigate(`/p/${post.id}`)} />
-
+          <CommentButton
+            onClick={() =>
+              navigate(`/p/${post.id}`, {
+                state: { post }
+              })
+            }
+          />
           <button className="flex items-center gap-2 text-sm transition hover:text-foreground">
             <ShareIcon className="h-4 w-4" />
           </button>
