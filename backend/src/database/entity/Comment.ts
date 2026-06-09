@@ -13,7 +13,7 @@ export class Comment extends BaseEntity {
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     created_at: Date;
 
-    @ManyToOne(() => Post, (post) => post.comments)
+    @ManyToOne(() => Post, (post) => post.comments, { onDelete: "CASCADE"})
     @JoinColumn({ name: "post_id"})
     post: Relation<Post>;
 

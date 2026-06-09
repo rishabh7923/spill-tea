@@ -21,7 +21,7 @@ export class Post extends BaseEntity {
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     created_at: Date;
 
-    @ManyToOne(() => User, { onDelete: "CASCADE" })
+    @ManyToOne(() => User)
     @JoinColumn({ name: "user_id" })
     user: Relation<User>;
 
@@ -29,7 +29,7 @@ export class Post extends BaseEntity {
     @JoinColumn({ name: "category_id" })
     category: Relation<Category>;
 
-    @OneToMany(() => Attachment, (attachment) => attachment.post, { cascade: true })
+    @OneToMany(() => Attachment, (attachment) => attachment.post, { cascade: true, onDelete: "CASCADE" })
     attachments: Relation<Attachment[]>;
 
     @OneToMany(() => Comment, (comment) => comment.post)
