@@ -7,6 +7,7 @@ import { Attachment } from './entity/Attachment.js';
 import { Reaction } from './entity/Reaction.js';
 import { Comment } from './entity/Comment.js';
 import { Hashtag } from './entity/Hashtag.js';
+import { Avatar } from './entity/Avatar.js';
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -25,7 +26,8 @@ export const AppDataSource = new DataSource({
         Attachment,
         Reaction,
         Comment,
-        Hashtag
+        Hashtag,
+        Avatar
     ],
     subscribers: [],
     migrations: [],

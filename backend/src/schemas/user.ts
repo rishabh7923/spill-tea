@@ -1,5 +1,6 @@
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
-import { z } from "zod";
+import { success, z } from "zod";
+import { avatarSchema } from "./avatar.js";
 
 extendZodWithOpenApi(z);
 
@@ -41,8 +42,28 @@ export const userSchema = z.object({
       example: "Password123"
     }),
 
+  displayName: z.string(),
+
+  avatar: avatarSchema,
+
+  bio: z.string(),
+
   verified: z.boolean().openapi({
     description: "Whether the user's email has been verified",
     example: true
   })
 }).openapi("User");
+
+
+/** Request */
+export const updateUserRequestSchema = z.object({
+  avatar_id: avatarSchema.shape.id.optional().nullable(),
+  display_name: userSchema.shape.displayName.optional(),
+  bio: userSchema.shape.bio.optional()
+})
+
+/** Response */
+export const updateUserResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.object({ user: userSchema })
+})

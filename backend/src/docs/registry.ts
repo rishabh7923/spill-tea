@@ -9,12 +9,14 @@ import { verifyOtpRequestBodySchema } from "../schemas/otp.js"
 import { editPostRequestSchema, editPostResponseSchema, postSchema } from "../schemas/post.js"
 import { z } from "zod"
 import { hashtagSchema } from "../schemas/hashtag.js"
-import { userSchema } from "../schemas/user.js"
+import { updateUserRequestSchema, updateUserResponseSchema, userSchema } from "../schemas/user.js"
 
 import { createPostResponseSchema, createPostRequestSchema } from "../schemas/post.js"
 import { listPostRequestSchema, listPostResponseSchema } from "../schemas/post.js"
 import { getPostByIdResponseSchema } from "../schemas/post.js";
-import { commentSchema} from "../schemas/comment.js";
+import { commentSchema } from "../schemas/comment.js";
+import { register } from "node:module"
+import { createAvatarRequestSchema, createAvatarResponseSchema, listAvatarResponseSchema } from "../schemas/avatar.js"
 
 const successResponseSchema = z.object({
   success: z.literal(true)
@@ -421,13 +423,13 @@ registry.registerPath({
 registry.registerPath({
   method: "patch",
   path: "/posts/{postId}",
-  summary: "Edit Post Content",
+  summary: "Edit Post",
   description: "",
   security: [{ bearerAuth: [] }],
   tags: ["Posts"],
   request: {
     params: postIdParam,
-    body: { content: { "multipart/form-data": { schema: editPostRequestSchema }} }
+    body: { content: { "multipart/form-data": { schema: editPostRequestSchema } } }
   },
   responses: {
     200: {
@@ -477,7 +479,7 @@ registry.registerPath({
   path: "/posts/{postId}/comments",
   summary: "Create Comment",
   description: "Add a new comment to the specified post for the authenticated user.",
-  tags: ["Posts"],
+  tags: ["Comments"],
   security: [{ bearerAuth: [] }],
   request: {
     params: postIdParam,
@@ -494,7 +496,7 @@ registry.registerPath({
       description: "Comment created successfully",
       content: {
         "application/json": {
-          schema: successResponseSchema.extend({ data: z.object({ comment: commentSchema })})
+          schema: successResponseSchema.extend({ data: z.object({ comment: commentSchema }) })
         }
       }
     },
@@ -522,7 +524,7 @@ registry.registerPath({
   path: "/posts/{postId}/comments",
   summary: "List Comments",
   description: "Retrieve all comments for the specified post.",
-  tags: ["Posts"],
+  tags: ["Comments"],
   security: [{ bearerAuth: [] }],
   request: { params: postIdParam },
   responses: {
@@ -530,7 +532,7 @@ registry.registerPath({
       description: "List of comments",
       content: {
         "application/json": {
-          schema: successResponseSchema.extend({ data: z.object({ comments: z.array(commentSchema) })})
+          schema: successResponseSchema.extend({ data: z.object({ comments: z.array(commentSchema) }) })
         }
       }
     },
@@ -550,7 +552,7 @@ registry.registerPath({
   path: "/posts/{postId}/likes",
   summary: "Like Post",
   description: "Add a like to the specified post for the authenticated user.",
-  tags: ["Posts"],
+  tags: ["Reactions"],
   security: [{ bearerAuth: [] }],
   request: { params: postIdParam },
   responses: {
@@ -578,7 +580,7 @@ registry.registerPath({
   path: "/posts/{postId}/likes",
   summary: "Unlike Post",
   description: "Remove the authenticated user's like from the specified post.",
-  tags: ["Posts"],
+  tags: ["Reactions"],
   security: [{ bearerAuth: [] }],
   request: { params: postIdParam },
   responses: {
@@ -635,6 +637,80 @@ registry.registerPath({
   }
 });
 
+registry.registerPath({
+  method: "get",
+  path: "/avatars/",
+  summary: "List Available Avatars",
+  description: "Retrieve all available avatars that users can choose for their profile.",
+  tags: ["Avatars"],
+  security: [{ bearerAuth: [] }],
+  request: {},
+  responses: {
+    200: {
+      description: "Avatars retrieved successfully",
+      content: {
+        "application/json": {
+          schema: listAvatarResponseSchema,
+        },
+      },
+    },
+  },
+});
+
+registry.registerPath({
+  method: "post",
+  path: "/avatars/",
+  summary: "Create Avatar",
+  description: "Upload a new avatar and add it to the list of available profile avatars.",
+  tags: ["Avatars"],
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      content: {
+        "multipart/form-data": {
+          schema: createAvatarRequestSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    201: {
+      description: "Avatar created successfully",
+      content: {
+        "application/json": {
+          schema: createAvatarResponseSchema,
+        },
+      },
+    },
+  },
+});
+
+registry.registerPath({
+  method: "patch",
+  path: "/users/me",
+  tags: ["Users"],
+  summary: "Update Current User",
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: updateUserRequestSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: "User updated successfully",
+      content: {
+        "application/json": {
+          schema: updateUserResponseSchema,
+        },
+      },
+    }
+  },
+});
 
 
 const generator = new OpenApiGeneratorV3(
