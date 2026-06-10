@@ -13,6 +13,7 @@ import { Toaster } from 'sonner';
 import Verify from './pages/Verify';
 import Profile from './pages/Profile';
 import PostPage from './pages/PostPage';
+import { PostEditorProvider } from './features/post/create-edit-post/PostEditorProvider';
 
 
 function App() {
@@ -23,16 +24,18 @@ function App() {
         <AuthProvider>
           <ThemeProvider>
             <TooltipProvider>
-              <Routes>
-                <Route path='/' element={<Home />}></Route>
-                <Route path='p/:pid' element={<PostPage />} />
-                {/*ROUTE TO BE PROTECT*/}
-                <Route path='/u' element={<Profile />} />
+              <PostEditorProvider>
+                <Routes>
+                  <Route path='/' element={<Home />}></Route>
+                  <Route path='p/:pid' element={<PostPage />} />
+                  {/*ROUTE TO BE PROTECT*/}
+                  <Route path='/u' element={<Profile />} />
 
-                <Route path='/login' element={<Login />} />
-                <Route path='/signup' element={<Signup />} />
-                <Route path='/verify' element={<Verify />} />
-              </Routes>
+                  <Route path='/login' element={<Login />} />
+                  <Route path='/signup' element={<Signup />} />
+                  <Route path='/verify' element={<Verify />} />
+                </Routes>
+              </PostEditorProvider>
             </TooltipProvider>
           </ThemeProvider>
         </AuthProvider>

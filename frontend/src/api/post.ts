@@ -15,7 +15,7 @@ export async function getPostApi(postId: string): Promise<Post> {
     }
     catch (e: unknown) {
         if (e instanceof AxiosError) {
-            throw new Error (e.response?.data.error.message)
+            throw new Error(e.response?.data.error.message)
         }
         throw new Error("something went wrong while creating post")
     }
@@ -30,11 +30,28 @@ export async function createPostApi(data: CreatePostSchema): Promise<CreatePostR
     }
     catch (e: unknown) {
         if (e instanceof AxiosError) {
-            throw new Error (e.response?.data.error.message)
+            throw new Error(e.response?.data.error.message)
         }
         throw new Error("something went wrong while creating post")
     }
 }
+
+export async function editPostApi(data: FormData): Promise<CreatePostResponse> {
+    try {
+        const res = await axios(`posts/${data.get("id")}`, {
+            method: "PATCH",
+            data
+        })
+        return res.data
+    }
+    catch (e: unknown) {
+        if (e instanceof AxiosError) {
+            throw new Error(e.response?.data.error.message)
+        }
+        throw new Error("something went wrong while editing post")
+    }
+}
+
 export async function getPostsApi(cursor: string | null = null): Promise<GetPostsResponse> {
     try {
         const url = cursor ? `/posts?cursor=${cursor}` : `/posts`;
@@ -47,7 +64,8 @@ export async function getPostsApi(cursor: string | null = null): Promise<GetPost
         throw new Error("Something went wrong");
     }
 }
-export async function likePostApi(postId: string|number) {
+
+export async function likePostApi(postId: string | number) {
     try {
         await axios.post(`posts/${postId}/likes`);
     }
@@ -59,7 +77,7 @@ export async function likePostApi(postId: string|number) {
     }
 }
 
-export async function unlikePostApi(postId: string|number) {
+export async function unlikePostApi(postId: string | number) {
     try {
         await axios.delete(`posts/${postId}/likes`);
     }
@@ -71,7 +89,7 @@ export async function unlikePostApi(postId: string|number) {
     }
 }
 
-export async function deletePostApi(postId: string|number) {
+export async function deletePostApi(postId: string | number) {
     try {
         await axios.delete(`posts/${postId}`)
     } catch (e) {

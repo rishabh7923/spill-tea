@@ -18,7 +18,6 @@ export default function CreatePost() {
     bold: false,
     italic: false,
   })
-
   const editorRef = useRef<HTMLDivElement>(null)
 
   function updateToolbarState() {
@@ -46,15 +45,6 @@ export default function CreatePost() {
     const selectedFiles = Array.from(e.target.files)
     setFiles(selectedFiles)
     setImages(selectedFiles.map(file => URL.createObjectURL(file)))
-  }
-
-  function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    setContent(e.target.value)
-    if (!e.target) return
-    const el = e.target;
-    el.style.height = "auto"
-    el.style.height = el.scrollHeight + "px"
-
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

@@ -10,9 +10,14 @@ import {
 import { EllipsisVertical } from "lucide-react"
 import PostCardDeleteButton from "./PostCardDeleteButton"
 import { useAuth } from "../auth/AuthContext"
+import { usePostEditor } from "./create-edit-post/PostEditorProvider"
+import type { Post, PostCardProps } from "@/types/post"
 
-export function PostCardDropDown({ postId, userId }: { postId: string|number, userId: string }) {
+export function PostCardDropDown({ post }: { post: PostCardProps }) {
   const { user } = useAuth();
+  const { openEdit } = usePostEditor();
+  const userId = post.user.id;
+  const postId = post.id;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,6 +30,11 @@ export function PostCardDropDown({ postId, userId }: { postId: string|number, us
           <DropdownMenuItem>Go to post</DropdownMenuItem>
           <DropdownMenuItem>Copy link</DropdownMenuItem>
           <DropdownMenuItem>Report</DropdownMenuItem>
+          {userId === user?.id && (
+            <DropdownMenuItem onSelect={() => openEdit(post as unknown as Post)}>
+              Edit Post
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
         {userId === user?.id && <>
           <DropdownMenuSeparator />

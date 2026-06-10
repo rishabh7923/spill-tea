@@ -12,11 +12,10 @@ import { PostCardDropDown } from "./PostCardDropDown";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
-
   return (
     <div
       ref={ref}
-      className="group border-b p-4 transition hover:bg-muted/40"
+      className="group border my-4 rounded-sm p-4 transition bg-muted/40"
     >
       {/* Header */}
       <div className="flex items-start justify-between">
@@ -44,7 +43,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           </div>
         </div>
 
-        <PostCardDropDown postId={post.id} userId={post.user.id} />
+        <PostCardDropDown post={post} />
       </div>
 
       {/* Content */}
@@ -90,7 +89,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           </button>
         </div>
 
-        <Button variant="ghost" size="icon" className="transition-all hover:text-yellow-500 rounded-full hover:bg-yellow-100">
+        <Button variant="ghost" size="icon" className="transition-all hover:text-yellow-500 rounded-full hover:bg-yellow-300">
           <Bookmark
             className={`h-4 w-4 transition ${post.saved ? "fill-yellow-500 text-yellow-500" : ""
               }`}

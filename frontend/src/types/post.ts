@@ -12,6 +12,15 @@ export type CreatePostSchema = {
     category_id: string | number,
     attachments: File[]
 }
+
+export type EditPostSchema = {
+    id: string | number
+    content?: string;
+    categoryId?: string;
+    attachmentsToRemove?: string[];
+    attachmentsToAdd?: File[];
+};
+
 export type Post = {
     id: string;
     user_id: string;
@@ -40,7 +49,7 @@ export type PostCardProps = {
     id: string | number;
     author: string;
     avatar?: string;
-    title?:string;
+    title?: string;
     content: string;
     user: User
     image?: string;
@@ -50,6 +59,7 @@ export type PostCardProps = {
     liked: boolean;
     saved?: boolean;
     category: PostCategory;
+    attachments: PostImage[];
 };
 
 
