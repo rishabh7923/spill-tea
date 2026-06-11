@@ -1,5 +1,5 @@
 import z from "zod";
-import { INVALID_PARAMETERS } from "../../errors.js";
+import { INVALID_PARAMETERS } from "../../common/errors.js";
 import { postSchema } from "../../schemas/post.js";
 import type { NextFunction, Request, Response } from "express";
 

@@ -1,7 +1,7 @@
 import type { Handler } from "express";
-import { isAuthenticated } from "../../../../middlewares/isAuthenticated.js";
-import { NOT_FOUND } from "../../../../errors.js";
-import { Comment } from "../../../../database/entity/Comment.js";
+import { isAuthenticated } from "../../../../middlewares/auth/isAuthenticated.js";
+import { NOT_FOUND } from "../../../../common/errors.js";
+import { Comment } from "../../../../database/entities/Comment.js";
 
 export const del: Handler[] = [
     isAuthenticated,

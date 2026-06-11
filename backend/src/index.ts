@@ -13,6 +13,7 @@ import { seedCategories } from "./database/seeds/seedCategories.js";
 import { openApiDoc } from "./docs/registry.js";
 import { apiReference } from "@scalar/express-api-reference"
 import { validatePostId } from "./middlewares/validation/validatePostId.js";
+import { validateAvatarId } from "./middlewares/validation/validateAvatarId.js";
 
 const app = express();
 app.use(cors());
@@ -26,6 +27,7 @@ await createRouter(app, {
 /* Validate parameters */
 app.param('postId', validatePostId);
 app.param('commentId', validateCommentId);
+app.param('avatarId', validateAvatarId);
 
 
 /* Other */

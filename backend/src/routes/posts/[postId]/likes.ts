@@ -1,9 +1,9 @@
 import type { Handler } from "express";
-import { isAuthenticated } from "../../../middlewares/isAuthenticated.js";
+import { isAuthenticated } from "../../../middlewares/auth/isAuthenticated.js";
 
 import DataSource from '../../../database/connection.js'
-import { Reaction } from "../../../database/entity/Reaction.js";
-import { Post } from "../../../database/entity/Post.js";
+import { Reaction } from "../../../database/entities/Reaction.js";
+import { Post } from "../../../database/entities/Post.js";
 
 export const post: Handler[] = [
     isAuthenticated,

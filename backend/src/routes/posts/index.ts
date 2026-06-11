@@ -1,14 +1,14 @@
 import type { Handler } from "express";
-import { isAuthenticated } from "../../middlewares/isAuthenticated.js";
+import { isAuthenticated } from "../../middlewares/auth/isAuthenticated.js";
 import { v2 as cloudinary, type UploadApiResponse } from 'cloudinary'
 
 import multer from "multer";
 
-import { Post } from "../../database/entity/Post.js";
-import { Hashtag } from "../../database/entity/Hashtag.js";
+import { Post } from "../../database/entities/Post.js";
+import { Hashtag } from "../../database/entities/Hashtag.js";
 import { In } from "typeorm";
-import { optionalAuthenticated } from "../../middlewares/optionalAuthenticated.js";
-import { INVALID_PARAMETERS } from "../../errors.js";
+import { optionalAuthenticated } from "../../middlewares/auth/optionalAuthenticated.js";
+import { INVALID_PARAMETERS } from "../../common/errors.js";
 import { listPostRequestSchema } from "../../schemas/post.js";
 import { createPostRequestSchema } from "../../schemas/post.js";
 

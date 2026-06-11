@@ -1,5 +1,5 @@
 import type { Handler } from "express";
-import { Hashtag } from "../../database/entity/Hashtag.js";
+import { Hashtag } from "../../database/entities/Hashtag.js";
 
 export const get: Handler[] = [
     async (req, res) => {

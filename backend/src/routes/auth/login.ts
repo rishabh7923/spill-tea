@@ -1,6 +1,6 @@
 import type { Handler } from 'express';
-import { User } from '../../database/entity/User.js';
-import { INVALID_PARAMETERS, INVALID_CREDENTIALS } from '../../errors.js';
+import { User } from '../../database/entities/User.js';
+import { INVALID_PARAMETERS, INVALID_CREDENTIALS } from '../../common/errors.js';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';

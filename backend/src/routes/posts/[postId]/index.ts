@@ -1,15 +1,15 @@
 import multer from "multer";
 
 import type { Handler } from "express";
-import { isAuthenticated } from "../../../middlewares/isAuthenticated.js";
-import { INVALID_PARAMETERS, NOT_FOUND } from "../../../errors.js";
-import { Post } from "../../../database/entity/Post.js";
+import { isAuthenticated } from "../../../middlewares/auth/isAuthenticated.js";
+import { INVALID_PARAMETERS, NOT_FOUND } from "../../../common/errors.js";
+import { Post } from "../../../database/entities/Post.js";
 import { editPostRequestSchema } from "../../../schemas/post.js";
 import { v2 as cloudinary, type UploadApiResponse } from 'cloudinary'
 import AppDataSource from "../../../database/connection.js";
-import { Attachment } from "../../../database/entity/Attachment.js";
+import { Attachment } from "../../../database/entities/Attachment.js";
 import { In } from "typeorm";
-import { Category } from "../../../database/entity/Category.js";
+import { Category } from "../../../database/entities/Category.js";
 
 
 const upload = multer({ storage: multer.memoryStorage() });

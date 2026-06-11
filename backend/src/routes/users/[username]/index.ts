@@ -1,6 +1,6 @@
 import type { Handler } from "express";
-import { isAuthenticated } from "../../../middlewares/isAuthenticated.js";
-import { User } from "../../../database/entity/User.js";
+import { isAuthenticated } from "../../../middlewares/auth/isAuthenticated.js";
+import { User } from "../../../database/entities/User.js";
 
 export const get: Handler[] = [
     isAuthenticated,

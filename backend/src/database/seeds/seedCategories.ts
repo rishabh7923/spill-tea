@@ -1,4 +1,4 @@
-import { Category } from "../entity/Category.js";
+import { Category } from "../entities/Category.js";
 
 export async function seedCategories() {
     await Category.insert([

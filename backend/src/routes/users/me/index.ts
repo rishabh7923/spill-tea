@@ -1,9 +1,9 @@
 import type { Handler } from "express"
-import { isAuthenticated } from "../../../middlewares/isAuthenticated.js"
-import { User } from '../../../database/entity/User.js';
+import { isAuthenticated } from "../../../middlewares/auth/isAuthenticated.js"
+import { User } from '../../../database/entities/User.js';
 import { updateUserRequestSchema } from "../../../schemas/user.js";
-import { INVALID_PARAMETERS, NOT_FOUND } from "../../../errors.js";
-import { Avatar } from "../../../database/entity/Avatar.js";
+import { INVALID_PARAMETERS, NOT_FOUND } from "../../../common/errors.js";
+import { Avatar } from "../../../database/entities/Avatar.js";
 
 export const get: Handler[] = [
     isAuthenticated,

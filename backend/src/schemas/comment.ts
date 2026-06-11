@@ -31,3 +31,4 @@ export const commentSchema = z.object({
 }).openapi("Comment", {
   description: "Represents a comment made by a user on a post."
 });
+

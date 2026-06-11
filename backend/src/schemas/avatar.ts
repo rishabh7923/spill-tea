@@ -1,5 +1,5 @@
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
-import { success, z } from "zod";
+import { z } from "zod";
 
 extendZodWithOpenApi(z);
 

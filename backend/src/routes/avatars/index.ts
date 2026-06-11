@@ -1,11 +1,11 @@
 import type { Handler } from "express";
-import { isAuthenticated } from "../../middlewares/isAuthenticated.js";
-import { Avatar } from "../../database/entity/Avatar.js";
+import { isAuthenticated } from "../../middlewares/auth/isAuthenticated.js";
+import { Avatar } from "../../database/entities/Avatar.js";
 
 import multer from "multer";
 import { createAvatarRequestSchema } from "../../schemas/avatar.js";
-import { v2 as cloudinary, type UploadApiResponse } from 'cloudinary'
-import { INVALID_PARAMETERS } from "../../errors.js";
+import { v2 as cloudinary } from 'cloudinary'
+import { INVALID_PARAMETERS } from "../../common/errors.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
 

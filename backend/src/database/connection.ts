@@ -1,13 +1,13 @@
 import { DataSource } from 'typeorm'
-import { User } from './entity/User.js';
-import { Otp } from './entity/Otp.js';
-import { Post } from './entity/Post.js';
-import { Category } from './entity/Category.js';
-import { Attachment } from './entity/Attachment.js';
-import { Reaction } from './entity/Reaction.js';
-import { Comment } from './entity/Comment.js';
-import { Hashtag } from './entity/Hashtag.js';
-import { Avatar } from './entity/Avatar.js';
+import { User } from './entities/User.js';
+import { Otp } from './entities/Otp.js';
+import { Post } from './entities/Post.js';
+import { Category } from './entities/Category.js';
+import { Attachment } from './entities/Attachment.js';
+import { Reaction } from './entities/Reaction.js';
+import { Comment } from './entities/Comment.js';
+import { Hashtag } from './entities/Hashtag.js';
+import { Avatar } from './entities/Avatar.js';
 
 export const AppDataSource = new DataSource({
     type: "mysql",

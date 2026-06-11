@@ -1,9 +1,9 @@
 import type { Handler } from 'express';
-import { Otp } from '../../../database/entity/Otp.js';
+import { Otp } from '../../../database/entities/Otp.js';
 
-import { OTP_ALREADY_SENT, OTP_SEND_FAILED } from '../../../errors.js';
-import { isAuthenticated } from '../../../middlewares/isAuthenticated.js';
-import { generateOTP, sendOTPMail } from '../../../utils.js';
+import { OTP_ALREADY_SENT, OTP_SEND_FAILED } from '../../../common/errors.js';
+import { isAuthenticated } from '../../../middlewares/auth/isAuthenticated.js';
+import { generateOTP, sendOTPMail } from '../../../common/utils.js';
 import { MoreThan } from 'typeorm';
 
 export const post: Handler[] = [isAuthenticated, async (req, res) => {

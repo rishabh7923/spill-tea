@@ -2,8 +2,8 @@ import type { Handler } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { INVALID_PARAMETERS, EMAIL_EXIST, USERNAME_EXISTS } from '../../errors.js';
-import { User } from '../../database/entity/User.js';
+import { INVALID_PARAMETERS, EMAIL_EXIST, USERNAME_EXISTS } from '../../common/errors.js';
+import { User } from '../../database/entities/User.js';
 import { signUpRequestBodySchema } from '../../schemas/signup.js';
 
 export const post: Handler = async (req, res) => {
