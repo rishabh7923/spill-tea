@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { success, z } from "zod";
 import { userSchema } from "./user.js";
 import { postSchema } from "./post.js";
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
@@ -32,3 +32,13 @@ export const commentSchema = z.object({
   description: "Represents a comment made by a user on a post."
 });
 
+
+/** Request */
+export const editCommentRequestSchema = commentSchema.pick({ content: true })
+
+
+/** Response */
+export const editCommentResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.object({ comment: commentSchema })
+})
