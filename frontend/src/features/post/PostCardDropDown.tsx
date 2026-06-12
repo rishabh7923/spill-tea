@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { EllipsisVertical } from "lucide-react"
 import PostCardDeleteButton from "./PostCardDeleteButton"
-import { useAuth } from "../auth/AuthContext"
+import { useAuth } from "../auth/context/AuthContext"
 import { usePostEditor } from "./create-edit-post/PostEditorProvider"
 import type { Post, PostCardProps } from "@/types/post"
 

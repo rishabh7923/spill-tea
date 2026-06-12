@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -14,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Briefcase, Info, Lock, User } from "lucide-react"
+import ProfileTab from "./ProfileTab"
 
 export default function UpdateProfileModal() {
     return (
@@ -22,7 +21,7 @@ export default function UpdateProfileModal() {
                 <DialogTrigger asChild>
                     <Button>Edit Profile</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-lg">
+                <DialogContent className="sm:max-w-lg p-4 space-y-2 max-h-[90vh] overflow-auto no-scrollbar">
                     <DialogHeader>
                         <DialogTitle>Edit profile</DialogTitle>
                         <DialogDescription>
@@ -31,38 +30,23 @@ export default function UpdateProfileModal() {
                         </DialogDescription>
                     </DialogHeader>
 
-                    <Tabs defaultValue="edit-profile">
-                        <TabsList variant="line">
+                    <Tabs defaultValue="profile">
+                        <TabsList variant="line" className="mt-0 mb-2">
                             <TabsTrigger value="profile"><User /> Profile</TabsTrigger>
                             <TabsTrigger value="security"><Lock /> Security</TabsTrigger>
                             <TabsTrigger value="experience"><Briefcase /> Experience</TabsTrigger>
                             <TabsTrigger value="about"><Info /> About</TabsTrigger>
                         </TabsList>
-                        <TabsContent className="mt-2" value="profile">
-                            <FieldGroup>
-                                <Field>
-                                    <Label htmlFor="name-1">Display Name</Label>
-                                    <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-                                </Field>
-                                <Field>
-                                    <Label htmlFor="username-1">Username</Label>
-                                    <Input id="username-1" name="username" defaultValue="@peduarte" />
-                                </Field>
-                                <Field>
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input id="email" name="email" defaultValue="peduarte.goo.in" />
-                                </Field>
-                            </FieldGroup>
-                        </TabsContent>
+                        <ProfileTab/>
                         <TabsContent className="mt-2" value="security">
                             <FieldGroup>
                                 <Field>
                                     <Label htmlFor="current-password">Current Password</Label>
-                                    <Input id="current-password" name="current-password" type="password"/>
+                                    <Input id="current-password" name="current-password" type="password" />
                                 </Field>
                                 <Field>
                                     <Label htmlFor="new-password">New password</Label>
-                                    <Input id="new-password" name="new-password" type="password"/>
+                                    <Input id="new-password" name="new-password" type="password" />
                                 </Field>
                                 <Field>
                                     <Label htmlFor="confirm-password">Confirm Password</Label>
@@ -73,13 +57,6 @@ export default function UpdateProfileModal() {
                         <TabsContent value="experience">Coming soon...</TabsContent>
                         <TabsContent value="about">Coming soon...</TabsContent>
                     </Tabs>
-
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant="destructive">Discard</Button>
-                        </DialogClose>
-                        <Button type="submit">Save changes</Button>
-                    </DialogFooter>
                 </DialogContent>
             </form>
         </Dialog>

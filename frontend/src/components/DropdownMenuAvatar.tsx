@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useAuth } from "@/features/auth/AuthContext"
+import { useAuth } from "@/features/auth/context/AuthContext"
 import {
   BellIcon,
   LogOutIcon,

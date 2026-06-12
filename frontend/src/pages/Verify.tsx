@@ -2,7 +2,7 @@ import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { useAuth } from "@/features/auth/AuthContext"
+import { useAuth } from "@/features/auth/context/AuthContext"
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { sendOtpApi } from "@/api/auth";

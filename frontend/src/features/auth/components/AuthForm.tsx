@@ -6,11 +6,11 @@ import {
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { useAuth } from './AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { useRef, type FormEvent } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
-import CommunityBanner from './CommunityBanner';
+import CommunityBanner from '../components/CommunityBanner';
 import { toast } from 'sonner';
 import { CupSoda } from 'lucide-react';
 

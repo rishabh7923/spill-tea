@@ -1,7 +1,7 @@
 import { Heart } from "lucide-react"
 import useLike from "./hooks/useLike";
 import useUnlike from "./hooks/useUnlike";
-import useNavigateToLogin from "../auth/useNavigateToLogin";
+import useNavigateToLogin from "../auth/hooks/useNavigateToLogin";
 
 function LikeButton({ likes, liked, postId }: { likes: number, liked: boolean, postId: string|number }) {
     const { like, status: likeStatus } = useLike(postId);

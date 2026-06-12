@@ -5,7 +5,7 @@ import type { CreatePostSchema } from "@/types/post"
 import { SelectPostCategory } from "./SelectPostCategory"
 import ImageInput from "@/components/ImageInput"
 import useCreatePost from "./hooks/useCreatePost"
-import useNavigateToLogin from "../auth/useNavigateToLogin"
+import useNavigateToLogin from "../auth/hooks/useNavigateToLogin"
 
 export default function CreatePost() {
   const [content, setContent] = useState("")

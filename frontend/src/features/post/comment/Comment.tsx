@@ -11,7 +11,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useAuth } from '@/features/auth/AuthContext';
+import { useAuth } from '@/features/auth/context/AuthContext';
 import useDeleteComment from './hooks/useDeleteComment';
 import { useParams } from 'react-router-dom';
 

@@ -12,7 +12,7 @@ import {
     InputGroupText,
     InputGroupTextarea,
 } from "@/components/ui/input-group"
-import useNavigateToLogin from '@/features/auth/useNavigateToLogin';
+import useNavigateToLogin from '@/features/auth/hooks/useNavigateToLogin';
 
 function AddComment() {
     const { mutate, status } = useAddComment();

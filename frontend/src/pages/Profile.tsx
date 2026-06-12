@@ -1,45 +1,19 @@
 import Layout from "@/components/Layout"
-import TrendingSection from "@/components/TrendingSection"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import PostCard from "@/features/post/PostCard"
-import UpdateProfileModal from "@/features/user/UpdateProfileModal"
-import {
-  CalendarDays,
-  LinkIcon,
-  MapPin,
-} from "lucide-react"
-
-const posts = [
-  {
-    id: 1,
-    author: "Alex Rivera",
-    comments: 24,
-
-    content:
-      'Does anyone else feel like dark mode is no longer just a "preference" but a necessity for late-night dev sessions?',
-    createdAt: "2h",
-    liked: false,
-    saved: false,
-    likes: 156,
-    image: "",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400",
-    user: {
-      id: 1,
-      username: "Alex Rivera",
-    },
-    category: {
-      name: "Question",
-    },
-  },
-];
+import UpdateProfileModal from "@/features/user/components/update-profile/UpdateProfileModal"
+// import {
+//   CalendarDays,
+//   LinkIcon,
+//   MapPin,
+// } from "lucide-react"
 
 function Profile() {
-
   return (
     <Layout>
-      <main className="max-w-xl w-full mx-auto min-h-screen border">
+
+      <main className="mx-auto min-h-screen border">
         {/* Banner */}
         <div className="h-60 w-full overflow-hidden bg-muted">
           <img
@@ -66,7 +40,7 @@ function Profile() {
                 Share Profile
               </Button>
 
-              <UpdateProfileModal/>
+              <UpdateProfileModal />
             </div>
           </div>
 
@@ -89,7 +63,7 @@ function Profile() {
             </p>
 
             {/* Meta */}
-            <div className="mt-5 flex flex-wrap gap-5 text-sm text-muted-foreground">
+            {/* <div className="mt-5 flex flex-wrap gap-5 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <MapPin size={16} />
                 San Francisco, CA
@@ -111,10 +85,10 @@ function Profile() {
                 <CalendarDays size={16} />
                 Joined March 2021
               </div>
-            </div>
+            </div> */}
 
             {/* Stats */}
-            <div className="mt-6 flex gap-8 text-base">
+            {/* <div className="mt-6 flex gap-8 text-base">
               <div>
                 <span className="font-bold">
                   1,284
@@ -141,7 +115,7 @@ function Profile() {
                   Posts
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
         </section>
 
@@ -152,15 +126,10 @@ function Profile() {
             <TabsList className="mt-8 flex w-full border-b border-border" variant="line">
               {["posts", "replies", "media", "likes"].map(tab => <TabsTrigger className="flex-1 capitalize text-lg mb-0" value={tab}>{tab}</TabsTrigger>)}
             </TabsList>
-            <TabsContent value="posts">
+            <TabsContent className="px-4" value="posts">
               {/* Posts */}
-                {posts.map((post) => (
-                  <PostCard
-                    key={post.id}
-                    {...post}
-                  />
-                ))}
-              </TabsContent>
+
+            </TabsContent>
             <TabsContent value="replies">coming soon...</TabsContent>
             <TabsContent value="media">coming soon...</TabsContent>
             <TabsContent value="likes">coming soon...</TabsContent>
@@ -168,7 +137,6 @@ function Profile() {
         </section>
 
       </main>
-      <TrendingSection />
     </Layout>
   )
 }

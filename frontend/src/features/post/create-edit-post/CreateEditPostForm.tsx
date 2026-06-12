@@ -17,7 +17,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import AddImage from "./AddImage"
-import useNavigateToLogin from "@/features/auth/useNavigateToLogin"
+import useNavigateToLogin from "@/features/auth/hooks/useNavigateToLogin"
 import { usePostEditor } from './PostEditorProvider'
 import SingleImageNotice from './SingleImageNotice'
 import useCreatePost from '../hooks/useCreatePost'

@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import { ThemeProvider } from './components/ThemeProvider';
-import AuthProvider from './features/auth/AuthContext';
+import AuthProvider from './features/auth/context/AuthContext';
 // import ProtectRoute from './components/ProtectRoute';
 import { TooltipProvider } from './components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -14,6 +14,7 @@ import Verify from './pages/Verify';
 import Profile from './pages/Profile';
 import PostPage from './pages/PostPage';
 import { PostEditorProvider } from './features/post/create-edit-post/PostEditorProvider';
+import ProtectRoute from './components/ProtectRoute';
 
 
 function App() {
@@ -29,7 +30,11 @@ function App() {
                   <Route path='/' element={<Home />}></Route>
                   <Route path='p/:pid' element={<PostPage />} />
                   {/*ROUTE TO BE PROTECT*/}
-                  <Route path='/u' element={<Profile />} />
+                  <Route path='/u' element={
+                    <ProtectRoute>
+                      <Profile />
+                    </ProtectRoute>
+                  } />
 
                   <Route path='/login' element={<Login />} />
                   <Route path='/signup' element={<Signup />} />
