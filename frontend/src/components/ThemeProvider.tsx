@@ -58,7 +58,9 @@ export function ThemeProvider({
 
   return (
     <ThemeProviderContext.Provider {...props} value={value}>
-      {children}
+      <div className="bg-background">
+        {children}
+      </div>
     </ThemeProviderContext.Provider>
   )
 }

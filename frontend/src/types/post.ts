@@ -52,7 +52,6 @@ export type PostCardProps = {
     title?: string;
     content: string;
     user: User
-    image?: string;
     createdAt: string;
     likes: number;
     comments: number;

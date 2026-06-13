@@ -14,7 +14,7 @@ function PostCardCategoryTag({ category }: { category: string }) {
     "bg-gray-100 text-gray-800 border-gray-300";
 
   return (
-    <Badge className={`capitalize border ${style}`}>
+    <Badge variant="secondary" className={`h-6 rounded-full px-2 text-xs capitalize border ${style}`}>
       {category}
     </Badge>
   );

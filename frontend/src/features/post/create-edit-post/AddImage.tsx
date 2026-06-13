@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { ImagePlusIcon } from "lucide-react";
 import { useRef } from "react";
 
@@ -13,17 +14,26 @@ export default function AddImage({
     };
 
     return (
-        <>
-            <button
+        <div>
+            <Button
+                variant="outline"
+                size="icon-sm"
                 type="button"
-                className="aspect-square rounded-xl border border-dashed flex flex-col items-center justify-center gap-2 text-muted-foreground hover:bg-muted transition"
+                onClick={handleClick}
+            >
+                <ImagePlusIcon />
+            </Button>
+            {/* <button
+                type="button"
+                className="w-full h-16 mid:h-24 aspect-square rounded-xl flex items-center p-4 gap-4 md:p-4 md:gap-8 text-muted-foreground hover:bg-muted transition border-1 border-dotted"
                 onClick={handleClick}
             >
                 <ImagePlusIcon className="size-6" />
-                <span className="text-sm">
-                    Add Image
-                </span>
-            </button>
+                <div className="text-left">
+                    <p className="font-medium text-base md:text-lg">Add image</p>
+                    <p className="text-xs md:text-base">Click to upload or drag & drop</p>
+                </div>
+            </button> */}
             <input
                 type="file"
                 accept="image/*"
@@ -32,6 +42,7 @@ export default function AddImage({
                 multiple={true}
                 className="hidden"
             />
-        </>
+
+        </div>
     );
 }

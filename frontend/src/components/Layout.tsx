@@ -3,7 +3,7 @@ import Topbar from "./Topbar"
 import Container from "./Container"
 import Bottombar from "./Bottombar"
 import FloatingSidebar from "./FloatingSidebar"
-import TrendingSection from "./TrendingSection"
+import TrendingDiscussions from "./TrendingSection"
 
 function Layout({ children }: { children: ReactNode }) {
     return (
@@ -15,7 +15,7 @@ function Layout({ children }: { children: ReactNode }) {
                     <div className='flex-1 w-full mx-auto min-h-screen'>
                         {children}
                     </div>
-                    <TrendingSection />
+                    <TrendingDiscussions />
                 </div>
                 <Bottombar />
             </Container>

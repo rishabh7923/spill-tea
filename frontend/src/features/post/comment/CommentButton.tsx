@@ -1,10 +1,12 @@
+import { Button } from '@/components/ui/button'
 import { MessageCircle } from 'lucide-react'
 
-function CommentButton({onClick}:{onClick:()=>void}) {
+function CommentButton({ onClick }: { onClick: () => void }) {
     return (
-        <button className="flex items-center gap-2 text-sm hover:text-blue-500 transition" onClick={onClick}>
-            <MessageCircle className="w-4 h-4" />
-        </button>)
+        <Button variant="ghost" size="icon" className="transition-all hover:text-blue-500 rounded-full hover:bg-blue-100" onClick={onClick}>
+            <MessageCircle className="h-4 w-4" />
+        </Button>
+    )
 }
 
 

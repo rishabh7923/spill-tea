@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react'
 import { useRef, useState } from "react"
-import { X } from "lucide-react"
+import { Smile, X } from "lucide-react"
 import DOMPurify from "dompurify";
 
 import { Button } from "@/components/ui/button"
-import {
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog"
+
 import {
     Select,
     SelectContent,
@@ -19,10 +15,10 @@ import {
 import AddImage from "./AddImage"
 import useNavigateToLogin from "@/features/auth/hooks/useNavigateToLogin"
 import { usePostEditor } from './PostEditorProvider'
-import SingleImageNotice from './SingleImageNotice'
 import useCreatePost from '../hooks/useCreatePost'
 import type { CreatePostSchema, PostImage } from '@/types/post'
 import useEditPost from '../hooks/useEditPost';
+import { UserInfo } from '@/features/user/components/UserInfo';
 
 const categories = [
     { value: 1, label: "Issue" },
@@ -46,6 +42,7 @@ function CreateEditPostForm() {
     const [activeFormats, setActiveFormats] = useState({
         bold: false,
         italic: false,
+        underline: false
     });
     function createOrEdit() {
         navigateToLogin();
@@ -81,7 +78,7 @@ function CreateEditPostForm() {
             removeIds.forEach(id => {
                 formData.append("attachmentsToRemove", id);
             });
-            
+
             formData.append("id", String(editingPost!.id))
             if (files[0]) {
                 formData.append("attachmentsToAdd", files[0])
@@ -117,10 +114,11 @@ function CreateEditPostForm() {
         setActiveFormats({
             bold: document.queryCommandState("bold"),
             italic: document.queryCommandState("italic"),
+            underline: document.queryCommandState("underline"),
         })
     }
 
-    function toggleFormat(command: "bold" | "italic") {
+    function toggleFormat(command: "bold" | "italic" | "underline") {
         editorRef.current?.focus()
         document.execCommand(command)
         updateToolbarState()
@@ -145,14 +143,26 @@ function CreateEditPostForm() {
 
     return (
 
-        <DialogContent className="p-0 overflow-hidden flex! flex-col! gap-2 max-h-[90vh] max-w-[95vw]" >
-            <DialogHeader className="border-b px-6 py-4">
-                <DialogTitle>
-                    {mode === "edit" ? "Edit" : "Create"} Post
-                </DialogTitle>
-            </DialogHeader>
+        <>
+            <div className="max-h-[80vh] flex flex-col gap-6 overflow-y-auto px-3 py-1 no-scrollbar">
+                <UserInfo
+                    avatar="https://github.com/shadcn.png"
+                    name="Ajay"
+                    description="What you have to share today?"
+                />                {/* Category */}
+                <div className="flex justify-between w-full">
+                    <Select value={category} onValueChange={(value) => setCategory(value)}>
+                        <SelectTrigger className='p-4 rounded-2xl' type="button"
+                            size="sm">
+                            <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
 
-            <div className="max-h-[80vh] overflow-y-auto px-3 space-y-6 py-1 no-scrollbar">
+                        <SelectContent>
+                            {categories.map(category => <SelectItem value={String(category.value)}>{category.label}</SelectItem>)}
+                        </SelectContent>
+                    </Select>
+                </div>
+
                 {/* Body */}
                 <div
                     ref={editorRef}
@@ -167,7 +177,10 @@ function CreateEditPostForm() {
                     onMouseUp={updateToolbarState}
                 >
                 </div>
+
+                {/* Actions */}
                 <div className="flex gap-2">
+                    <AddImage onChange={handleImageChange} />
                     <Button
                         variant={activeFormats.bold ? "default" : "outline"}
                         size="icon-sm"
@@ -185,19 +198,22 @@ function CreateEditPostForm() {
                     >
                         I
                     </Button>
-                </div>
-                {/* Category */}
-                <div className="flex justify-between">
-                    <Select value={category} onValueChange={(value) => setCategory(value)}>
-                        <SelectTrigger type="button"
-                            size="sm">
-                            <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                            {categories.map(category => <SelectItem value={String(category.value)}>{category.label}</SelectItem>)}
-                        </SelectContent>
-                    </Select>
+                    <Button
+                        variant={activeFormats.underline ? "default" : "outline"}
+                        className="underline"
+                        size="icon-sm"
+                        type="button"
+                        onClick={() => toggleFormat("underline")}
+                    >
+                        U
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="icon-sm"
+                        type="button"
+                    >
+                        <Smile />
+                    </Button>
                 </div>
 
                 {/* Images */}
@@ -247,25 +263,24 @@ function CreateEditPostForm() {
                                 </button>
                             </div>
                         ))}
-
-                        {/* Add image card */}
-                        <AddImage onChange={handleImageChange} />
                     </div>
                 </div>
-                <SingleImageNotice />
-            </div>
 
-            {/* Footer */}
-            <div className="flex justify-end gap-2 border-t px-6 py-4">
-                <Button variant="destructive" onClick={() => closeEdit()} disabled={creating === "pending" || editing === "pending"}>
-                    Cancel
-                </Button>
+                {/* <SingleImageNotice /> */}
 
-                <Button disabled={creating === "pending" || editing === "pending"} onClick={createOrEdit}>
-                    Save Changes
-                </Button>
+                {/* Footer */}
+                <div className="flex justify-end gap-2">
+                    <Button variant="secondary" onClick={() => closeEdit()} disabled={creating === "pending" || editing === "pending"}>
+                        Cancel
+                    </Button>
+
+                    <Button disabled={creating === "pending" || editing === "pending"} onClick={createOrEdit}>
+                        Save Changes
+                    </Button>
+                </div>
             </div>
-        </DialogContent >
+        </>
+
     )
 }
 
