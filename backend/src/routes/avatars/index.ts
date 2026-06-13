@@ -43,7 +43,7 @@ export const post: Handler[] = [
             const avatar = await Avatar.create({
                 name,
                 url: avatarUploaded.secure_url,
-                publicId: avatarUploaded.public_id
+                public_id: avatarUploaded.public_id
             }).save();
 
             return res.status(201).json({

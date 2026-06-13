@@ -17,7 +17,7 @@ export class User extends BaseEntity {
     password: string
 
     @Column({ length: 255 })
-    displayName: string
+    display_name: string
 
     @ManyToOne(() => Avatar, { nullable: true, onDelete: 'SET NULL' })
     @JoinColumn({ name: "avatar_id" })

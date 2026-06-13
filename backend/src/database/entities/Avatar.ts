@@ -12,7 +12,7 @@ export class Avatar extends BaseEntity {
     url: string;
 
     @Column()
-    publicId: string;
+    public_id: string;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     created_at: Date;

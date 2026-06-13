@@ -60,11 +60,11 @@ export const editPostRequestSchema = z.object({
     description: "Updated post content"
   }),
 
-  categoryId: categorySchema.shape.id.optional().openapi({
+  category_id: categorySchema.shape.id.optional().openapi({
     description: "Updated Category ID"
   }),
 
-  attachmentsToRemove: z.preprocess(
+  attachments_to_remove: z.preprocess(
     (value) => {
       if (value === undefined) return value;
       return Array.isArray(value) ? value : [value];
@@ -74,7 +74,7 @@ export const editPostRequestSchema = z.object({
   .optional()
   .openapi({ description: "Id of attachments to remove"}),
 
-  attachmentsToAdd: z
+  attachments_to_add: z
     .array(z.any())
     .optional()
     .openapi({
