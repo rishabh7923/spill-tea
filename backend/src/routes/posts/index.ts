@@ -82,6 +82,7 @@ export const get: Handler[] = [
 
         const qb = Post.createQueryBuilder("post")
             .leftJoinAndSelect("post.user", "user")
+            .leftJoinAndSelect("user.avatar", "avatar")
             .leftJoinAndSelect("post.attachments", "attachments")
             .leftJoinAndSelect("post.category", "category")
             .leftJoinAndSelect("post.hashtags", "hashtags");
