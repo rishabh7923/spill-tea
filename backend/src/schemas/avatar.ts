@@ -7,7 +7,7 @@ export const avatarSchema = z.object({
     id: z.coerce.number().int().positive(),
     name: z.string(),
     url: z.url(),
-    publicId: z.string()
+    public_id: z.string()
 })
 
 /** Request */

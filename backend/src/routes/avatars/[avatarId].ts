@@ -14,7 +14,7 @@ export const del: Handler[] = [
         if (!avatar) return res.status(404).json({ success: false, error: NOT_FOUND })
         
         await avatar.remove()
-        await cloudinary.uploader.destroy(avatar.publicId)
+        await cloudinary.uploader.destroy(avatar.public_id)
 
         return res.status(204).end()
     }

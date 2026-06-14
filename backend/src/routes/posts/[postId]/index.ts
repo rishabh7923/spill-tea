@@ -5,7 +5,7 @@ import { isAuthenticated } from "../../../middlewares/auth/isAuthenticated.js";
 import { INVALID_PARAMETERS, NOT_FOUND } from "../../../common/errors.js";
 import { Post } from "../../../database/entities/Post.js";
 import { editPostRequestSchema } from "../../../schemas/post.js";
-import { v2 as cloudinary, type UploadApiResponse } from 'cloudinary'
+import { v2 as cloudinary } from 'cloudinary'
 import AppDataSource from "../../../database/connection.js";
 import { Attachment } from "../../../database/entities/Attachment.js";
 import { In } from "typeorm";
@@ -31,7 +31,7 @@ export const get: Handler[] = [
 
 export const patch: Handler[] = [
     isAuthenticated,
-    upload.array("attachmentsToAdd"),
+    upload.array("attachments_to_add"),
     async (req, res) => {
         const parsed = editPostRequestSchema.safeParse(req.body);
 
@@ -39,7 +39,7 @@ export const patch: Handler[] = [
             .status(400)
             .json({ success: false, error: Object.assign(INVALID_PARAMETERS, { message: parsed.error.issues[0]?.message  }) });
 
-        const { content, attachmentsToAdd, attachmentsToRemove, categoryId } = parsed.data;
+        const { content, attachments_to_add, attachments_to_remove, category_id } = parsed.data;
         const { postId } = req.params;
 
         const files = Array.isArray(req.files) ? req.files : [];
@@ -60,8 +60,8 @@ export const patch: Handler[] = [
                 }
             })
 
-            if (attachmentsToRemove?.length) await manager.delete(Attachment, {
-                id: In(attachmentsToRemove),
+            if (attachments_to_remove?.length) await manager.delete(Attachment, {
+                id: In(attachments_to_remove),
                 post: { id: post.id }
             })
 
@@ -74,7 +74,7 @@ export const patch: Handler[] = [
             )
 
             if (content) post.content = content;
-            if (categoryId) post.category = await Category.findOne({ where: { id: Number(categoryId) } })
+            if (category_id) post.category = await Category.findOne({ where: { id: Number(category_id) } })
 
             await manager.save(post);
         })
