@@ -21,8 +21,8 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       {/* Header */}
       <div className="flex items-start justify-between">
         <UserInfo
-          avatar="https://github.com/shadcn.png"
-          name="Ajay"
+          avatar={post.user?.avatar?.url || ""}
+          name={post.user.displayName}
           description={<PostCardCategoryTag category={post.category.name} />}
           size="lg"
           time="9 days ago"
@@ -43,7 +43,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       </div>
 
       {/* Image */}
-      {post.attachments.length ? (
+      {post.attachments.length > 0 ? (
         <div className="mt-3 overflow-hidden rounded-xl border">
           <img
             src={post.attachments[0].url}

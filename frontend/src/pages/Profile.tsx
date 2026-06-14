@@ -1,8 +1,8 @@
 import Layout from "@/components/Layout"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAuth } from "@/features/auth/context/AuthContext"
-import PostCard from "@/features/post/PostCard"
 import UpdateProfileModal from "@/features/user/components/update-profile/UpdateProfileModal"
 // import {
 //   CalendarDays,
@@ -29,13 +29,10 @@ function Profile() {
         <section className="px-4">
           {/* Avatar + Actions */}
           <div className="flex items-start justify-between">
-            <div className="-mt-16">
-              <img
-                src={user?.avatar.url}
-                alt="user avatar"
-                className="h-32 w-32 rounded-full border-4 border-background object-cover"
-              />
-            </div>
+            <Avatar className="h-20 w-20 -top-9">
+              <AvatarImage src={user?.avatar.url} />
+              <AvatarFallback>{user?.displayName.slice(2).toLocaleUpperCase()}</AvatarFallback>
+            </Avatar>
 
             <div className="flex gap-3 pt-4">
               <Button variant="outline">
@@ -47,7 +44,7 @@ function Profile() {
           </div>
 
           {/* User Info */}
-          <div className="mt-3">
+          <div className="-top-4 relative">
             <h1 className="text-2xl font-bold">
               {user?.displayName}
             </h1>
@@ -56,7 +53,7 @@ function Profile() {
               @{user?.username}
             </p>
 
-            <p className="mt-6 max-w-3xl text-muted-foreground leading-8 whitespace-pre-line">
+            <p className="mt-2 text-sm max-w-3xl text-muted-foreground leading-8 whitespace-pre-line">
               {user?.bio}
             </p>
 
@@ -115,13 +112,14 @@ function Profile() {
               </div>
             </div> */}
           </div>
+
         </section>
 
         {/* Tabs */}
 
         <section>
           <Tabs defaultValue="Posts">
-            <TabsList className="mt-8 flex w-full border-b border-border" variant="line">
+            <TabsList className="flex w-full border-b border-border" variant="line">
               {["overview", "posts", "comments",].map(tab => <TabsTrigger className="flex-1 capitalize text-lg mb-0" value={tab}>{tab}</TabsTrigger>)}
             </TabsList>
             <TabsContent className="px-4" value="posts">

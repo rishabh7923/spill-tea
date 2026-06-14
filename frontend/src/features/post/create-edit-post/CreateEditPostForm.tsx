@@ -169,7 +169,7 @@ function CreateEditPostForm() {
                     ref={editorRef}
                     contentEditable
                     suppressContentEditableWarning
-                    className="relative border-b pb-2 w-full min-h-24 outline-none"
+                    className="relative border-b pb-2 w-full min-h-16 outline-none"
                     onInput={(e) => {
                         setContent(e.currentTarget.innerHTML)
                         updateToolbarState()
@@ -180,7 +180,7 @@ function CreateEditPostForm() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2">
+                <div className="flex w-full gap-2">
                     <AddImage onChange={handleImageChange} />
                     <Button
                         variant={activeFormats.bold ? "default" : "outline"}
@@ -214,6 +214,13 @@ function CreateEditPostForm() {
                         type="button"
                     >
                         <Smile />
+                    </Button>
+
+                    <Button className="ml-auto"
+                        size="sm"
+                        disabled={creating === "pending" || editing === "pending" || (content.length === 0 && mode !== "edit")}
+                        onClick={createOrEdit}>
+                        {mode === "edit" ? "Save Changes" : "Post"}
                     </Button>
                 </div>
 
@@ -269,16 +276,6 @@ function CreateEditPostForm() {
 
                 {/* <SingleImageNotice /> */}
 
-                {/* Footer */}
-                <div className="flex justify-end gap-2">
-                    <Button variant="secondary" onClick={() => closeEdit()} disabled={creating === "pending" || editing === "pending"}>
-                        Cancel
-                    </Button>
-
-                    <Button disabled={creating === "pending" || editing === "pending"} onClick={createOrEdit}>
-                        Save Changes
-                    </Button>
-                </div>
             </div>
         </>
 

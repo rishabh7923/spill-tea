@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
 import PostComments from '@/features/post/comment/PostComments';
 import AddComment from '@/features/post/comment/AddComment';
 import PostCard from '@/features/post/PostCard';
@@ -10,7 +8,6 @@ import PostCardSkeleton from '@/features/post/PostCardSkeleton';
 
 
 function PostPage() {
-  const [showAddComment, setShowAddComment] = useState(false);
   const { pid } = useParams();
   const { post, status } = usePost(pid as string);
   return (
@@ -19,10 +16,9 @@ function PostPage() {
         {status === "pending" && <PostCardSkeleton />}
         {post && <PostCard key={post.id}
           id={post.id}
-          author={post.user_id}
           createdAt="2h ago"
           content={post.content}
-          likes={post.likes_count}
+          likes={post.likesCount}
           comments={8}
           liked={post.liked}
           saved={false}
@@ -30,12 +26,7 @@ function PostPage() {
           category={post.category}
           attachments={post.attachments} />}
 
-        {/* SHOW COMMENT CREATION BOX */}
-        {showAddComment ? <AddComment /> :
-          <div className='lg:p-4 p-2'>
-            <Button className='w-full rounded-2xl' variant="outline" onClick={() => setShowAddComment(!showAddComment)}>Join the discussion</Button>
-          </div>
-        }
+        <AddComment />
 
         {/*  COMMENTS */}
         <PostComments />

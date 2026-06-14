@@ -6,8 +6,8 @@ function PostComments() {
     const { comments, status, } = useComments();
 
     return (
-        <div className="my-4">
-            <ul className="divide-y px-2">
+        <div className="px-4 mt-2">
+            <ul className="space-y-4">
                 {status === "pending" ? <>
                     <li className="w-full animate-pulse"></li>
                     <li className="w-full animate-pulse"></li>

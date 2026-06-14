@@ -5,7 +5,7 @@ import {
     useState,
 } from "react"
 
-type Mode = "create" | "edit"
+type Mode = "create" | "edit" | ""
 
 type PostEditorContextType = {
     open: boolean
@@ -49,8 +49,9 @@ export function PostEditorProvider({
         setOpen(true)
     }
 
-    const closeEdit = () =>{
+    const closeEdit = () => {
         setOpen(false);
+        setMode("");
         setEditingPost(null);
     }
 

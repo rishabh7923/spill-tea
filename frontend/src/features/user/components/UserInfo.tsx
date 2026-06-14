@@ -17,7 +17,7 @@ export function UserInfo({
     size = "md",
 }: UserInfoProps) {
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex items-start gap-3">
             <Avatar
                 className={clsx(
                     "shrink-0",
@@ -44,7 +44,7 @@ export function UserInfo({
                 </div>
 
                 {description && (
-                    <div className="mt-1">
+                    <div className="mt-1 text-sm text-neutral-300">
                         {description}
                     </div>
                 )}

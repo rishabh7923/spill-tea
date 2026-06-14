@@ -11,7 +11,13 @@ type GetPostsResponse = {
 export async function getPostApi(postId: string): Promise<Post> {
     try {
         const res = await axios(`posts/${postId}`);
-        return res.data.data.post
+        const post = res.data.data.post
+        return {
+            ...post, likesCount: post.likes_count,
+            userId: post.user_id,
+            createdAt: post.created_at,
+            user: { ...post.user, displayName: post.user.display_name, userName: post.userName },
+        }
     }
     catch (e: unknown) {
         if (e instanceof AxiosError) {
@@ -56,7 +62,14 @@ export async function getPostsApi(cursor: string | null = null): Promise<GetPost
     try {
         const url = cursor ? `/posts?cursor=${cursor}` : `/posts`;
         const res = await axios(url);
-        return { posts: res.data.data.posts as unknown as Post[], nextCursor: res.data.pagination.next_cursor as string | null }
+        //@ts-expect-errorts-ignore
+        const posts = res.data.data.posts.map((post) => ({
+            ...post,
+            likesCount: post.likes_count,
+            createdAt: post.created_at,
+            user: { ...post.user, displayName: post.user.display_name, userName: post.userName },
+        }));
+        return { posts, nextCursor: res.data.pagination.next_cursor as string | null }
     } catch (e: unknown) {
         if (e instanceof AxiosError) {
             throw new Error(e.response?.data.error.message)

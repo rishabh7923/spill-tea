@@ -2,10 +2,9 @@ import type { User } from "./user";
 
 export type Comment = {
     id: string;
-    user_id: string;
     content: string;
     user: User
-    created_at:Date
+    created_at: Date
 }
 
 export type addCommentSchema = {

@@ -5,6 +5,7 @@ import {
     AvatarImage,
 } from "./ui/avatar"
 import { ScrollArea } from "./ui/scroll-area"
+import { Link } from "react-router-dom"
 
 const discussions = [
     {
@@ -84,9 +85,9 @@ function TrendingDiscussions() {
                                     </div>
 
                                     {/* content */}
-                                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground transition-colors group-hover:text-foreground group-hover:underline">
+                                    <Link to="" className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground transition-colors group-hover:text-foreground group-hover:underline">
                                         {discussion.content}
-                                    </p>
+                                    </Link>
 
                                     {/* stats */}
                                     <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">

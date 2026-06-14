@@ -24,11 +24,9 @@ function PostFeed() {
                 <PostCard
                     key={post.id}
                     id={post.id}
-                    author={post.user_id}
                     createdAt="2h ago"
                     content={post.content}
-                    image={post.attachments?.[0]?.url as unknown as string}
-                    likes={post.likes_count}
+                    likes={post.likesCount}
                     comments={8}
                     liked={post.liked}
                     saved={false}
