@@ -27,6 +27,7 @@ import { TabsContent } from "@/components/ui/tabs"
 import AvatarPicker from "./sections/AvatarPicker"
 import { Spinner } from "@/components/ui/spinner"
 import useUpdateProfile from "../../hooks/useUpdateProfile"
+import { useAuth } from "@/features/auth/context/AuthContext"
 
 const formSchema = z.object({
     displayName: z
@@ -44,12 +45,13 @@ const formSchema = z.object({
 })
 
 export default function ProfileTab() {
+    const { user } = useAuth();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            displayName: "",
-            bio: "",
-            avatarId: 0
+            displayName: user?.displayName || user?.displayname,
+            bio: user?.bio,
+            avatarId: user?.avatar.id
         },
     })
     const { updateProfile, status } = useUpdateProfile();

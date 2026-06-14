@@ -13,7 +13,6 @@ import { toast } from "sonner";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
-  console.log(DOMPurify.sanitize(post.content),)
   return (
     <div
       ref={ref}

@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useAuth } from "@/features/auth/context/AuthContext"
 import PostCard from "@/features/post/PostCard"
 import UpdateProfileModal from "@/features/user/components/update-profile/UpdateProfileModal"
 // import {
@@ -10,6 +11,7 @@ import UpdateProfileModal from "@/features/user/components/update-profile/Update
 // } from "lucide-react"
 
 function Profile() {
+  const { user } = useAuth();
   return (
     <Layout>
 
@@ -17,7 +19,7 @@ function Profile() {
         {/* Banner */}
         <div className="h-60 w-full overflow-hidden bg-muted">
           <img
-            src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200"
+            src={"https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200"}
             alt="banner"
             className="h-full w-full object-cover"
           />
@@ -29,7 +31,7 @@ function Profile() {
           <div className="flex items-start justify-between">
             <div className="-mt-16">
               <img
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
+                src={user?.avatar.url}
                 alt="user avatar"
                 className="h-32 w-32 rounded-full border-4 border-background object-cover"
               />
@@ -47,19 +49,15 @@ function Profile() {
           {/* User Info */}
           <div className="mt-3">
             <h1 className="text-2xl font-bold">
-              Alex Rivera
+              {user?.displayName}
             </h1>
 
             <p className="text-lg text-muted-foreground">
-              @arivera
+              @{user?.username}
             </p>
 
-            <p className="mt-6 max-w-3xl text-muted-foreground leading-8">
-              Computer Science Senior | Tech
-              Enthusiast | Campus News Desk.
-              Exploring the intersection of
-              human-computer interaction and
-              minimalist design aesthetics.
+            <p className="mt-6 max-w-3xl text-muted-foreground leading-8 whitespace-pre-line">
+              {user?.bio}
             </p>
 
             {/* Meta */}
@@ -124,7 +122,7 @@ function Profile() {
         <section>
           <Tabs defaultValue="Posts">
             <TabsList className="mt-8 flex w-full border-b border-border" variant="line">
-              {["posts", "replies", "media", "likes"].map(tab => <TabsTrigger className="flex-1 capitalize text-lg mb-0" value={tab}>{tab}</TabsTrigger>)}
+              {["overview", "posts", "comments",].map(tab => <TabsTrigger className="flex-1 capitalize text-lg mb-0" value={tab}>{tab}</TabsTrigger>)}
             </TabsList>
             <TabsContent className="px-4" value="posts">
               {/* Posts */}

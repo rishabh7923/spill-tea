@@ -32,7 +32,7 @@ function FloatingSidebar() {
                 <h3 className="text-lg font-bold tracking-tight uppercase">
                     Spill pro
                 </h3>
-                <p className="text-sm text-foreground">Unlock advanced features and multiple image uploads.</p>
+                <p className="text-sm text-muted-foreground">Unlock advanced features and multiple image uploads.</p>
                 <Button className="w-full">Upgrade</Button>
             </div>
         </div>

@@ -11,7 +11,7 @@ interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
     isLoading: boolean;
-    isVerified:boolean;
+    isVerified: boolean;
     login: (creds: LOGINSCHEMA) => Promise<void>;
     signup: (creds: SIGNUPSCHEMA) => Promise<void>;
     logout: () => void;
@@ -87,7 +87,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
                 //         onClick: () => navigate("/verify")
                 //     }
                 // })
-                setUser(() => res.data.data.user)
+                setUser({ ...res.data.data.user, displayName: res.data.data.user.display_name })
             } catch {
                 localStorage.removeItem("token")
                 setUser(null)
