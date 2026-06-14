@@ -59,6 +59,7 @@ export const post: Handler[] = [
             user: { id: req.user.id },
             attachments: uploaded.map((x) => ({
                 url: x.secure_url,
+                public_id: x.public_id
             })),
         });
 

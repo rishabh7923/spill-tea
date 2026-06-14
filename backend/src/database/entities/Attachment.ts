@@ -20,6 +20,9 @@ export class Attachment {
     @Column({ type: 'text' })
     url: string;
 
+    @Column()
+    public_id: string
+
     @Column({ type: 'enum', enum: AttachmentType, default: AttachmentType.IMAGE })
     type: AttachmentType;
 
