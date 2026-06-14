@@ -13,6 +13,7 @@ import { toast } from "sonner";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
+  console.log(DOMPurify.sanitize(post.content),)
   return (
     <div
       ref={ref}
@@ -39,11 +40,11 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(post.content),
           }}
-        />
+        ></div>
       </div>
 
       {/* Image */}
-      {post.attachments.length && (
+      {post.attachments.length ? (
         <div className="mt-3 overflow-hidden rounded-xl border">
           <img
             src={post.attachments[0].url}
@@ -51,7 +52,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
             alt="post"
           />
         </div>
-      )}
+      ) : null}
 
       {/* Actions */}
       <div className="mt-3 flex items-center justify-between text-muted-foreground">

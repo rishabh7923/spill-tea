@@ -149,7 +149,8 @@ function CreateEditPostForm() {
                     avatar="https://github.com/shadcn.png"
                     name="Ajay"
                     description="What you have to share today?"
-                />                {/* Category */}
+                />
+                {/* Category */}
                 <div className="flex justify-between w-full">
                     <Select value={category} onValueChange={(value) => setCategory(value)}>
                         <SelectTrigger className='p-4 rounded-2xl' type="button"
