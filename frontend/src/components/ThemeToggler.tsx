@@ -2,7 +2,7 @@ import { Moon, Sun } from 'lucide-react'
 import { Button } from './ui/button'
 import { useTheme } from './ThemeProvider';
 
-function Test() {
+function ThemeToggler() {
     const { theme, setTheme } = useTheme();
     return (
         <div className='flex items-center'>
@@ -14,4 +14,4 @@ function Test() {
     )
 }
 
-export default Test
+export default ThemeToggler

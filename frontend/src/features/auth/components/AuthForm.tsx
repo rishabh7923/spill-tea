@@ -58,7 +58,7 @@ function AuthForm({ variant }: { variant: "login" | "signup" }) {
                 <div className='lg:px-20 mr-auto flex-1'>
                     {/* Logo */}
                     <div className='hidden lg:inline-flex justify-center my-8 items-center'>
-                        <CupSoda size={30}/>
+                        <CupSoda size={30} />
                     </div>
                     <h3 className='hidden text-3xl font-semibold lg:block mb-4'>
                         {title}
@@ -115,7 +115,7 @@ function AuthForm({ variant }: { variant: "login" | "signup" }) {
                     </form>
                     <p className='text-center my-4 uppercase text-gray-500'>or</p>
                     <div className='mt-8'>
-                        <Button className="w-full  text-base py-4" variant="outline" onClick={() => toast("coming soon ...")}><FcGoogle /> Continue with google</Button>
+                        <Button className="w-full  text-base py-4" variant="outline" onClick={() => toast.info("coming soon ...")}><FcGoogle /> Continue with google</Button>
                         {/* <Button className="w-full  text-base py-4 mt-2" variant="outline"> Continue with Discord</Button> */}
                     </div>
                 </div>
