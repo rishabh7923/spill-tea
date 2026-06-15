@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { errorResponseSchema } from "../schemas/error.js";
-import { commentSchema, editCommentRequestSchema, editCommentResponseSchema } from "../schemas/comment.js";
+import {createCommentRequestSchema, createCommentResponseSchema, editCommentRequestSchema, editCommentResponseSchema, listCommentRequestSchema, listCommentResponseSchema } from "../schemas/comment.js";
 import { postIdParam, postCommentParam } from "./registry.js";
 
 export const registerCommentDocs = (registry) => {
@@ -16,7 +16,7 @@ export const registerCommentDocs = (registry) => {
       body: {
         content: {
           "application/json": {
-            schema: commentSchema.pick({ content: true })
+            schema: createCommentRequestSchema
           }
         }
       }
@@ -25,9 +25,7 @@ export const registerCommentDocs = (registry) => {
       201: {
         description: "Comment created successfully",
         content: {
-          "application/json": {
-            schema: z.object({ success: z.literal(true) }).extend({ data: z.object({ comment: commentSchema }) })
-          }
+          "application/json": { schema: createCommentResponseSchema }
         }
       },
       400: {
@@ -57,13 +55,13 @@ export const registerCommentDocs = (registry) => {
     description: "Retrieve all comments for the specified post.",
     tags: ["Comments"],
     security: [{ bearerAuth: [] }],
-    request: { params: postIdParam },
+    request: { params: postIdParam, query: listCommentRequestSchema },
     responses: {
       200: {
         description: "List of comments",
         content: {
           "application/json": {
-            schema: z.object({ success: z.literal(true) }).extend({ data: z.object({ comments: z.array(commentSchema) }) })
+            schema: listCommentResponseSchema
           }
         }
       },

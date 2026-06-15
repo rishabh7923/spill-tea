@@ -1,33 +1,37 @@
 import type { Handler } from 'express';
-import { success, z } from "zod";
 import { isAuthenticated } from '../../../../middlewares/auth/isAuthenticated.js';
-import { INVALID_PARAMETERS } from '../../../../common/errors.js';
 import { Comment } from '../../../../database/entities/Comment.js';
-import { commentSchema } from '../../../../schemas/comment.js';
+import { createCommentRequestSchema, listCommentRequestSchema } from '../../../../schemas/comment.js';
+import { validateSchema } from '../../../../common/utils/validateSchema.js';
 import { Post } from '../../../../database/entities/Post.js';
-import { editPostRequestSchema } from '../../../../schemas/post.js';
+import { ApiError } from '../../../../common/utils/ApiError.js';
+import { NOT_FOUND } from '../../../../common/errors.js';
+import { serializeComment } from '../../../../common/serialize.js';
+
 
 export const post: Handler[] = [
     isAuthenticated,
     async (req, res) => {
-        const parsed = commentSchema.pick({ content: true }).safeParse(req.body);
-        if (!parsed.success) return res.status(400)
-            .json({ success: false, error: Object.assign(INVALID_PARAMETERS, { message: parsed.error.issues[0]?.message })})
+        const { content } = validateSchema(createCommentRequestSchema, req.body)
+        const { postId } = req.params;
 
-        const addedComment = await Comment.save({
-            post: { id: Number(req.params.postId) },
+        const post = await Post.findOne({ where: { id: +postId } })
+        if (!post) throw new ApiError(404, NOT_FOUND, "Post not found");
+
+        const { id } = await Comment.create({
+            post: { id: +postId },
             user: { id: req.user.id },
-            content: parsed.data.content
-        })
+            content: content,
+        }).save();
 
         const comment = await Comment.findOne({
-            where: { id: addedComment.id },
-            relations: { user: true, post: true }
-        })
+            where: { id },
+            relations: { user: true }
+        });
 
         res.status(201).json({
             success: true,
-            data: { comment }
+            data: { comment: serializeComment(comment) }
         })
     }
 ]
@@ -35,14 +39,37 @@ export const post: Handler[] = [
 export const get: Handler[] = [
     isAuthenticated,
     async (req, res) => {
-        const comments = await Comment.find({
-            where: { post: { id: Number(req.params.postId) } },
-            relations: { user: true }
-        })
+        const { limit, offset } = validateSchema(listCommentRequestSchema, req.query);
+
+        const post = await Post.findOne({ where: { id: Number(req.params.postId) } })
+        if (!post) throw new ApiError(404, NOT_FOUND, "Post not found");
+
+        /* Fetch only top level comments */
+        const [comments, total] = await Comment.findAndCount({
+            where: {
+                post: { id: +req.params.postId },
+                parent: null,
+            },
+            relations: {
+                user: true,
+            },
+            order: {
+                created_at: "DESC",
+            },
+            skip: offset,
+            take: limit,
+        });
 
         return res.status(200).json({
             success: true,
-            data: { comments },
+            data: { comments: comments.map((c) => serializeComment(c)) },
+            pagination: {
+                total,
+                limit,
+                offset,
+                has_next: offset + comments.length < total,
+                has_prev: offset > 0
+            }
         })
     }
 ]

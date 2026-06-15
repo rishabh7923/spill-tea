@@ -1,25 +1,12 @@
 import type { ZodType } from "zod";
 import { INVALID_PARAMETERS } from "../errors.js";
-import type { Response } from "express";
+import { ApiError } from "./ApiError.js";
 
 export function validateSchema<T>(
     schema: ZodType<T>,
-    body: unknown,
-    res: Response
+    body: unknown
 ): T | null {
-    const { success, error, data } = schema.safeParse(body);
-    
-    if (!success) {
-        res.status(400).json({
-            success: false,
-            error: {
-                ...INVALID_PARAMETERS,
-                message: `(${error.issues[0]?.path.join('.')}) ${error.issues[0]?.message}`,
-            },
-        });
-
-        return null;
-    }
-
+    const { success, error, data } = schema.safeParse(body);    
+    if (!success) throw new ApiError(400, INVALID_PARAMETERS, `(${error.issues[0]?.path.join('.')}) ${error.issues[0]?.message}`,)
     return data;
 }

@@ -8,7 +8,7 @@ import { Avatar } from "../../../database/entities/Avatar.js";
 export const get: Handler[] = [
     isAuthenticated,
     async (req, res) => {
-        const user = await User.findOne({ where: { id: req.user.id }, relations: { avatar: true } })
+        const user = await User.findOne({ where: { id: req.user.id } })
 
         return res.status(200)
             .json({ success: true, data: { user } })
@@ -25,7 +25,7 @@ export const patch: Handler[] = [
                 .json({ success: false, code: Object.assign(INVALID_PARAMETERS, { message: parsed.error.issues[0]?.message }) })
 
         const { avatar_id, bio, display_name } = parsed.data;
-        const user = await User.findOne({ where: { id: req.user.id }, relations: { avatar: true } });
+        const user = await User.findOne({ where: { id: req.user.id } });
 
         if (avatar_id !== undefined) {
             if (avatar_id === null) user.avatar = null

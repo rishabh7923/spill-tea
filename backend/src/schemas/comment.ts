@@ -2,6 +2,7 @@ import { success, z } from "zod";
 import { userSchema } from "./user.js";
 import { postSchema } from "./post.js";
 import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
+import { avatarSchema } from "./avatar.js";
 
 extendZodWithOpenApi(z);
 
@@ -32,13 +33,77 @@ export const commentSchema = z.object({
   description: "Represents a comment made by a user on a post."
 });
 
+export const serializedComment = z.object({
+  id: commentSchema.shape.id,
+  content: commentSchema.shape.content,
+  created_at: commentSchema.shape.created_at,
+  parent_id: z.number().nullable(),
+  user: z.object({
+    id: userSchema.shape.id,
+    username: userSchema.shape.username,
+    display_name: userSchema.shape.displayName,
+    avatar_url: avatarSchema.shape.url.nullable(),
+  })
+})
+
 
 /** Request */
 export const editCommentRequestSchema = commentSchema.pick({ content: true })
 
+export const createCommentRequestSchema = z.object({
+  content: commentSchema.shape.content
+})
+
+export const createReplyRequestSchema = z.object({
+  content: commentSchema.shape.content
+})
+
+export const listCommentRequestSchema = z.object({
+  offset: z.coerce.number().int().min(0).default(0),
+  limit: z.coerce.number().int().positive().min(1).max(20).default(10),
+})
+
+export const listRepliesRequestSchema = z.object({
+  offset: z.coerce.number().int().min(0).default(0),
+  limit: z.coerce.number().int().positive().min(1).max(20).default(10),
+})
 
 /** Response */
 export const editCommentResponseSchema = z.object({
   success: z.literal(true),
   data: z.object({ comment: commentSchema })
+})
+
+export const createCommentResponseSchema = z.object({
+  success: z.literal(true),
+  data: serializedComment
+})
+
+export const createReplyResponseSchema = z.object({
+  success: z.literal(true),
+  data: serializedComment
+})
+
+export const listCommentResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.object({ comments: z.array(serializedComment) }),
+  pagination: z.object({
+    total: z.number(),
+    limit: z.number(),
+    offset: z.number(),
+    has_next: z.boolean(),
+    has_prev: z.boolean()
+  })
+})
+
+export const listRepliesResponseSchema = z.object({
+  success: z.literal(true),
+  data: z.object({ replies: z.array(serializedComment) }),
+  pagination: z.object({
+    total: z.number(),
+    limit: z.number(),
+    offset: z.number(),
+    has_next: z.boolean(),
+    has_prev: z.boolean()
+  })
 })

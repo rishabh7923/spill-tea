@@ -19,6 +19,7 @@ import { registerAvatarDocs } from "./avatars.js"
 import { registerUserDocs } from "./users.js"
 import { userSchema } from "../schemas/user.js"
 import { avatarSchema } from "../schemas/avatar.js"
+import { registerRepliesDocs } from "./replies.js"
 
 const registry = new OpenAPIRegistry()
 
@@ -49,10 +50,6 @@ export const avatarIdParam = z.object({
   avatarId: avatarSchema.shape.id
 })
 
-const statusResponseSchema = z.object({
-  status: z.literal("OK")
-})
-
 
 /**
  * Paths
@@ -60,6 +57,7 @@ const statusResponseSchema = z.object({
 
 registerPostDocs(registry);
 registerCommentDocs(registry);
+registerRepliesDocs(registry);
 registerReactionDocs(registry);
 registerAvatarDocs(registry);
 registerUserDocs(registry);

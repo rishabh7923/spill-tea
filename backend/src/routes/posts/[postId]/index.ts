@@ -19,7 +19,7 @@ export const get: Handler[] = [
     async (req, res) => {
         const post = await Post.findOne({
             where: { id: Number(req.params.postId) },
-            relations: { user: { avatar: true }, category: true, attachments: true, hashtags: true }
+            relations: { user: true, category: true, attachments: true, hashtags: true }
         })
 
         return res.status(200).json({ success: true, data: { post } })

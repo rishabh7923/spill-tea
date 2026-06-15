@@ -19,7 +19,7 @@ export class User extends BaseEntity {
     @Column({ length: 255 })
     display_name: string
 
-    @ManyToOne(() => Avatar, { nullable: true, onDelete: 'SET NULL' })
+    @ManyToOne(() => Avatar, { nullable: true, onDelete: 'SET NULL', eager: true })
     @JoinColumn({ name: "avatar_id" })
     avatar: Avatar;
 

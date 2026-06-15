@@ -1,9 +1,11 @@
 import type { Handler } from "express";
-import { isAuthenticated } from "../../../../middlewares/auth/isAuthenticated.js";
-import { NOT_FOUND } from "../../../../common/errors.js";
-import { Comment } from "../../../../database/entities/Comment.js";
-import { validateSchema } from "../../../../common/utils/validateSchema.js";
-import { editCommentRequestSchema } from "../../../../schemas/comment.js";
+import { isAuthenticated } from "../../../../../middlewares/auth/isAuthenticated.js";
+import { NOT_FOUND } from "../../../../../common/errors.js";
+import { Comment } from "../../../../../database/entities/Comment.js";
+import { validateSchema } from "../../../../../common/utils/validateSchema.js";
+import { editCommentRequestSchema } from "../../../../../schemas/comment.js";
+import { ApiError } from "../../../../../common/utils/ApiError.js";
+import { serializeComment } from "../../../../../common/serialize.js";
 
 export const del: Handler[] = [
     isAuthenticated,
@@ -26,26 +28,25 @@ export const patch: Handler[] = [
     isAuthenticated,
     async (req, res) => {
         const { postId, commentId } = req.params;
-
-        const parsed = await validateSchema(editCommentRequestSchema, req.body, res)
-        if (!parsed) return;
+        const parsed = await validateSchema(editCommentRequestSchema, req.body)
 
         const comment = await Comment.findOne({
             where: {
                 id: +commentId,
                 post: { id: +postId },
                 user: { id: req.user.id }
-            }
+            },
+            relations: { user: true }
         })
 
-        if (!comment) return res.status(404).json({ success: false, error: NOT_FOUND })
+        if (!comment) throw new ApiError(404, NOT_FOUND)
 
         comment.content = parsed.content;
         await comment.save()
 
         return res.status(200).json({
             success: true,
-            data: { comment }
+            data: { comment: serializeComment(comment) }
         })
     }
 ]
