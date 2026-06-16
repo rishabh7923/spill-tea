@@ -12,7 +12,7 @@ function PostPage() {
   const { post, status } = usePost(pid as string);
   return (
     <Layout>
-      <div className='w-full mx-auto min-h-screen'>
+      <div className='w-full mx-auto min-h-screen my-4'>
         {status === "pending" && <PostCardSkeleton />}
         {post && <PostCard key={post.id}
           id={post.id}
@@ -25,8 +25,9 @@ function PostPage() {
           user={post.user}
           category={post.category}
           attachments={post.attachments} />}
-
-        <AddComment />
+        <div className="px-2 lg:px-4 my-4">
+          <AddComment />
+        </div>
 
         {/*  COMMENTS */}
         <PostComments />

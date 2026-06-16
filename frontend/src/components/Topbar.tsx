@@ -16,7 +16,7 @@ function Topbar() {
                         Spill
                     </p>
                 </div>
-                <InputGroup className='shrink grow max-w-3xl rounded-2xl'>
+                <InputGroup className='shrink grow max-w-2xl rounded-2xl'>
                     <InputGroupInput className='w-full' placeholder='Find anything' />
                     <InputGroupAddon>
                         <Search />
