@@ -59,12 +59,12 @@ export const createReplyRequestSchema = z.object({
 })
 
 export const listCommentRequestSchema = z.object({
-  offset: z.coerce.number().int().min(0).default(0),
+  page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().positive().min(1).max(20).default(10),
 })
 
 export const listRepliesRequestSchema = z.object({
-  offset: z.coerce.number().int().min(0).default(0),
+  page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().positive().min(1).max(20).default(10),
 })
 
@@ -88,11 +88,10 @@ export const listCommentResponseSchema = z.object({
   success: z.literal(true),
   data: z.object({ comments: z.array(serializedComment) }),
   pagination: z.object({
-    total: z.number(),
-    limit: z.number(),
-    offset: z.number(),
-    has_next: z.boolean(),
-    has_prev: z.boolean()
+    total_pages: z.number(),
+    current_page: z.number(),
+    next_page: z.number().nullable(),
+    prev_page: z.number().nullable()
   })
 })
 
@@ -100,10 +99,9 @@ export const listRepliesResponseSchema = z.object({
   success: z.literal(true),
   data: z.object({ replies: z.array(serializedComment) }),
   pagination: z.object({
-    total: z.number(),
-    limit: z.number(),
-    offset: z.number(),
-    has_next: z.boolean(),
-    has_prev: z.boolean()
+    total_pages: z.number(),
+    current_page: z.number(),
+    next_page: z.number().nullable(),
+    prev_page: z.number().nullable()
   })
 })

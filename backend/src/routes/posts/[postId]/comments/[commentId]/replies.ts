@@ -12,7 +12,7 @@ export const get: Handler[] = [
     isAuthenticated,
     async (req, res) => {
         const { postId, commentId } = req.params;
-        const { limit, offset } = validateSchema(listCommentRequestSchema, req.query);
+        const { limit, page } = validateSchema(listCommentRequestSchema, req.query);
 
         const post = await Post.findOne({ where: { id: +postId } })
         if (!post) throw new ApiError(404, NOT_FOUND, "Post not found")
@@ -25,18 +25,17 @@ export const get: Handler[] = [
             relations: { user: true },
             order: { created_at: -1 },
             take: limit,
-            skip: offset
+            skip: limit * (page - 1)
         })
 
         return res.status(200).json({
             success: true,
             data: { replies: replies.map(re => serializeComment(re)) },
             pagination: {
-                total,
-                limit,
-                offset,
-                has_next: offset + replies.length < total,
-                has_prev: offset > 0
+                total_pages: Math.ceil(total / limit),
+                current_page: page,
+                next_page: page < Math.ceil(total / limit) ? page + 1 : null,
+                prev_page: page > 1 ? page - 1 : null
             }
         })
     }
