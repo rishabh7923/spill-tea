@@ -14,7 +14,7 @@ function PostComments() {
                     <li className="w-full animate-pulse"></li>
                 </>
                     :
-                    status === "error" ? "Something went wrong" : comments!.map(c => <Comment comment={c} />)
+                    status === "error" ? "Something went wrong" : comments?.map(comment => comment.parent_id === null ? <Comment comment={comment} /> : null)
                 }
             </ul>
         </div >

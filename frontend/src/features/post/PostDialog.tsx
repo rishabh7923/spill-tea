@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Comment from "./comment/Comment";
-import AddComment from "./comment/AddComment";
+import AddComment from "./comment/CreateComment";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useComments from "./comment/hooks/useComments";
 import usePost from "./hooks/usePost";
@@ -53,7 +53,7 @@ function PostDialog() {
                         </div>
 
                         <ul className="divide-y">
-                           {status == "success" && comments!.map(c => <Comment comment={c}/>)}
+                            {status == "success" && comments!.map(c => <Comment comment={c} />)}
                         </ul>
                     </ScrollArea>
 

@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
 import axios from "../utils/axios"
-import type { addCommentSchema, Comment, deleteCommentSchema, getPostCommentsSchema } from "@/types/comment";
+import type { Comment, CreateCommentParams, DeleteCommentParams, GetCommentsParams } from "@/types/comment";
 
-export async function addCommentApi(data: addCommentSchema) {
+export async function createCommentApi(data: CreateCommentParams) {
     try {
         await axios.post(`posts/${data.postId}/comments`, {
             content: data.content
@@ -15,7 +15,7 @@ export async function addCommentApi(data: addCommentSchema) {
     }
 }
 
-export async function getCommentsApi({ postId }: getPostCommentsSchema): Promise<Comment[]> {
+export async function getCommentsApi({ postId }: GetCommentsParams): Promise<Comment[]> {
     try {
         const res = await axios.get(`posts/${postId}/comments`)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,7 +28,7 @@ export async function getCommentsApi({ postId }: getPostCommentsSchema): Promise
     }
 }
 
-export async function deleteCommentApi({ postId, commentId }: deleteCommentSchema) {
+export async function deleteCommentApi({ postId, commentId }: DeleteCommentParams) {
     try {
         await axios.delete(`posts/${postId}/comments/${commentId}`)
     } catch (e: unknown) {

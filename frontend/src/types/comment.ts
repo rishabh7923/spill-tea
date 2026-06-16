@@ -1,22 +1,45 @@
-import type { User } from "./user";
+import type { Pagination } from "./pagination";
+import type { UserPreview } from "./user";
 
+//
+// Core Types
+//
 export type Comment = {
-    id: string;
+    id: number;
     content: string;
-    user: User
-    created_at: Date
-    replies: number
-}
+    created_at: string;
+    parent_id: number | null;
+    user: UserPreview;
+    reply_count: number;
+};
 
-export type addCommentSchema = {
-    postId: string,
-    content: string
-}
-export type deleteCommentSchema = { postId: string, commentId: string }
+//
+// Base Params
+//
+type PostParams = {
+    postId: string | number;
+};
 
-export type getPostCommentsSchema = {
-    postId: string
-}
+//
+// API Params
+//
+export type GetCommentsParams = PostParams;
 
-export type getPostCommentsResponse = Comment[]
+export type DeleteCommentParams = PostParams & {
+    commentId: string | number
+};
 
+export type CreateCommentParams = PostParams & {
+    content: string;
+};
+
+//
+// API Responses
+//
+export type CommentsResponse = {
+    success: boolean;
+    data: {
+        comments: Comment[];
+    };
+    pagination: Pagination;
+};

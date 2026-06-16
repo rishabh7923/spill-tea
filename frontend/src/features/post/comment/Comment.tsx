@@ -6,8 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAuth } from '@/features/auth/context/AuthContext';
 import type { Comment as CommentType } from '@/types/comment';
 import useDeleteComment from './hooks/useDeleteComment';
-import Replies from './Replies';
-import AddComment from './AddComment';
+import AddComment from './CreateComment';
+import Replies from './reply/Replies';
 
 function Comment({ comment }: { comment: CommentType }) {
     const { user } = useAuth();
@@ -25,7 +25,7 @@ function Comment({ comment }: { comment: CommentType }) {
             <div className="flex gap-3">
                 <div>
                     <Avatar className="h-8 w-8 shrink-0 mt-3">
-                        <AvatarImage src={comment.user.avatar?.url || ""} />
+                        <AvatarImage src={comment.user.avatar_url || ""} />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                 </div>
@@ -35,7 +35,7 @@ function Comment({ comment }: { comment: CommentType }) {
                     <div className="rounded-xl bg-muted/40 p-3 border">
                         <div className="flex items-center gap-2">
                             <span className="truncate text-sm font-semibold">
-                                {comment.user.displayName || "Freak"}
+                                {comment.user.display_name || "Freak"}
                             </span>
 
                             <span className="text-xs text-muted-foreground">
@@ -96,7 +96,7 @@ function Comment({ comment }: { comment: CommentType }) {
                             </div>
                             {showReplyBox ?
                                 <div className='mt-2'>
-                                    <AddComment />
+                                    <AddComment postId={params.pis as string} commentId={comment.id as number} mode='reply' />
                                 </div>
                                 : null}
                         </div>
@@ -105,7 +105,7 @@ function Comment({ comment }: { comment: CommentType }) {
                 </div>
             </div>
             {/* Replies */}
-            {comment.replies > 0 ? <Replies commentId={comment.id} /> : null}
+            {comment.reply_count > 0 ? <Replies commentId={comment.id} /> : null}
         </li>
     )
 }

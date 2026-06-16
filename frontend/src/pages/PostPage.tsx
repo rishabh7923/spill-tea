@@ -1,5 +1,5 @@
-import PostComments from '@/features/post/comment/PostComments';
-import AddComment from '@/features/post/comment/AddComment';
+import PostComments from '@/features/post/comment/Comments';
+import AddComment from '@/features/post/comment/CreateComment';
 import PostCard from '@/features/post/PostCard';
 import Layout from '@/components/Layout';
 import usePost from '@/features/post/hooks/usePost';
@@ -26,7 +26,7 @@ function PostPage() {
           category={post.category}
           attachments={post.attachments} />}
         <div className="px-2 lg:px-4 my-4">
-          <AddComment />
+          <AddComment postId={pid as string | number} mode="comment" />
         </div>
 
         {/*  COMMENTS */}

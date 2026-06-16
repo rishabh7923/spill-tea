@@ -1,9 +1,8 @@
-import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-import useAddComment from "./hooks/useAddComment";
+import useCreateComment from "./hooks/useCreateComment";
 import useNavigateToLogin from "@/features/auth/hooks/useNavigateToLogin";
 
 import { Field, FieldError } from "@/components/ui/field";
@@ -14,6 +13,7 @@ import {
     InputGroupText,
     InputGroupTextarea,
 } from "@/components/ui/input-group";
+import { useParams } from "react-router-dom";
 
 const CommentSchema = z.object({
     comment: z
@@ -24,12 +24,14 @@ const CommentSchema = z.object({
 });
 
 type CommentFormData = z.infer<typeof CommentSchema>;
-
-function AddComment() {
-    const { mutate, status } = useAddComment();
-    const { pid } = useParams();
+type CreateCommentProps = {
+    commentId?: string | number;
+    mode: "comment" | "reply"
+}
+function CreateComment({ commentId, mode }: CreateCommentProps) {
+    const { mutate, status } = useCreateComment(mode);
     const navigateToLogin = useNavigateToLogin();
-
+    const { pid } = useParams();
     const {
         register,
         handleSubmit,
@@ -51,7 +53,8 @@ function AddComment() {
         mutate(
             {
                 content: data.comment.trim(),
-                postId: pid!,
+                commentId: commentId as unknown as string,
+                postId: pid || ""
             },
             {
                 onSuccess: () => {
@@ -116,4 +119,4 @@ function AddComment() {
     );
 }
 
-export default AddComment;
+export default CreateComment;
