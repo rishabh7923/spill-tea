@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, BaseEntity, JoinColumn, type Relation, OneToMany, RelationId } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity, JoinColumn, type Relation, OneToMany, RelationId, VirtualColumn } from "typeorm";
 import { Post } from "./Post.js";
 import { User } from "./User.js";
 
@@ -22,6 +22,9 @@ export class Comment extends BaseEntity {
 
     @OneToMany(() => Comment, comment => comment.parent)
     children: Comment[]
+
+    @VirtualColumn({ query: (alias) => `SELECT COUNT(*) FROM comments WHERE parent_id = ${alias}.id` })
+    reply_count: number;
     
     @ManyToOne(() => Post, (post) => post.comments, { onDelete: "CASCADE" })
     @JoinColumn({ name: "post_id"})

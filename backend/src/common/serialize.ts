@@ -6,6 +6,7 @@ export function serializeComment(comment: Comment) {
         content: comment.content,
         created_at: comment.created_at,
         parent_id: comment.parent_id,
+        reply_count: comment.reply_count ?? 0,
         user: {
             id: comment.user.id,
             username: comment.user.username,

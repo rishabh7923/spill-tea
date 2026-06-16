@@ -50,9 +50,7 @@ export const get: Handler[] = [
                 post: { id: +req.params.postId },
                 parent: null,
             },
-            relations: {
-                user: true,
-            },
+            relations: { user: true },
             order: {
                 created_at: "DESC",
             },

@@ -38,6 +38,7 @@ export const serializedComment = z.object({
   content: commentSchema.shape.content,
   created_at: commentSchema.shape.created_at,
   parent_id: z.number().nullable(),
+  reply_count: z.number().int().nonnegative(),
   user: z.object({
     id: userSchema.shape.id,
     username: userSchema.shape.username,
