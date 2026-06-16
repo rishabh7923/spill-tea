@@ -8,7 +8,7 @@ import type { Comment as CommentType } from '@/types/comment';
 import useDeleteComment from './hooks/useDeleteComment';
 import AddComment from './CreateComment';
 import Replies from './reply/Replies';
-
+import dayjs from '@/utils/dayjs';
 function Comment({ comment }: { comment: CommentType }) {
     const { user } = useAuth();
     const [showReplyBox, setShowReplyBox] = useState(false);
@@ -39,9 +39,8 @@ function Comment({ comment }: { comment: CommentType }) {
                             </span>
 
                             <span className="text-xs text-muted-foreground">
-                                • {"2h ago"}
+                                • {dayjs(comment.created_at).fromNow()}
                             </span>
-
                             {comment.user.id === user?.id && (
                                 <Button
                                     variant="ghost"
@@ -96,7 +95,7 @@ function Comment({ comment }: { comment: CommentType }) {
                             </div>
                             {showReplyBox ?
                                 <div className='mt-2'>
-                                    <AddComment postId={params.pis as string} commentId={comment.id as number} mode='reply' />
+                                    <AddComment commentId={comment.id as number} mode='reply' />
                                 </div>
                                 : null}
                         </div>

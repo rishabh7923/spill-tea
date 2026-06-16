@@ -1,8 +1,8 @@
 import { useState, } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import Comment from "../Comment"
 import { useReplies } from "./hooks/useReplies";
+import Comment from "../Comment";
 
 type RepliesProps = { commentId: string | number }
 
