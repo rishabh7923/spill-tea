@@ -46,7 +46,32 @@ function App() {
         </AuthProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-      <Toaster />
+      <Toaster
+        richColors
+        toastOptions={{
+          classNames: {
+            success:
+              "bg-green-950 text-green-200 border-l-4 border-green-500 rounded-xl",
+
+            error:
+              "bg-red-950 text-red-200 border-l-4 border-red-500 rounded-xl",
+
+            warning:
+              "bg-yellow-950 text-yellow-200 border-l-4 border-yellow-500 rounded-xl",
+
+            info:
+              "bg-blue-950 text-blue-200 border-l-4 border-blue-500 rounded-xl",
+
+            toast:
+              "shadow-lg border backdrop-blur-sm",
+
+            title: "font-semibold",
+
+            description:
+              "text-sm opacity-90",
+          },
+        }}
+      />
     </BrowserRouter>
   )
 }

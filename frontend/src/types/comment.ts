@@ -5,6 +5,7 @@ export type Comment = {
     content: string;
     user: User
     created_at: Date
+    replies: number
 }
 
 export type addCommentSchema = {

@@ -76,12 +76,12 @@ function CreateEditPostForm() {
             }
 
             removeIds.forEach(id => {
-                formData.append("attachmentsToRemove", id);
+                formData.append("attachments_to_remove", id);
             });
 
             formData.append("id", String(editingPost!.id))
             if (files[0]) {
-                formData.append("attachmentsToAdd", files[0])
+                formData.append("attachments_to_add", files[0])
             }
             editPost(formData);
         }
@@ -148,7 +148,7 @@ function CreateEditPostForm() {
                 <UserInfo
                     avatar="https://github.com/shadcn.png"
                     name="Ajay"
-                    description="What you have to share today?"
+                    description={mode !== "edit" ? "What you have to share today?" : ""}
                 />
                 {/* Category */}
                 <div className="flex justify-between w-full">
