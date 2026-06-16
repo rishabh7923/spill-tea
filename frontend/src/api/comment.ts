@@ -18,7 +18,8 @@ export async function addCommentApi(data: addCommentSchema) {
 export async function getCommentsApi({ postId }: getPostCommentsSchema): Promise<Comment[]> {
     try {
         const res = await axios.get(`posts/${postId}/comments`)
-        return res.data.data.comments;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return res.data.data.comments.map((comment: any) => ({ ...comment, replies: 2 }));
     } catch (e: unknown) {
         if (e instanceof AxiosError) {
             throw new Error(e.response?.data.error.message);

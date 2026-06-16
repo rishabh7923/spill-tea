@@ -7,7 +7,7 @@ function useCreatePost({ onSuccess, onError }: { onSuccess: () => void, onError:
     const { isSuccess, data, error, status, mutate: createPost } = useMutation({
         mutationFn: createPostApi,
         onSuccess: () => {
-            toast("Post created successfully");
+            toast.success("Post created successfully");
             if (onSuccess) onSuccess();
             client.invalidateQueries({ queryKey: ["posts"] });
         },

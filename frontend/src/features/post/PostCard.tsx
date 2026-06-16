@@ -16,7 +16,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   return (
     <div
       ref={ref}
-      className="group my-4 rounded-lg p-4 transition hover:bg-sidebar text-card-foreground"
+      className="group rounded-lg p-4 transition hover:bg-sidebar text-card-foreground"
     >
       {/* Header */}
       <div className="flex items-start justify-between">

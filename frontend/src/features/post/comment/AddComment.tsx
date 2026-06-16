@@ -66,10 +66,10 @@ function AddComment() {
     }
 
     return (
-        <div className="p-2 lg:p-4">
+        <div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Field>
-                    <InputGroup>
+                    <InputGroup className="rounded-xl">
                         <InputGroupTextarea
                             placeholder="Write a comment..."
                             {...register("comment")}
@@ -80,8 +80,9 @@ function AddComment() {
                                 {comment.length}/280
                             </InputGroupText>
 
-                            <div className="ml-auto flex gap-2">
+                            <div className="ml-auto flex gap-2 md:gap-3">
                                 <InputGroupButton
+                                    className="rounded-full p-4"
                                     type="button"
                                     variant="secondary"
                                     size="sm"
@@ -92,6 +93,7 @@ function AddComment() {
                                 </InputGroupButton>
 
                                 <InputGroupButton
+                                    className="rounded-full p-4"
                                     type="submit"
                                     variant="default"
                                     size="sm"

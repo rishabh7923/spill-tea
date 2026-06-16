@@ -6,7 +6,7 @@ function useEditPost({ onSuccess, onError }: { onSuccess: () => void, onError: (
     const { isSuccess, data, error, status, mutate: editPost } = useMutation({
         mutationFn: editPostApi,
         onSuccess: () => {
-            toast("Post edited successfully");
+            toast.success("Post edited successfully");
             if (onSuccess) onSuccess();
         },
         onError: (e) => {
