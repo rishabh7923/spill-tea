@@ -7,6 +7,7 @@ import { Post } from '../../../../database/entities/Post.js';
 import { ApiError } from '../../../../common/utils/ApiError.js';
 import { NOT_FOUND } from '../../../../common/errors.js';
 import { serializeComment } from '../../../../common/serialize.js';
+import { optionalAuthenticated } from '../../../../middlewares/auth/optionalAuthenticated.js';
 
 
 export const post: Handler[] = [
@@ -37,7 +38,7 @@ export const post: Handler[] = [
 ]
 
 export const get: Handler[] = [
-    isAuthenticated,
+    optionalAuthenticated,
     async (req, res) => {
         const { limit, page } = validateSchema(listCommentRequestSchema, req.query);
 

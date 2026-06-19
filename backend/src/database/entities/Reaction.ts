@@ -1,10 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique, JoinColumn, type Relation } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique, JoinColumn, type Relation, BaseEntity } from 'typeorm';
 import { Post } from './Post.js';
 import { User } from './User.js';
 
 @Entity('reactions')
 @Unique(['post', 'user'])
-export class Reaction {
+export class Reaction extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 

@@ -10,19 +10,32 @@ import AppDataSource from "../../../database/connection.js";
 import { Attachment } from "../../../database/entities/Attachment.js";
 import { Category } from "../../../database/entities/Category.js";
 import { In } from "typeorm";
+import { optionalAuthenticated } from "../../../middlewares/auth/optionalAuthenticated.js";
+import { Reaction } from "../../../database/entities/Reaction.js";
+import { ApiError } from "../../../common/utils/ApiError.js";
 
 
 const upload = multer({ storage: multer.memoryStorage() });
 
 export const get: Handler[] = [
-    isAuthenticated,
+    optionalAuthenticated,
     async (req, res) => {
         const post = await Post.findOne({
             where: { id: Number(req.params.postId) },
             relations: { user: true, category: true, attachments: true, hashtags: true }
         })
 
-        return res.status(200).json({ success: true, data: { post } })
+        if (!post) throw new ApiError(404, NOT_FOUND, "Post not found")
+
+        if (req.user) {
+            const liked = await Reaction.exists({ where: { post: { id: post.id }, user: { id: req.user.id } } })
+            Object.assign(post, { liked })
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: { post }
+        })
     }
 ]
 
