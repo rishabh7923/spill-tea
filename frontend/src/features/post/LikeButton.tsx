@@ -24,7 +24,6 @@ function LikeButton({ likes, liked, postId }: { likes: number, liked: boolean, p
             </Button>
             <span>
                 {likes}
-
             </span>
         </div>
     )

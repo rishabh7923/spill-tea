@@ -102,9 +102,7 @@ function CreateComment({ commentId, mode }: CreateCommentProps) {
                                     size="sm"
                                     disabled={status === "pending"}
                                 >
-                                    {status === "pending"
-                                        ? "Posting..."
-                                        : "Post"}
+                                    Comment
                                 </InputGroupButton>
                             </div>
                         </InputGroupAddon>

@@ -20,12 +20,14 @@ export async function getRepliesApi(data: GetRepliesParams): Promise<RepliesPage
     }
 }
 
-export async function createReplyApi(data: CreateReplyParams) {
+export async function createReplyApi(data: CreateReplyParams): Promise<Comment> {
     try {
-        await axios.post(`posts/${data.postId}/comments/${data.commentId}/replies`, data);
+        const res = await axios.post(`posts/${data.postId}/comments/${data.commentId}/replies`, data);
+        return res.data.data as Comment
     } catch (e: unknown) {
         if (e instanceof AxiosError) {
             throw new Error(e.response?.data.error.message)
         }
+        throw e;
     }
 }

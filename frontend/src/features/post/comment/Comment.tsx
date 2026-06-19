@@ -12,6 +12,7 @@ import dayjs from '@/utils/dayjs';
 function Comment({ comment }: { comment: CommentType }) {
     const { user } = useAuth();
     const [showReplyBox, setShowReplyBox] = useState(false);
+    const [showReplies, setShowReplies] = useState(false);
     const { deleteComment } = useDeleteComment();
     const params = useParams();
     const handleDelete = () => {
@@ -101,10 +102,20 @@ function Comment({ comment }: { comment: CommentType }) {
                         </div>
                     </div>
 
+                    {!showReplies && comment.reply_count > 0 ? <Button className="group p-0 hover:no-underline" variant="link" onClick={() => setShowReplies(s => !s)}>
+                        <span className="text-muted-foreground transition-colors group-hover:text-foreground">
+                            View
+                        </span>
+
+                        <span className="font-medium">
+                            {comment.reply_count}{" "}
+                            {comment.reply_count > 1 ? "replies" : "reply"}
+                        </span>
+                    </Button> : null}
                 </div>
             </div>
             {/* Replies */}
-            {comment.reply_count > 0 ? <Replies commentId={comment.id} /> : null}
+            {comment.reply_count > 0 ? <Replies commentId={comment.id} show={showReplies} /> : null}
         </li>
     )
 }

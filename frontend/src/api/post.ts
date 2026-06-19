@@ -13,9 +13,7 @@ export async function getPostApi(postId: string): Promise<Post> {
         const res = await axios(`posts/${postId}`);
         const post = res.data.data.post
         return {
-            ...post, likesCount: post.likes_count,
-            userId: post.user_id,
-            createdAt: post.created_at,
+            ...post,
             user: { ...post.user, displayName: post.user.display_name, userName: post.userName },
         }
     }

@@ -25,7 +25,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           name={post.user.displayName}
           description={<PostCardCategoryTag category={post.category.name} />}
           size="lg"
-          time="9 days ago"
+          time={post.createdAt}
         />
 
         <PostCardDropDown post={post} />
@@ -57,8 +57,8 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       <div className="mt-3 flex items-center justify-between text-muted-foreground">
         <div className="flex items-center gap-5">
           <LikeButton
-            likes={post.likes}
-            liked={Boolean(post.liked)}
+            likes={post.likesCount}
+            liked={post.liked}
             postId={post.id}
           />
 

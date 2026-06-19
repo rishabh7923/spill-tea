@@ -1,13 +1,16 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCommentApi } from "@/api/comment";
 import { createReplyApi } from "@/api/reply";
 import { toast } from "sonner";
 import type { CreateReplyParams } from "@/types/reply";
 import type { CreateCommentParams } from "@/types/comment";
+import { useParams } from "react-router-dom";
 
 type Mode = "comment" | "reply";
 
 function useCreateComment<T extends Mode>(mode: T) {
+    const { pid } = useParams();
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (
             data: T extends "reply"
@@ -19,8 +22,9 @@ function useCreateComment<T extends Mode>(mode: T) {
                 : createCommentApi({ ...data } as CreateCommentParams);
         },
 
-        onSuccess: () => {
+        onSuccess: (data) => {
             toast.success("comment added successfully");
+            queryClient.setQueryData<Comment[]>(["comments", pid], (old = []) => [...old, data])
         },
 
         onError: (error: unknown) => {
