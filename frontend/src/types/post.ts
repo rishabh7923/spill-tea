@@ -22,13 +22,12 @@ export type EditPostSchema = {
 };
 
 export type Post = {
-    id: string;
-    userId: string;
-    createdAt: string;
+    id: string | number;
+    created_at: string;
     content: string;
     attachments: PostImage[];
     liked: boolean
-    likesCount: number
+    likes_count: number
     user: User;
     category: {
         id: number;
@@ -50,7 +49,7 @@ export type PostCardProps = {
     content: string;
     user: User
     createdAt: string;
-    likes: number;
+    likesCount: number;
     comments: number;
     liked: boolean;
     saved?: boolean;

@@ -15,14 +15,15 @@ import Profile from './pages/Profile';
 import PostPage from './pages/PostPage';
 import { PostEditorProvider } from './features/post/create-edit-post/PostEditorProvider';
 import ProtectRoute from './components/ProtectRoute';
+import EditCreatePost from './features/post/create-edit-post/PostEditor';
 
 
 function App() {
   const queryClient = new QueryClient();
   return (
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
           <ThemeProvider>
             <TooltipProvider>
               <PostEditorProvider>
@@ -40,12 +41,13 @@ function App() {
                   <Route path='/signup' element={<Signup />} />
                   <Route path='/verify' element={<Verify />} />
                 </Routes>
+                <EditCreatePost />
               </PostEditorProvider>
             </TooltipProvider>
           </ThemeProvider>
-        </AuthProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </AuthProvider>
       <Toaster
         richColors
         toastOptions={{

@@ -1,5 +1,5 @@
 import type { Pagination } from "./pagination";
-
+import type { Comment } from "./comment";
 type Reply = Comment;
 
 export type GetRepliesParams = {

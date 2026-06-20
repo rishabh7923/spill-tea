@@ -19,6 +19,7 @@ import useCreatePost from '../hooks/useCreatePost'
 import type { CreatePostSchema, PostImage } from '@/types/post'
 import useEditPost from '../hooks/useEditPost';
 import { UserInfo } from '@/features/user/components/UserInfo';
+import { useAuth } from '@/features/auth/context/AuthContext';
 
 const categories = [
     { value: 1, label: "Issue" },
@@ -44,6 +45,8 @@ function CreateEditPostForm() {
         italic: false,
         underline: false
     });
+    const { user } = useAuth();
+
     function createOrEdit() {
         navigateToLogin();
         const formData = new FormData()
@@ -146,8 +149,8 @@ function CreateEditPostForm() {
         <>
             <div className="max-h-[80vh] flex flex-col gap-6 overflow-y-auto px-3 py-1 no-scrollbar">
                 <UserInfo
-                    avatar="https://github.com/shadcn.png"
-                    name="Ajay"
+                    avatar={user?.avatar.url || "https://github.com/shadcn.png"}
+                    name={user?.displayName || "Unknown"}
                     description={mode !== "edit" ? "What you have to share today?" : ""}
                 />
                 {/* Category */}
@@ -216,11 +219,11 @@ function CreateEditPostForm() {
                         <Smile />
                     </Button>
 
-                    <Button className="ml-auto"
+                    <Button className="ml-auto rounded-full"
                         size="sm"
                         disabled={creating === "pending" || editing === "pending" || (content.length === 0 && mode !== "edit")}
                         onClick={createOrEdit}>
-                        {mode === "edit" ? "Save Changes" : "Post"}
+                        <pre> </pre>{mode === "edit" ? "Save Changes" : "Post"}<pre> </pre>
                     </Button>
                 </div>
 

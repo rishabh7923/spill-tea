@@ -4,9 +4,10 @@ import type { Comment, CreateCommentParams, DeleteCommentParams, GetCommentsPara
 
 export async function createCommentApi(data: CreateCommentParams) {
     try {
-        await axios.post(`posts/${data.postId}/comments`, {
+        const res = await axios.post(`posts/${data.postId}/comments`, {
             content: data.content
         })
+        return res.data.data.comment
     } catch (e: unknown) {
         if (e instanceof AxiosError) {
             throw new Error(e.response?.data.error.message);

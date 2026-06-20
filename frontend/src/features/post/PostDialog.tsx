@@ -4,12 +4,10 @@ import AddComment from "./comment/CreateComment";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useComments from "./comment/hooks/useComments";
 import usePost from "./hooks/usePost";
-import { useParams } from "react-router-dom";
 
 function PostDialog() {
-    const params = useParams();
     const { comments, status } = useComments();
-    const { post } = usePost(params.pid as unknown as string);
+    const { post } = usePost();
     return (
         <div className="hidden md:block h-full p-4 overflow-hidden">
             <div className="h-full w-4/5 mx-auto flex min-h-0 bg-background rounded-sm overflow-hidden gap-2">

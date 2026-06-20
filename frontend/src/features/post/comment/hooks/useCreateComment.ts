@@ -1,26 +1,17 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCommentApi } from "@/api/comment";
-import { createReplyApi } from "@/api/reply";
 import { toast } from "sonner";
-import type { CreateReplyParams } from "@/types/reply";
-import type { CreateCommentParams } from "@/types/comment";
+import { useParams } from "react-router-dom";
 
-type Mode = "comment" | "reply";
+function useCreateComment() {
+    const { pid } = useParams();
+    const queryClient = useQueryClient();
+    const { mutate: createComment, status: commenting } = useMutation({
+        mutationFn: createCommentApi,
 
-function useCreateComment<T extends Mode>(mode: T) {
-    return useMutation({
-        mutationFn: (
-            data: T extends "reply"
-                ? CreateReplyParams
-                : CreateCommentParams
-        ) => {
-            return mode === "reply"
-                ? createReplyApi({ ...data } as CreateReplyParams)
-                : createCommentApi({ ...data } as CreateCommentParams);
-        },
-
-        onSuccess: () => {
+        onSuccess: (data) => {
             toast.success("comment added successfully");
+            queryClient.setQueryData<Comment[]>(["comments", pid], (old = []) => [data, ...old])
         },
 
         onError: (error: unknown) => {
@@ -30,7 +21,9 @@ function useCreateComment<T extends Mode>(mode: T) {
                     : "Something went wrong"
             );
         },
+
     });
+    return { createComment, commenting }
 }
 
 export default useCreateComment;

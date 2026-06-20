@@ -13,7 +13,8 @@ import {
     InputGroupText,
     InputGroupTextarea,
 } from "@/components/ui/input-group";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
+import useCreateReply from "./reply/hooks/useCreateReply";
 
 const CommentSchema = z.object({
     comment: z
@@ -28,8 +29,11 @@ type CreateCommentProps = {
     commentId?: string | number;
     mode: "comment" | "reply"
 }
-function CreateComment({ commentId, mode }: CreateCommentProps) {
-    const { mutate, status } = useCreateComment(mode);
+
+function CreateComment({ mode }: CreateCommentProps) {
+    const [searchParams] = useSearchParams();
+    const { createComment, commenting } = useCreateComment();
+    const { createReply, replying } = useCreateReply();
     const navigateToLogin = useNavigateToLogin();
     const { pid } = useParams();
     const {
@@ -46,22 +50,19 @@ function CreateComment({ commentId, mode }: CreateCommentProps) {
     });
 
     const comment = watch("comment", "");
-
     function onSubmit(data: CommentFormData) {
         navigateToLogin();
 
-        mutate(
-            {
-                content: data.comment.trim(),
-                commentId: commentId as unknown as string,
-                postId: pid || ""
-            },
-            {
-                onSuccess: () => {
-                    reset();
+        if (mode === "comment") {
+            createComment({ postId: pid!, content: data.comment });
+        } else {
+            createReply(
+                { content: data.comment, postId: pid!, commentId: searchParams.get("replyTo")! },
+                {
+                    onSuccess: () => reset(),
                 },
-            }
-        );
+            );
+        }
     }
 
     function handleCancel() {
@@ -100,11 +101,9 @@ function CreateComment({ commentId, mode }: CreateCommentProps) {
                                     type="submit"
                                     variant="default"
                                     size="sm"
-                                    disabled={status === "pending"}
+                                    disabled={commenting === "pending" || replying === "pending"}
                                 >
-                                    {status === "pending"
-                                        ? "Posting..."
-                                        : "Post"}
+                                    {mode === "comment" ? "Comment" : "Reply"}
                                 </InputGroupButton>
                             </div>
                         </InputGroupAddon>
