@@ -1,5 +1,4 @@
 import PostFeed from '@/features/post/PostFeed';
-import EditCreatePost from '@/features/post/create-edit-post/PostEditor';
 import Layout from '@/components/Layout';
 import CreateEditPostForm from '@/features/post/create-edit-post/CreateEditPostForm';
 
@@ -10,7 +9,6 @@ function Home() {
             <CreateEditPostForm />
             <PostFeed />
         </Layout>
-        <EditCreatePost />
     </ >
     )
 }

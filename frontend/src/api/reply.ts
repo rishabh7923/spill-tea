@@ -1,6 +1,7 @@
 import { AxiosError, type AxiosResponse } from "axios";
 import axios from "../utils/axios"
 import type { CreateReplyParams, GetRepliesParams, RepliesPage, RepliesResponse } from "@/types/reply";
+import type { Comment } from "@/types/comment";
 
 export async function getRepliesApi(data: GetRepliesParams): Promise<RepliesPage> {
     try {
@@ -23,7 +24,7 @@ export async function getRepliesApi(data: GetRepliesParams): Promise<RepliesPage
 export async function createReplyApi(data: CreateReplyParams): Promise<Comment> {
     try {
         const res = await axios.post(`posts/${data.postId}/comments/${data.commentId}/replies`, data);
-        return res.data.data as Comment
+        return res.data.data.comment as Comment
     } catch (e: unknown) {
         if (e instanceof AxiosError) {
             throw new Error(e.response?.data.error.message)

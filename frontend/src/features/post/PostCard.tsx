@@ -10,6 +10,7 @@ import CommentButton from "./comment/CommentButton";
 import { PostCardDropDown } from "./PostCardDropDown";
 import { UserInfo } from "../user/components/UserInfo";
 import { toast } from "sonner";
+import dayjs from "@/utils/dayjs";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           name={post.user.displayName}
           description={<PostCardCategoryTag category={post.category.name} />}
           size="lg"
-          time={post.createdAt}
+          time={dayjs(post.createdAt).fromNow()}
         />
 
         <PostCardDropDown post={post} />

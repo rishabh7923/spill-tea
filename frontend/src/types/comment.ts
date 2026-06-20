@@ -8,9 +8,10 @@ export type Comment = {
     id: number;
     content: string;
     created_at: string;
-    parent_id: number | null;
+    parent_id: number | string | null;
     user: UserPreview;
     reply_count: number;
+    optimistic?: boolean
 };
 
 //

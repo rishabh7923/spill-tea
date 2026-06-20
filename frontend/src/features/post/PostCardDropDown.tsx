@@ -12,12 +12,15 @@ import PostCardDeleteButton from "./PostCardDeleteButton"
 import { useAuth } from "../auth/context/AuthContext"
 import { usePostEditor } from "./create-edit-post/PostEditorProvider"
 import type { Post, PostCardProps } from "@/types/post"
+import { toast } from "sonner"
+import { useNavigate } from "react-router-dom"
 
 export function PostCardDropDown({ post }: { post: PostCardProps }) {
   const { user } = useAuth();
   const { openEdit } = usePostEditor();
   const userId = post.user.id;
   const postId = post.id;
+  const navigate = useNavigate();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,8 +30,11 @@ export function PostCardDropDown({ post }: { post: PostCardProps }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuItem>Go to post</DropdownMenuItem>
-          <DropdownMenuItem>Copy link</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate(`/p/${postId}`)}>Go to post</DropdownMenuItem>
+          <DropdownMenuItem onClick={async () => {
+            await navigator.clipboard.writeText(window.location.host + "p/" + post.id)
+            toast.success("Link copied!")
+          }}>Copy link</DropdownMenuItem>
           <DropdownMenuItem>Report</DropdownMenuItem>
           {userId === user?.id && (
             <DropdownMenuItem onSelect={() => openEdit(post as unknown as Post)}>
@@ -41,6 +47,6 @@ export function PostCardDropDown({ post }: { post: PostCardProps }) {
           <PostCardDeleteButton postId={postId} />
         </>}
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenu >
   )
 }

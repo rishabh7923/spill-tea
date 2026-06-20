@@ -1,4 +1,4 @@
-import PostComments from '@/features/post/comment/Comments';
+import PostComments from '@/features/post/comment/CommentsList';
 import AddComment from '@/features/post/comment/CreateComment';
 import PostCard from '@/features/post/PostCard';
 import Layout from '@/components/Layout';

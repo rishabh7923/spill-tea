@@ -1,42 +1,61 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Bookmark, Heart, Reply, ShareIcon, TrashIcon } from 'lucide-react';
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useAuth } from '@/features/auth/context/AuthContext';
 import type { Comment as CommentType } from '@/types/comment';
 import useDeleteComment from './hooks/useDeleteComment';
 import AddComment from './CreateComment';
-import Replies from './reply/Replies';
 import dayjs from '@/utils/dayjs';
-function Comment({ comment }: { comment: CommentType }) {
-    const { user } = useAuth();
-    const [showReplyBox, setShowReplyBox] = useState(false);
+import UserIcon from './UserIcon';
+import { useReply } from './context/ReplyProvider';
+import RepliesList from './reply/RepliesList';
+
+
+interface CommentProps {
+    comment: CommentType;
+}
+
+function Comment({ comment }: CommentProps) {
     const [showReplies, setShowReplies] = useState(false);
+    const { pid } = useParams();
+    const setSearchParams = useSearchParams()[1];
+    const { user } = useAuth();
+    const { activeParentCommentId, openReplyBox, closeReplyBox, isReplyBoxOpen } = useReply();
     const { deleteComment } = useDeleteComment();
-    const params = useParams();
+
     const handleDelete = () => {
         deleteComment({
-            postId: params.pid as string,
+            postId: pid as string,
             commentId: comment.id,
         });
     };
+
+    const handleReplyBox = () => {
+        if (comment.id === activeParentCommentId) {
+            closeReplyBox();
+            setSearchParams({});
+        } else {
+            openReplyBox(comment.id);
+            setSearchParams([["replyTo", comment.id.toLocaleString()]])
+        }
+    }
+
+    const handleShowReplies = () => {
+        setShowReplies(s => !s);
+    }
+
     return (
         <li>
             <div className="flex gap-3">
-                <div>
-                    <Avatar className="h-8 w-8 shrink-0 mt-3">
-                        <AvatarImage src={comment.user.avatar_url || ""} />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                </div>
+                <UserIcon url={comment.user.avatar_url!} />
 
                 <div className="flex-1">
                     {/* Comment body */}
                     <div className="rounded-xl bg-muted/40 p-3 border">
                         <div className="flex items-center gap-2">
                             <span className="truncate text-sm font-semibold">
-                                {comment.user.display_name || "Freak"}
+                                {comment.user.display_name}
                             </span>
 
                             <span className="text-xs text-muted-foreground">
@@ -73,7 +92,7 @@ function Comment({ comment }: { comment: CommentType }) {
                                     variant="ghost"
                                     size="icon"
                                     className="h-8 w-8 rounded-full hover:bg-blue-100 hover:text-blue-500"
-                                    onClick={() => setShowReplyBox(s => !s)}
+                                    onClick={handleReplyBox}
                                 >
                                     <Reply className="h-4 w-4" />
                                 </Button>
@@ -94,28 +113,34 @@ function Comment({ comment }: { comment: CommentType }) {
                                     <Bookmark className="h-4 w-4" />
                                 </Button>
                             </div>
-                            {showReplyBox ?
-                                <div className='mt-2'>
-                                    <AddComment commentId={comment.id as number} mode='reply' />
-                                </div>
-                                : null}
+                            {
+                                isReplyBoxOpen(comment.id) ?
+                                    <div className='mt-2'>
+                                        <AddComment mode='reply' />
+                                    </div> :
+                                    null
+                            }
                         </div>
                     </div>
 
-                    {!showReplies && comment.reply_count > 0 ? <Button className="group p-0 hover:no-underline" variant="link" onClick={() => setShowReplies(s => !s)}>
-                        <span className="text-muted-foreground transition-colors group-hover:text-foreground">
-                            View
-                        </span>
+                    {
+                        !showReplies && comment.reply_count > 0 ?
+                            <Button className="group p-0 hover:no-underline" variant="link" onClick={handleShowReplies}>
+                                <span className="text-muted-foreground transition-colors group-hover:text-foreground">
+                                    View
+                                </span>
 
-                        <span className="font-medium">
-                            {comment.reply_count}{" "}
-                            {comment.reply_count > 1 ? "replies" : "reply"}
-                        </span>
-                    </Button> : null}
+                                <span className="font-medium">
+                                    {comment.reply_count}{" "}
+                                    {comment.reply_count > 1 ? "replies" : "reply"}
+                                </span>
+                            </Button> :
+                            null
+                    }
                 </div>
             </div>
             {/* Replies */}
-            {comment.reply_count > 0 ? <Replies commentId={comment.id} show={showReplies} /> : null}
+            {comment.reply_count > 0 ? <RepliesList show={showReplies} parentCommentId={comment.id} /> : null}
         </li>
     )
 }
