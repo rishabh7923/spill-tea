@@ -4,9 +4,11 @@ import { isAuthenticated } from "../../../middlewares/auth/isAuthenticated.js";
 import DataSource from '../../../database/connection.js'
 import { Reaction } from "../../../database/entities/Reaction.js";
 import { Post } from "../../../database/entities/Post.js";
+import { rateLimiter } from "../../../middlewares/rateLimiter.js";
 
 export const post: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'write', cost: 2 }),
     async (req, res) => {
         const { postId } = req.params;
 
@@ -34,6 +36,7 @@ export const post: Handler[] = [
 
 export const del: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'write', cost: 2 }),
     async (req, res) => {
         const { postId } = req.params;
 

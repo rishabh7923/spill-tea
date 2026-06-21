@@ -13,12 +13,14 @@ import { In } from "typeorm";
 import { optionalAuthenticated } from "../../../middlewares/auth/optionalAuthenticated.js";
 import { Reaction } from "../../../database/entities/Reaction.js";
 import { ApiError } from "../../../common/utils/ApiError.js";
+import { rateLimiter } from "../../../middlewares/rateLimiter.js";
 
 
 const upload = multer({ storage: multer.memoryStorage() });
 
 export const get: Handler[] = [
     optionalAuthenticated,
+    rateLimiter({ resource: 'read', cost: 1 }),
     async (req, res) => {
         const post = await Post.findOne({
             where: { id: Number(req.params.postId) },
@@ -42,6 +44,7 @@ export const get: Handler[] = [
 export const patch: Handler[] = [
     isAuthenticated,
     upload.array("attachments_to_add"),
+    rateLimiter({ resource: 'write', cost: 10 }),
     async (req, res) => {
         const parsed = editPostRequestSchema.safeParse(req.body);
 
@@ -118,6 +121,7 @@ export const patch: Handler[] = [
 
 export const del: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'write', cost: 10 }),
     async (req, res) => {
         const deleted = await Post.delete({
             id: Number(req.params.postId),

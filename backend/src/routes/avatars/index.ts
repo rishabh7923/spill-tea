@@ -6,11 +6,13 @@ import multer from "multer";
 import { createAvatarRequestSchema } from "../../schemas/avatar.js";
 import { v2 as cloudinary } from 'cloudinary'
 import { INVALID_PARAMETERS } from "../../common/errors.js";
+import { rateLimiter } from "../../middlewares/rateLimiter.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
 export const get: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'read', cost: 1 }),
     async (req, res) => {
         const avatars = await Avatar.find();
 

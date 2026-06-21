@@ -11,12 +11,14 @@ import { optionalAuthenticated } from "../../middlewares/auth/optionalAuthentica
 import { INVALID_PARAMETERS } from "../../common/errors.js";
 import { listPostRequestSchema } from "../../schemas/post.js";
 import { createPostRequestSchema } from "../../schemas/post.js";
+import { rateLimiter } from "../../middlewares/rateLimiter.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
 export const post: Handler[] = [
     isAuthenticated,
     upload.array("attachments"),
+    rateLimiter({ resource: 'write', cost: 10 }),
     async (req, res) => {
         const parsed = createPostRequestSchema.safeParse(req.body);
         if (!parsed.success) return res.status(400).json({
@@ -74,6 +76,7 @@ export const post: Handler[] = [
 
 export const get: Handler[] = [
     optionalAuthenticated,
+    rateLimiter({ resource: 'read', cost: 1 }),
     async (req, res) => {
         const parsed = listPostRequestSchema.safeParse(req.query);
         if (!parsed) return res.status(400).json({ success: false, error: INVALID_PARAMETERS });

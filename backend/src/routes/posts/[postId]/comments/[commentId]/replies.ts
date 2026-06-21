@@ -7,9 +7,11 @@ import { Comment } from "../../../../../database/entities/Comment.js";
 import { createReplyRequestSchema, listCommentRequestSchema } from "../../../../../schemas/comment.js";
 import { validateSchema } from "../../../../../common/utils/validateSchema.js";
 import { serializeComment } from "../../../../../common/serialize.js";
+import { rateLimiter } from "../../../../../middlewares/rateLimiter.js";
 
 export const get: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'read', cost: 1 }),
     async (req, res) => {
         const { postId, commentId } = req.params;
         const { limit, page } = validateSchema(listCommentRequestSchema, req.query);
@@ -43,6 +45,7 @@ export const get: Handler[] = [
 
 export const post: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'write', cost: 5 }),
     async (req, res) => {
         const { postId, commentId } = req.params;
         const { content } = validateSchema(createReplyRequestSchema, req.body);

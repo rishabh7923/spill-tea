@@ -4,9 +4,11 @@ import { User } from '../../../database/entities/User.js';
 import { updateUserRequestSchema } from "../../../schemas/user.js";
 import { INVALID_PARAMETERS, NOT_FOUND } from "../../../common/errors.js";
 import { Avatar } from "../../../database/entities/Avatar.js";
+import { rateLimiter } from "../../../middlewares/rateLimiter.js";
 
 export const get: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'read', cost: 1}),
     async (req, res) => {
         const user = await User.findOne({ where: { id: req.user.id } })
 
@@ -17,6 +19,7 @@ export const get: Handler[] = [
 
 export const patch: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'write', cost: 5}),
     async (req, res) => {
         const parsed = updateUserRequestSchema.safeParse(req.body);
         if (!parsed.success)
@@ -44,7 +47,6 @@ export const patch: Handler[] = [
         return res.status(200).json({ success: true, data: { user } });
     }
 ]
-
 
 export const del: Handler[] = [
     isAuthenticated,

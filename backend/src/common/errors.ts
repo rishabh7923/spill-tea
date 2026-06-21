@@ -13,7 +13,8 @@ export enum ErrorCode {
   OTP_SEND_FAILED = 'OTP_SEND_FAILED',
   OTP_ALREADY_SENT = 'OTP_ALREADY_SENT',
   NOT_FOUND = 'NOT_FOUND',
-  SERVER_ERROR = 'SERVER_ERROR'
+  SERVER_ERROR = 'SERVER_ERROR',
+  RATE_LIMITED = 'RATE_LIMITED'
 }
 
 export const INVALID_PARAMETERS: ApiErrorCode = {
@@ -64,4 +65,9 @@ export const NOT_FOUND: ApiErrorCode = {
 export const SERVER_ERROR: ApiErrorCode = {
   code: ErrorCode.SERVER_ERROR,
   message: "Something went wrong at server side."
+}
+
+export const RATE_LIMITED: ApiErrorCode = {
+  code: ErrorCode.RATE_LIMITED,
+  message: 'Too many requests. Please try again later.'
 }

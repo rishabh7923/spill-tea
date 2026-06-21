@@ -8,10 +8,12 @@ import { ApiError } from '../../../../common/utils/ApiError.js';
 import { NOT_FOUND } from '../../../../common/errors.js';
 import { serializeComment } from '../../../../common/serialize.js';
 import { optionalAuthenticated } from '../../../../middlewares/auth/optionalAuthenticated.js';
+import { rateLimiter } from '../../../../middlewares/rateLimiter.js';
 
 
 export const post: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'write', cost: 5 }),
     async (req, res) => {
         const { content } = validateSchema(createCommentRequestSchema, req.body)
         const { postId } = req.params;
@@ -39,6 +41,7 @@ export const post: Handler[] = [
 
 export const get: Handler[] = [
     optionalAuthenticated,
+    rateLimiter({ resource: 'read', cost: 1 }),
     async (req, res) => {
         const { limit, page } = validateSchema(listCommentRequestSchema, req.query);
 

@@ -6,9 +6,11 @@ import { validateSchema } from "../../../../../common/utils/validateSchema.js";
 import { editCommentRequestSchema } from "../../../../../schemas/comment.js";
 import { ApiError } from "../../../../../common/utils/ApiError.js";
 import { serializeComment } from "../../../../../common/serialize.js";
+import { rateLimiter } from "../../../../../middlewares/rateLimiter.js";
 
 export const del: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'write', cost: 5 }),
     async (req, res) => {
         const deleted = await Comment.delete({
             id: Number(req.params.commentId),
@@ -26,6 +28,7 @@ export const del: Handler[] = [
 
 export const patch: Handler[] = [
     isAuthenticated,
+    rateLimiter({ resource: 'write', cost: 5 }),
     async (req, res) => {
         const { postId, commentId } = req.params;
         const parsed = await validateSchema(editCommentRequestSchema, req.body)
