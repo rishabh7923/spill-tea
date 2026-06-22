@@ -39,7 +39,7 @@ const discussions = [
 
 function TrendingDiscussions() {
     return (
-        <aside className="mt-4 hidden h-fit min-w-76 max-w-80 rounded-lg bg-sidebar text-foreground lg:block">
+        <aside className="mt-4 hidden h-fit min-w-76 max-w-80 rounded-lg bg-sidebar text-foreground lg:block border">
             <div className="px-5 py-3">
                 <h3 className="text-lg font-bold tracking-tight">
                     Trending Discussions

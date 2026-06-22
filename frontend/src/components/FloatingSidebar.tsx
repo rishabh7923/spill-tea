@@ -7,7 +7,7 @@ function FloatingSidebar() {
     const { openCreate } = usePostEditor();
     return (
         <div className="hidden w-60 self-start mt-4 md:block">
-            <div className="bg-sidebar md:flex flex-col gap-16 rounded-lg p-3">
+            <div className="bg-sidebar md:flex flex-col gap-16 rounded-lg p-3 border">
                 <ul className="space-y-4">
                     <SideBarLink to="/">
                         <Home /> Home
