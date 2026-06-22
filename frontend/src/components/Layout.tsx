@@ -4,17 +4,18 @@ import Container from "./Container"
 import Bottombar from "./Bottombar"
 import FloatingSidebar from "./FloatingSidebar"
 import TrendingDiscussions from "./TrendingSection"
+import { ScrollArea } from "./ui/scroll-area"
 
 function Layout({ children }: { children: ReactNode }) {
     return (
         <div>
             <Topbar />
             <Container>
-                <div className='top-16 relative flex md:px-2 gap-6'>
+                <div className='flex md:px-2 gap-6'>
                     <FloatingSidebar />
-                    <div className='flex-1 w-full mx-auto min-h-screen'>
+                    <ScrollArea className="max-h-screen flex-1 w-full mx-auto">
                         {children}
-                    </div>
+                    </ScrollArea>
                     <TrendingDiscussions />
                 </div>
                 <Bottombar />

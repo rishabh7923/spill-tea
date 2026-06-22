@@ -5,8 +5,10 @@ import CreateEditPostForm from '@/features/post/create-edit-post/CreateEditPostF
 function Home() {
     return (<>
         <Layout>
-            <div className='my-4'></div>
-            <CreateEditPostForm />
+            <div className='my-4 bo'></div>
+            <div className='border'>
+                <CreateEditPostForm />
+            </div>
             <PostFeed />
         </Layout>
     </ >

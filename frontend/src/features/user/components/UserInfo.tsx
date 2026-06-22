@@ -27,7 +27,7 @@ export function UserInfo({
                 )}
             >
                 <AvatarImage src={avatar} />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>UK</AvatarFallback>
             </Avatar>
 
             <div className="min-w-0 flex flex-col">

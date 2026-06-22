@@ -25,7 +25,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     const [isAuthChecking, setIsAuthChecking] = useState(true)
 
     const isAuthenticated = user !== null;
-    const isVerified = user?.verified === 1;
+    const isVerified = Boolean(user?.verified);
 
     async function login(creds: LOGINSCHEMA) {
         try {
@@ -79,7 +79,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
             try {
                 const res = await axios("/users/me")
-
+                console.log(res.data.data)
                 // IF USER IS NOT VERIFIED SEND ALERT
                 // toast("Please verify your email", {
                 //     action: {

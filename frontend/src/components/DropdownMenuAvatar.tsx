@@ -19,15 +19,16 @@ import { useNavigate } from "react-router-dom"
 
 export function DropdownMenuAvatar() {
   const navigate = useNavigate();
-  const {logout} = useAuth();
+  const { logout, user, isAuthenticated } = useAuth();
   const navigateToProfilePage = () => navigate('/u');
+  const navigateToLogin = () => navigate('/login');
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
-            <AvatarFallback>LR</AvatarFallback>
+            <AvatarImage src={isAuthenticated ? user?.avatar?.url : ""} alt={"user avatar"} />
+            <AvatarFallback>UK</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -37,7 +38,7 @@ export function DropdownMenuAvatar() {
             <User />
             Profile
           </DropdownMenuItem>
-        
+
           <DropdownMenuItem>
             <BellIcon />
             Notifications
@@ -47,12 +48,12 @@ export function DropdownMenuAvatar() {
             <Settings />
             Settings
           </DropdownMenuItem>
-        
+
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive" onClick={logout}>
+        <DropdownMenuItem variant="destructive" onClick={isAuthenticated ? logout : navigateToLogin}>
           <LogOutIcon />
-          Sign Out
+          {isAuthenticated ? "Sign Out" : "Sign in"}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
