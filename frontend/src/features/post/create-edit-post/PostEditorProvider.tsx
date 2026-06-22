@@ -47,11 +47,12 @@ export function PostEditorProvider({
         setMode("edit")
         setEditingPost(post)
         setOpen(true)
+        setMode("");
     }
 
     const closeEdit = () => {
         setOpen(false);
-        setMode("");
+        setMode("create");
         setEditingPost(null);
     }
 

@@ -36,7 +36,7 @@ function CreateEditPostForm() {
     const { closeEdit, mode, editingPost } = usePostEditor();
     const images = files.map(file => URL.createObjectURL(file));
     const editorRef = useRef<HTMLDivElement>(null);
-    const { createPost, status: creating } = useCreatePost({ onSuccess: cleanup, onError: cleanup });
+    const { createPost, status: creating } = useCreatePost();
     const { editPost, status: editing } = useEditPost({ onSuccess: cleanup, onError: cleanup });
     const [exitingImages, setExistingImages] = useState<PostImage[]>([]);
     const [attachmentsToRemove, setAttachmentsToRemove] = useState<number[]>([]);
@@ -58,7 +58,9 @@ function CreateEditPostForm() {
             if (files[0]) {
                 formData.append("attachments", files[0]);
             }
-            createPost(formData as unknown as CreatePostSchema);
+            createPost(formData as unknown as CreatePostSchema, {
+                onSettled: () => { closeEdit(); cleanup(); if (editorRef.current) editorRef.current.innerHTML = "" }
+            });
         }
         else if (mode === "edit") {
             if (content === "") {
@@ -79,7 +81,7 @@ function CreateEditPostForm() {
             }
 
             removeIds.forEach(id => {
-                formData.append("attachments_to_remove", id);
+                formData.append("attachments_to_remove", String(id));
             });
 
             formData.append("id", String(editingPost!.id))
@@ -173,10 +175,11 @@ function CreateEditPostForm() {
                     contentEditable
                     suppressContentEditableWarning
                     className="relative border-b pb-2 w-full min-h-16 outline-none"
-                    onInput={(e) => {
-                        setContent(e.currentTarget.innerHTML)
-                        updateToolbarState()
-                    }}
+                    onInput={
+                        (e) => {
+                            setContent(e.currentTarget.innerHTML)
+                            updateToolbarState()
+                        }}
                     onKeyUp={updateToolbarState}
                     onMouseUp={updateToolbarState}
                 >
