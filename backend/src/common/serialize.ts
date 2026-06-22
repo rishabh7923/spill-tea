@@ -1,4 +1,5 @@
 import type { Comment } from "../database/entities/Comment.js";
+import type { User } from "../database/entities/User.js";
 
 export function serializeComment(comment: Comment) {
     return {
@@ -13,5 +14,20 @@ export function serializeComment(comment: Comment) {
             display_name: comment.user.display_name,
             avatar_url: comment.user.avatar.url
         },
+    }
+}
+
+export function serializeUser(user: User) {
+    return {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        display_name: user.display_name,
+        bio: user.bio,
+        verified: user.verified,
+        avatar: {
+            id: user.avatar.id,
+            url: user.avatar.url
+        }
     }
 }

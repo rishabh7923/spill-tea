@@ -5,6 +5,7 @@ import { INVALID_PARAMETERS, INVALID_CREDENTIALS } from '../../common/errors.js'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { loginRequestBodySchema } from '../../schemas/login.js';
+import { serializeUser } from '../../common/serialize.js';
 
 export const post: Handler = async (req, res) => {
   const body = loginRequestBodySchema.safeParse(req.body);
@@ -55,6 +56,6 @@ export const post: Handler = async (req, res) => {
   return res.status(200).json({
     success: true,
     message: "Login successful",
-    data: { user: payload, token }
+    data: { token, user: serializeUser(user) }
   });
 };
