@@ -6,7 +6,7 @@ import { usePostEditor } from "@/features/post/create-edit-post/PostEditorProvid
 function FloatingSidebar() {
     const { openCreate } = usePostEditor();
     return (
-        <div className="hidden mt-2 w-60 self-start sticky top-20 h-auto md:block">
+        <div className="hidden w-60 self-start mt-4 md:block">
             <div className="bg-sidebar md:flex flex-col gap-16 rounded-lg p-3">
                 <ul className="space-y-4">
                     <SideBarLink to="/">
@@ -30,45 +30,99 @@ function FloatingSidebar() {
             </div>
 
 
-            <div className="relative hidden overflow-hidden rounded-lg border px-3 py-2 md:block mt-8
-    border-black/10 
-    dark:border-white/10
-     bg-linear-to-br
-    from-neutral-50
-    via-neutral-100
-    to-neutral-200
-    dark:from-neutral-900
-    dark:via-neutral-950
-    dark:to-black"
+            <div
+                className="
+    relative
+    mt-8
+    hidden
+    overflow-hidden
+    rounded-3xl
+    border
+    border-border
+    bg-card
+    p-5
+    text-card-foreground
+    md:block
+  "
             >
-                <div className="absolute -top-20 -left-20 h-44 w-44 rounded-full bg-black/4 blur-3xl dark:hidden" />
+                {/* Glow */}
+                <div className="absolute -left-16 -top-16 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
 
-                <div className="absolute -top-20 -left-20 hidden h-44 w-44 rounded-full bg-white/10 blur-3xl dark:block" />
+                {/* Shine */}
+                <div
+                    className="
+      absolute inset-0
+      bg-[linear-gradient(120deg,rgba(255,255,255,0.08),transparent_40%,rgba(255,255,255,0.02))]
+      dark:bg-[linear-gradient(120deg,rgba(255,255,255,0.04),transparent_40%,rgba(255,255,255,0.01))]
+    "
+                />
 
-                <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.45),transparent_40%,rgba(0,0,0,0.03))]
-        dark:bg-[linear-gradient(115deg,rgba(255,255,255,0.08),transparent_45%,rgba(255,255,255,0.02))]" />
+                {/* Top Border */}
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
-                <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-black/10 to-transparent dark:via-white/20" />
-
-                <div className="absolute inset-0 opacity-[0.015] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-
-                <div className="relative z-10 space-y-4">
-                    <div className="inline-flex items-center rounded-full border border-black/10 bg-black/3 px-2 py-0.5 text-[10px] font-medium text-muted-foreground dark:border-white/10 dark:bg-white/5">
-                        ✨ Premium
+                {/* Content */}
+                <div className="relative z-10 space-y-5">
+                    <div
+                        className="
+        inline-flex
+        items-center
+        gap-1
+        rounded-full
+        border
+        border-border
+        bg-secondary
+        px-3
+        py-1
+        text-xs
+        font-medium
+        text-secondary-foreground
+      "
+                    >
+                        ✨ Spill Pro
                     </div>
 
-                    <div>
-                        <h3 className="text-lg font-bold tracking-tight uppercase">
-                            Spill Pro
+                    <div className="space-y-2">
+                        <h3 className="text-xl font-bold tracking-tight">
+                            Unlock More
                         </h3>
 
-                        <p className="text-sm text-muted-foreground">
-                            Unlock advanced features and multiple image uploads.
+                        <p className="text-sm leading-relaxed text-muted-foreground">
+                            Enhance your profile, upload more content and get access to
+                            upcoming features before everyone else.
                         </p>
                     </div>
 
-                    <Button className="w-full bg-foreground text-background hover:opacity-90">
-                        Upgrade
+                    {/* <ul className="space-y-2 text-sm">
+                        <li className="flex items-center gap-2">
+                            <span className="text-primary">✓</span>
+                            Multiple image uploads
+                        </li>
+
+                        <li className="flex items-center gap-2">
+                            <span className="text-primary">✓</span>
+                            Profile customization
+                        </li>
+
+                        <li className="flex items-center gap-2">
+                            <span className="text-primary">✓</span>
+                            Priority media processing
+                        </li>
+
+                        <li className="flex items-center gap-2">
+                            <span className="text-primary">✓</span>
+                            Early access features
+                        </li>
+                    </ul> */}
+
+                    <Button
+                        className="
+        w-full
+        bg-primary
+        text-primary-foreground
+        hover:bg-primary/90
+      "
+                    >
+                        Upgrade to Pro
                     </Button>
                 </div>
             </div>

@@ -39,7 +39,7 @@ const discussions = [
 
 function TrendingDiscussions() {
     return (
-        <aside className="sticky top-20 my-2 hidden h-fit min-w-76 max-w-80 rounded-lg bg-sidebar text-foreground lg:block">
+        <aside className="mt-4 hidden h-fit min-w-76 max-w-80 rounded-lg bg-sidebar text-foreground lg:block">
             <div className="px-5 py-3">
                 <h3 className="text-lg font-bold tracking-tight">
                     Trending Discussions
@@ -85,7 +85,7 @@ function TrendingDiscussions() {
                                     </div>
 
                                     {/* content */}
-                                    <Link to="" className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground transition-colors group-hover:text-foreground group-hover:underline">
+                                    <Link to="" className="mt-2 line-clamp-2 text-sm leading-6 text-foreground transition-colors group-hover:text-primary group-hover:underline">
                                         {discussion.content}
                                     </Link>
 

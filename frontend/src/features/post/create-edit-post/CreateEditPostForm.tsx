@@ -149,7 +149,7 @@ function CreateEditPostForm() {
         <>
             <div className="max-h-[80vh] flex flex-col gap-6 overflow-y-auto px-3 py-1 no-scrollbar">
                 <UserInfo
-                    avatar={user?.avatar.url || "https://github.com/shadcn.png"}
+                    avatar={user?.avatar?.url || ""}
                     name={user?.displayName || "Unknown"}
                     description={mode !== "edit" ? "What you have to share today?" : ""}
                 />
