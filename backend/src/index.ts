@@ -3,8 +3,6 @@ import 'dotenv/config';
 
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
-import createRouter from 'express-file-routing';
 import AppDataSource from "./database/connection.js";
 
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -16,13 +14,9 @@ import { validatePostId } from "./middlewares/validation/validatePostId.js";
 import { validateAvatarId } from "./middlewares/validation/validateAvatarId.js";
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+app.use(cors({ origin: true, credentials: true }));
 
-/* Auto-register routes from the routes directory */
-await createRouter(app, {
-  directory: path.join(import.meta.dirname, 'routes')
-});
+app.use(express.json());
 
 /* Validate parameters */
 app.param('postId', validatePostId);
