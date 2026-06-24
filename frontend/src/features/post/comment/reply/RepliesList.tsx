@@ -13,7 +13,7 @@ export default function RepliesList({ show, parentCommentId }: RepliesProps) {
     return (
 
         show && <ul className="mt-3 ml-2 border-l border-border pl-4 space-y-3">
-            {replies && replies.map(reply => <Comment comment={reply} />)}
+            {replies && replies.map(reply => <Comment comment={reply} key={reply.id} />)}
         </ul>
     )
 }
