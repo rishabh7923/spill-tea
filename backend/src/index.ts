@@ -12,11 +12,17 @@ import { openApiDoc } from "./docs/registry.js";
 import { apiReference } from "@scalar/express-api-reference"
 import { validatePostId } from "./middlewares/validation/validatePostId.js";
 import { validateAvatarId } from "./middlewares/validation/validateAvatarId.js";
+import createRouter from "express-file-routing";
+import path from "path";
 
 const app = express();
-app.use(cors({ origin: true, credentials: true }));
-
+app.use(cors());
 app.use(express.json());
+
+/* Auto-register routes from the routes directory */
+await createRouter(app, {
+  directory: path.join(import.meta.dirname, 'routes'),
+});
 
 /* Validate parameters */
 app.param('postId', validatePostId);
