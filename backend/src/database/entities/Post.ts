@@ -21,7 +21,7 @@ export class Post extends BaseEntity {
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     created_at: Date;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { onDelete: 'CASCADE' })
     @JoinColumn({ name: "user_id" })
     user: Relation<User>;
 

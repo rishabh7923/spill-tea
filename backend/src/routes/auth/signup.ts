@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 import { INVALID_PARAMETERS, EMAIL_EXIST, USERNAME_EXISTS } from '../../common/errors.js';
 import { User } from '../../database/entities/User.js';
 import { signUpRequestBodySchema } from '../../schemas/signup.js';
-import { serializeUser } from '../../common/serialize.js';
 
 export const post: Handler = async (req, res) => {
     const body = signUpRequestBodySchema.safeParse(req.body);
@@ -35,19 +34,20 @@ export const post: Handler = async (req, res) => {
         });
     }
 
-    const user = await User.insert({
+    let payload = {
+        id: null,
         username,
-        password: await bcrypt.hash(password, 10),
-        email,
-        verified: false
-    })
-
-    const payload = {
-        id: user.identifiers[0].id,
-        username,
+        display_name: username,
         email,
         verified: false
     }
+
+    const user = await User.insert({
+        ...payload,
+        password: await bcrypt.hash(password, 10)
+    })
+
+    payload.id = user.identifiers[0].id;
 
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY!, { expiresIn: '1h' })
 
