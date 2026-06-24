@@ -30,7 +30,7 @@ export class Comment extends BaseEntity {
     @JoinColumn({ name: "post_id"})
     post: Relation<Post>;
 
-    @ManyToOne(() => User, (user) => user.comments)
+    @ManyToOne(() => User, (user) => user.comments, { onDelete: 'CASCADE' })
     @JoinColumn({ name: "user_id"})
     user: Relation<User>;
 }

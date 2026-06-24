@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Comment } from './Comment.js'
 import { Avatar } from "./Avatar.js";
 
@@ -7,16 +7,16 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn({ type: 'int' })
     id: number
 
-    @Column({ length: 255, unique: true })
+    @Column({ unique: true })
     username: string
 
     @Column({ length: 255 })
     email: string
 
-    @Column({ length: 255, select: false })
+    @Column({ select: false })
     password: string
 
-    @Column({ length: 255 })
+    @Column()
     display_name: string
 
     @ManyToOne(() => Avatar, { nullable: true, onDelete: 'SET NULL', eager: true })

@@ -12,7 +12,7 @@ export function serializeComment(comment: Comment) {
             id: comment.user.id,
             username: comment.user.username,
             display_name: comment.user.display_name,
-            avatar_url: comment.user.avatar.url
+            avatar_url: comment.user.avatar?.url
         },
     }
 }
@@ -25,9 +25,9 @@ export function serializeUser(user: User) {
         display_name: user.display_name,
         bio: user.bio,
         verified: user.verified,
-        avatar: {
+        avatar: user.avatar ? {
             id: user.avatar.id,
             url: user.avatar.url
-        }
+        } : null
     }
 }
