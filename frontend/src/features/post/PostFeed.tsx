@@ -21,9 +21,8 @@ function PostFeed() {
     return (
         <ul className="mx-auto w-full px-2 md:px-4 divide-y">
             {posts.map((post, i) => (
-                <li>
+                <li key={post.id}>
                     <PostCard
-                        key={post.id}
                         id={post.id}
                         createdAt={post.created_at}
                         content={post.content}

@@ -23,8 +23,8 @@ function useCreateReply() {
                 reply_count: 0,
                 user: {
                     id: user!.id,
-                    display_name: user?.displayName || "Unknown",
-                    avatar_url: user?.avatar.url || "No avatar",
+                    display_name: user?.display_name || "Unknown",
+                    avatar_url: user?.avatar?.url || "No avatar",
                     username: user?.username || "Unknown"
                 },
                 optimistic: true
