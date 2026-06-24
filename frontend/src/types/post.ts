@@ -55,6 +55,7 @@ export type PostCardProps = {
     saved?: boolean;
     category: PostCategory;
     attachments: PostImage[];
+    className?: string
 };
 
 

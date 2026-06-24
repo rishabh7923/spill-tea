@@ -1,5 +1,3 @@
-"use client"
-
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import * as z from "zod"
@@ -49,16 +47,16 @@ export default function ProfileTab() {
         defaultValues: {
             displayName: user?.display_name ?? "",
             bio: user?.bio ?? "",
-            avatarId: user?.avatar.id ?? 0,
+            avatarId: user?.avatar?.id ?? 0,
         },
     })
 
     const { updateProfile, status } = useUpdateProfile()
 
     return (
-        <TabsContent value="profile" className="mt-2">
-            <Card className="border-0 bg-transparent shadow-none">
-                <CardContent className="px-0">
+        <TabsContent value="profile">
+            <Card className="border-0 bg-transparent shadow-none p-0">
+                <CardContent className="p-0">
                     <form
                         id="form-profile-update"
                         onSubmit={form.handleSubmit((data) =>
@@ -68,11 +66,9 @@ export default function ProfileTab() {
                         <FieldGroup>
                             {/* Avatar Preview */}
                             <Field>
-                                <FieldLabel>Profile</FieldLabel>
-
-                                <div className="flex items-center gap-4 rounded-xl border p-4">
+                                <div className="flex items-center gap-4 rounded-xl p-2 border">
                                     <img
-                                        src={user?.avatar.url}
+                                        src="https://i.pravatar.cc/300"
                                         alt={user?.display_name}
                                         className="size-20 rounded-full border object-cover"
                                     />

@@ -44,7 +44,7 @@ export function UserInfo({
                 </div>
 
                 {description && (
-                    <div className="mt-1 text-sm text-muted-foreground">
+                    <div className="mt-2 text-sm text-muted-foreground">
                         {description}
                     </div>
                 )}

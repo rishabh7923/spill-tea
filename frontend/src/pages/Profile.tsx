@@ -4,20 +4,16 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAuth } from "@/features/auth/context/AuthContext"
 import UpdateProfileModal from "@/features/user/components/update-profile/UpdateProfileModal"
-// import {
-//   CalendarDays,
-//   LinkIcon,
-//   MapPin,
-// } from "lucide-react"
+
 
 function Profile() {
   const { user } = useAuth();
   return (
     <Layout>
 
-      <main className="mx-auto min-h-screen border">
+      <main className="mx-auto border">
         {/* Banner */}
-        <div className="h-60 w-full overflow-hidden bg-muted">
+        <div className="h-30 md:h-40 w-full overflow-hidden bg-muted">
           <img
             src={"https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200"}
             alt="banner"

@@ -11,13 +11,14 @@ import { UserInfo } from "../user/components/UserInfo";
 import { toast } from "sonner";
 import dayjs from "@/utils/dayjs";
 import MarkdownRenderer from "./create-edit-post/MarkdownRenderer";
+import clsx from "clsx";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
   return (
     <div
       ref={ref}
-      className="group rounded-lg p-4 transition hover:bg-sidebar text-card-foreground my-2"
+      className={clsx("group rounded-lg  md:py-4 transition text-card-foreground my-2 " + post.className)}
     >
       {/* Header */}
       <div className="flex items-start justify-between">
@@ -25,7 +26,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           avatar={post.user?.avatar?.url || ""}
           name={post.user?.display_name || ""}
           description={<PostCardCategoryTag category={post.category?.name || ""} />}
-          size="lg"
+          size="sm"
           time={dayjs(post.createdAt).fromNow()}
         />
 
@@ -36,14 +37,14 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       <div>
         <p className="text-sm leading-relaxed whitespace-pre-line">
         </p>
-        <div className="mt-3">
+        <div className="mt-2">
           <MarkdownRenderer content={post.content} />
         </div>
       </div>
 
       {/* Image */}
       {post.attachments.length > 0 ? (
-        <div className="mt-3 overflow-hidden rounded-xl border">
+        <div className="mt-2 overflow-hidden rounded-xl border">
           <img
             src={post.attachments[0].url}
             className="w-full max-h-[420px] object-cover transition group-hover:scale-[1.01]"
@@ -53,7 +54,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       ) : null}
 
       {/* Actions */}
-      <div className="mt-3 flex items-center justify-between text-muted-foreground">
+      <div className="mt-2 flex items-center justify-between text-muted-foreground">
         <div className="flex items-center gap-5">
           <LikeButton
             likes={post.likesCount}

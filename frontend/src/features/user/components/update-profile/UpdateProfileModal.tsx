@@ -22,8 +22,8 @@ export default function UpdateProfileModal() {
                 <DialogTrigger asChild>
                     <Button>Edit Profile</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-lg h-[90vh] p-0 flex flex-col">
-                    <DialogHeader className="p-4">
+                <DialogContent className="sm:max-w-lg h-[90vh] p-3 flex flex-col">
+                    <DialogHeader>
                         <DialogTitle>Edit profile</DialogTitle>
                         <DialogDescription>
                             Make changes to your profile here. Click save when you&apos;re
@@ -32,33 +32,31 @@ export default function UpdateProfileModal() {
                     </DialogHeader>
                     <ScrollArea className="flex-1 overflow-auto">
                         <Tabs defaultValue="profile">
-                            <TabsList variant="line" className="mt-0 mb-2">
+                            <TabsList variant="line">
                                 <TabsTrigger value="profile"><User /> Profile</TabsTrigger>
                                 <TabsTrigger value="security"><Lock /> Security</TabsTrigger>
                                 <TabsTrigger value="experience"><Briefcase /> Experience</TabsTrigger>
                                 <TabsTrigger value="about"><Info /> About</TabsTrigger>
                             </TabsList>
-                            <div className="px-4">
-                                <ProfileTab />
-                                <TabsContent className="mt-2" value="security">
-                                    <FieldGroup>
-                                        <Field>
-                                            <Label htmlFor="current-password">Current Password</Label>
-                                            <Input id="current-password" name="current-password" type="password" />
-                                        </Field>
-                                        <Field>
-                                            <Label htmlFor="new-password">New password</Label>
-                                            <Input id="new-password" name="new-password" type="password" />
-                                        </Field>
-                                        <Field>
-                                            <Label htmlFor="confirm-password">Confirm Password</Label>
-                                            <Input id="confirm-password" name="confirm-password" type="password" />
-                                        </Field>
-                                    </FieldGroup>
-                                </TabsContent>
-                                <TabsContent value="experience">Coming soon...</TabsContent>
-                                <TabsContent value="about">Coming soon...</TabsContent>
-                            </div>
+                            <ProfileTab />
+                            <TabsContent className="mt-2" value="security">
+                                <FieldGroup>
+                                    <Field>
+                                        <Label htmlFor="current-password">Current Password</Label>
+                                        <Input id="current-password" name="current-password" type="password" />
+                                    </Field>
+                                    <Field>
+                                        <Label htmlFor="new-password">New password</Label>
+                                        <Input id="new-password" name="new-password" type="password" />
+                                    </Field>
+                                    <Field>
+                                        <Label htmlFor="confirm-password">Confirm Password</Label>
+                                        <Input id="confirm-password" name="confirm-password" type="password" />
+                                    </Field>
+                                </FieldGroup>
+                            </TabsContent>
+                            <TabsContent value="experience">Coming soon...</TabsContent>
+                            <TabsContent value="about">Coming soon...</TabsContent>
                         </Tabs>
                     </ScrollArea>
                 </DialogContent>

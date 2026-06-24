@@ -8,18 +8,18 @@ import { ScrollArea } from "./ui/scroll-area"
 
 function Layout({ children }: { children: ReactNode }) {
     return (
-        <div>
+        <div className="h-dvh flex flex-col">
             <Topbar />
             <Container>
                 <div className='flex md:px-2 gap-6'>
                     <FloatingSidebar />
-                    <ScrollArea className="h-[calc(100vh-3.25rem)] border border-t-0 flex-1 w-full mx-auto">
+                    <ScrollArea className="max-h-[calc(100dvh-5.5rem)] md:max-h-[calc(100dvh-3.5rem)] border border-t-0 border-b-0  flex-1 w-full mx-auto">
                         {children}
                     </ScrollArea>
                     <TrendingDiscussions />
                 </div>
-                <Bottombar />
             </Container>
+            <Bottombar />
         </div>
     )
 }

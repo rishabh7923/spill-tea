@@ -6,7 +6,7 @@ function CommentsList() {
     const { comments, status, } = useComments();
     return (
         <ReplyProvider>
-            <div className="px-4 mt-2">
+            <div className="px-2 md:px-4 mt-2">
                 <ul className="space-y-4">
                     {status === "pending" ? <>
                         <li className="w-full animate-pulse"></li>

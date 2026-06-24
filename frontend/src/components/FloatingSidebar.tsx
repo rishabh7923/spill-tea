@@ -12,12 +12,12 @@ function FloatingSidebar() {
                     <SideBarLink to="/">
                         <Home /> Home
                     </SideBarLink>
-                    <SideBarLink to="/explore">
+                    {/* <SideBarLink to="/">
                         <Globe />Explore
                     </SideBarLink>
-                    <SideBarLink to="/communities">
+                    <SideBarLink to="/">
                         <Shapes /> Communities
-                    </SideBarLink>
+                    </SideBarLink> */}
                 </ul>
                 <div className="justify-self-end space-y-2">
                     <Button className='w-full' onClick={() => openCreate()}>

@@ -22,6 +22,7 @@ import { useAuth } from '@/features/auth/context/AuthContext';
 import { Textarea } from '@/components/ui/textarea'
 import Poll from './Poll'
 import clsx from 'clsx'
+import { toast } from 'sonner'
 
 const categories = [
     { value: 1, label: "Issue" },
@@ -129,14 +130,14 @@ function CreateEditPostForm() {
     return (
 
         <>
-            <div className="max-h-[80vh] flex flex-col gap-6 overflow-y-auto px-3 py-1 no-scrollbar">
+            <div className="max-h-[80vh] flex flex-col gap-6 overflow-y-auto px-2 py-1 no-scrollbar">
                 <UserInfo
                     avatar={user?.avatar?.url || ""}
                     name={user?.display_name || "Unknown"}
                     description={mode !== "edit" ? "What you have to share today?" : ""}
                 />
                 {/* Category */}
-                <div className="flex justify-between w-full">
+                {/* <div className="flex justify-between w-full">
                     <Select value={category} onValueChange={(value) => setCategory(value)}>
                         <SelectTrigger className='p-4 rounded-2xl' type="button"
                             size="sm">
@@ -147,7 +148,7 @@ function CreateEditPostForm() {
                             {categories.map(category => <SelectItem value={String(category.value)}>{category.label}</SelectItem>)}
                         </SelectContent>
                     </Select>
-                </div>
+                </div> */}
 
                 {/* Body */}
                 <div className="relative">
@@ -163,11 +164,11 @@ function CreateEditPostForm() {
                         onInput={handleInput}
                         ref={textareaRef}
                         defaultValue={mode === "edit" ? editingPost?.content : ""}
-                        className={clsx("min-h-30 text-xl leading-none border-0 bg-transparent pt-3 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-transparent caret-primary")}
+                        className={clsx("min-h-20 text-xl leading-none border-0 bg-transparent pt-3 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-transparent caret-primary")}
                     />
                 </div>
 
-                {showPole ? <Poll /> : null}
+                {/* {showPole ? <Poll /> : null} */}
                 {/* Actions */}
                 <div className="flex w-full gap-2">
                     <AddImage onChange={handleImageChange} />
@@ -175,6 +176,7 @@ function CreateEditPostForm() {
                         variant="outline"
                         size="icon-sm"
                         type="button"
+                        onClick={() => toast.info("Emojis coming soon")}
                     >
                         <Smile />
                     </Button>
@@ -182,7 +184,7 @@ function CreateEditPostForm() {
                         variant="outline"
                         size="icon-sm"
                         type="button"
-                        onClick={() => setShowPole(!showPole)}
+                        onClick={() => toast.info("Poles are coming soon")}
                     >
                         <Vote />
                     </Button>

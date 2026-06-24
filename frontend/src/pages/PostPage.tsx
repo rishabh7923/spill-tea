@@ -10,10 +10,12 @@ function PostPage() {
   const { post, status } = usePost();
   return (
     <Layout>
-      <div className='w-full mx-auto min-h-screen my-4'>
-        <div className='px-4'>
+      <div className='w-full mx-auto min-h-screen'>
+        <div className='px-2 md:px-4'>
           {status === "pending" && <PostCardSkeleton />}
-          {post && <PostCard key={post.id}
+          {post && <PostCard
+            className='py-0 my-0'
+            key={post.id}
             id={post.id}
             createdAt="2h ago"
             content={post.content}
