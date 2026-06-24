@@ -79,7 +79,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
             try {
                 const res = await axios("/users/me")
-                console.log(res.data.data)
                 // IF USER IS NOT VERIFIED SEND ALERT
                 // toast("Please verify your email", {
                 //     action: {

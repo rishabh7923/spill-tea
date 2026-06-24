@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
-import { useRef, useState } from "react"
-import { Smile, X } from "lucide-react"
-import DOMPurify from "dompurify";
+import React, { useEffect, useRef } from 'react'
+import { useState } from "react"
+import { Smile, Vote, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
@@ -20,6 +19,9 @@ import type { CreatePostSchema, PostImage } from '@/types/post'
 import useEditPost from '../hooks/useEditPost';
 import { UserInfo } from '@/features/user/components/UserInfo';
 import { useAuth } from '@/features/auth/context/AuthContext';
+import { Textarea } from '@/components/ui/textarea'
+import Poll from './Poll'
+import clsx from 'clsx'
 
 const categories = [
     { value: 1, label: "Issue" },
@@ -30,22 +32,26 @@ const categories = [
 ];
 function CreateEditPostForm() {
     const [content, setContent] = useState<string>("");
+    const [showPole, setShowPole] = useState(false);
+    const [attachmentsToRemove, setAttachmentsToRemove] = useState<number[]>([]);
     const [files, setFiles] = useState<File[]>([]);
     const [category, setCategory] = useState<string>("5");
-    const navigateToLogin = useNavigateToLogin();
+    const [exitingImages, setExistingImages] = useState<PostImage[]>([]);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
     const { closeEdit, mode, editingPost } = usePostEditor();
-    const images = files.map(file => URL.createObjectURL(file));
-    const editorRef = useRef<HTMLDivElement>(null);
+    const navigateToLogin = useNavigateToLogin();
     const { createPost, status: creating } = useCreatePost();
     const { editPost, status: editing } = useEditPost({ onSuccess: cleanup, onError: cleanup });
-    const [exitingImages, setExistingImages] = useState<PostImage[]>([]);
-    const [attachmentsToRemove, setAttachmentsToRemove] = useState<number[]>([]);
-    const [activeFormats, setActiveFormats] = useState({
-        bold: false,
-        italic: false,
-        underline: false
-    });
     const { user } = useAuth();
+    const images = files.map(file => URL.createObjectURL(file));
+
+    const handleInput = () => {
+        const textarea = textareaRef.current;
+        if (!textarea) return;
+
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    };
 
     function createOrEdit() {
         navigateToLogin();
@@ -59,7 +65,7 @@ function CreateEditPostForm() {
                 formData.append("attachments", files[0]);
             }
             createPost(formData as unknown as CreatePostSchema, {
-                onSettled: () => { closeEdit(); cleanup(); if (editorRef.current) editorRef.current.innerHTML = "" }
+                onSettled: () => { closeEdit(); cleanup(); setContent("") }
             });
         }
         else if (mode === "edit") {
@@ -115,32 +121,6 @@ function CreateEditPostForm() {
         setContent("");
     }
 
-    function updateToolbarState() {
-        setActiveFormats({
-            bold: document.queryCommandState("bold"),
-            italic: document.queryCommandState("italic"),
-            underline: document.queryCommandState("underline"),
-        })
-    }
-
-    function toggleFormat(command: "bold" | "italic" | "underline") {
-        editorRef.current?.focus()
-        document.execCommand(command)
-        updateToolbarState()
-    }
-
-    useEffect(() => {
-        const sanitized = DOMPurify.sanitize(
-            editingPost?.content || ""
-        );
-
-        requestAnimationFrame(() => {
-            if (editorRef.current) {
-                editorRef.current.innerHTML = sanitized;
-            }
-        });
-    }, [editingPost]);
-
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setExistingImages(editingPost?.attachments || [])
@@ -152,7 +132,7 @@ function CreateEditPostForm() {
             <div className="max-h-[80vh] flex flex-col gap-6 overflow-y-auto px-3 py-1 no-scrollbar">
                 <UserInfo
                     avatar={user?.avatar?.url || ""}
-                    name={user?.displayName || "Unknown"}
+                    name={user?.display_name || "Unknown"}
                     description={mode !== "edit" ? "What you have to share today?" : ""}
                 />
                 {/* Category */}
@@ -170,50 +150,27 @@ function CreateEditPostForm() {
                 </div>
 
                 {/* Body */}
-                <div
-                    ref={editorRef}
-                    contentEditable
-                    suppressContentEditableWarning
-                    className="relative border-b pb-2 w-full min-h-16 outline-none"
-                    onInput={
-                        (e) => {
-                            setContent(e.currentTarget.innerHTML)
-                            updateToolbarState()
-                        }}
-                    onKeyUp={updateToolbarState}
-                    onMouseUp={updateToolbarState}
-                >
+                <div className="relative">
+                    {!content && mode !== "edit" && (
+                        <span className="pointer-events-none absolute left-3 top-2 text-xl font-medium text-muted-foreground/60">
+                            What's the tea?
+                        </span>
+                    )}
+
+                    <Textarea
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                        onInput={handleInput}
+                        ref={textareaRef}
+                        defaultValue={mode === "edit" ? editingPost?.content : ""}
+                        className={clsx("min-h-30 text-xl leading-none border-0 bg-transparent pt-3 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-transparent caret-primary")}
+                    />
                 </div>
 
+                {showPole ? <Poll /> : null}
                 {/* Actions */}
                 <div className="flex w-full gap-2">
                     <AddImage onChange={handleImageChange} />
-                    <Button
-                        variant={activeFormats.bold ? "default" : "outline"}
-                        size="icon-sm"
-                        type="button"
-                        onClick={() => toggleFormat("bold")}
-                    >
-                        B
-                    </Button>
-                    <Button
-                        variant={activeFormats.italic ? "default" : "outline"}
-                        className="italic"
-                        size="icon-sm"
-                        type="button"
-                        onClick={() => toggleFormat("italic")}
-                    >
-                        I
-                    </Button>
-                    <Button
-                        variant={activeFormats.underline ? "default" : "outline"}
-                        className="underline"
-                        size="icon-sm"
-                        type="button"
-                        onClick={() => toggleFormat("underline")}
-                    >
-                        U
-                    </Button>
                     <Button
                         variant="outline"
                         size="icon-sm"
@@ -221,7 +178,14 @@ function CreateEditPostForm() {
                     >
                         <Smile />
                     </Button>
-
+                    <Button
+                        variant="outline"
+                        size="icon-sm"
+                        type="button"
+                        onClick={() => setShowPole(!showPole)}
+                    >
+                        <Vote />
+                    </Button>
                     <Button className="ml-auto rounded-full"
                         size="sm"
                         disabled={creating === "pending" || editing === "pending" || (content.length === 0 && mode !== "edit")}

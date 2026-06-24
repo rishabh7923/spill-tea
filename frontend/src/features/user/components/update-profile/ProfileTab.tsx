@@ -5,11 +5,7 @@ import { Controller, useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardFooter,
-} from "@/components/ui/card"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import {
     Field,
     FieldError,
@@ -24,8 +20,8 @@ import {
     InputGroupTextarea,
 } from "@/components/ui/input-group"
 import { TabsContent } from "@/components/ui/tabs"
-import AvatarPicker from "./sections/AvatarPicker"
 import { Spinner } from "@/components/ui/spinner"
+
 import useUpdateProfile from "../../hooks/useUpdateProfile"
 import { useAuth } from "@/features/auth/context/AuthContext"
 
@@ -41,81 +37,128 @@ const formSchema = z.object({
         .trim()
         .min(20, "Bio must be at least 20 characters.")
         .max(100, "Bio cannot exceed 100 characters."),
-    avatarId: z.number()
+
+    avatarId: z.number(),
 })
 
 export default function ProfileTab() {
-    const { user } = useAuth();
+    const { user } = useAuth()
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            displayName: user?.displayName || user?.displayname,
-            bio: user?.bio,
-            avatarId: user?.avatar.id
+            displayName: user?.display_name ?? "",
+            bio: user?.bio ?? "",
+            avatarId: user?.avatar.id ?? 0,
         },
     })
-    const { updateProfile, status } = useUpdateProfile();
+
+    const { updateProfile, status } = useUpdateProfile()
+
     return (
-        <TabsContent className="mt-2 px-0" value="profile">
-            <Card className="w-full bg-transparent border-0 p-0 m-0">
+        <TabsContent value="profile" className="mt-2">
+            <Card className="border-0 bg-transparent shadow-none">
                 <CardContent className="px-0">
-                    <form id="form-profile-update" onSubmit={form.handleSubmit((data) => updateProfile(data))}>
+                    <form
+                        id="form-profile-update"
+                        onSubmit={form.handleSubmit((data) =>
+                            updateProfile(data)
+                        )}
+                    >
                         <FieldGroup>
-                            <Controller
-                                name="avatarId"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <AvatarPicker
-                                        value={field.value}
-                                        onChange={field.onChange}
+                            {/* Avatar Preview */}
+                            <Field>
+                                <FieldLabel>Profile</FieldLabel>
+
+                                <div className="flex items-center gap-4 rounded-xl border p-4">
+                                    <img
+                                        src={user?.avatar.url}
+                                        alt={user?.display_name}
+                                        className="size-20 rounded-full border object-cover"
                                     />
-                                )}
-                            />
+
+                                    <div className="min-w-0">
+                                        <h3 className="truncate font-semibold">
+                                            {user?.display_name}
+                                        </h3>
+
+                                        <p className="text-sm text-muted-foreground">
+                                            Avatar changes are currently
+                                            disabled.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <input
+                                    type="hidden"
+                                    {...form.register("avatarId", {
+                                        valueAsNumber: true,
+                                    })}
+                                />
+                            </Field>
+
+                            {/* Display Name */}
                             <Controller
                                 name="displayName"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel htmlFor="form-profile-update-displayname">
-                                            Display name
+                                        <FieldLabel htmlFor="display-name">
+                                            Display Name
                                         </FieldLabel>
+
                                         <Input
                                             {...field}
-                                            id="form-profile-update-displayname"
-                                            aria-invalid={fieldState.invalid}
-                                            placeholder="Display name"
+                                            id="display-name"
+                                            placeholder="Enter your display name"
+                                            aria-invalid={
+                                                fieldState.invalid
+                                            }
                                         />
+
                                         {fieldState.invalid && (
-                                            <FieldError errors={[fieldState.error]} />
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
                                         )}
                                     </Field>
                                 )}
                             />
+
+                            {/* Bio */}
                             <Controller
                                 name="bio"
                                 control={form.control}
                                 render={({ field, fieldState }) => (
                                     <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel htmlFor="form-profile-update-bio">
+                                        <FieldLabel htmlFor="bio">
                                             Bio
                                         </FieldLabel>
+
                                         <InputGroup>
                                             <InputGroupTextarea
                                                 {...field}
-                                                id="form-profile-update-bio"
-                                                placeholder="I'm rock"
-                                                rows={6}
-                                                className="min-h-24 resize-none"
-                                                aria-invalid={fieldState.invalid}
+                                                id="bio"
+                                                rows={4}
+                                                placeholder="Tell everyone a little about yourself..."
+                                                className="min-h-28 resize-none"
+                                                aria-invalid={
+                                                    fieldState.invalid
+                                                }
                                             />
+
                                             <InputGroupAddon align="block-end">
                                                 <InputGroupText className="tabular-nums">
-                                                    {field.value.length}/100 characters
+                                                    {field.value?.length ?? 0}
+                                                    /100
                                                 </InputGroupText>
                                             </InputGroupAddon>
                                         </InputGroup>
+
                                         {fieldState.invalid && (
-                                            <FieldError errors={[fieldState.error]} />
+                                            <FieldError
+                                                errors={[fieldState.error]}
+                                            />
                                         )}
                                     </Field>
                                 )}
@@ -123,15 +166,25 @@ export default function ProfileTab() {
                         </FieldGroup>
                     </form>
                 </CardContent>
-                <CardFooter className="px-0 inline-block ml-auto">
-                    <Field orientation="horizontal">
-                        <Button type="button" variant="outline" onClick={() => form.reset()} disabled={status === "pending"}>
-                            Reset
-                        </Button>
-                        <Button type="submit" form="form-profile-update" disabled={status === "pending"}>
-                            {status === "pending" && <Spinner />} Submit
-                        </Button>
-                    </Field>
+
+                <CardFooter className="justify-end gap-2 px-0">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        disabled={status === "pending"}
+                        onClick={() => form.reset()}
+                    >
+                        Reset
+                    </Button>
+
+                    <Button
+                        type="submit"
+                        form="form-profile-update"
+                        disabled={status === "pending"}
+                    >
+                        {status === "pending" && <Spinner />}
+                        Save Changes
+                    </Button>
                 </CardFooter>
             </Card>
         </TabsContent>

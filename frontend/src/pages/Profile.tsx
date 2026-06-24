@@ -30,8 +30,8 @@ function Profile() {
           {/* Avatar + Actions */}
           <div className="flex items-start justify-between">
             <Avatar className="h-20 w-20 -top-9">
-              <AvatarImage src={user?.avatar.url} />
-              <AvatarFallback>{user?.displayName.slice(2).toLocaleUpperCase()}</AvatarFallback>
+              <AvatarImage src={user?.avatar?.url} />
+              <AvatarFallback>{(user?.display_name || user?.username)?.slice(0, 2).toLocaleUpperCase()}</AvatarFallback>
             </Avatar>
 
             <div className="flex gap-3 pt-4">
@@ -46,7 +46,7 @@ function Profile() {
           {/* User Info */}
           <div className="-top-4 relative">
             <h1 className="text-2xl font-bold">
-              {user?.displayName}
+              {user?.display_name}
             </h1>
 
             <p className="text-lg text-muted-foreground">

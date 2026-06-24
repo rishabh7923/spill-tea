@@ -47,7 +47,6 @@ export function PostEditorProvider({
         setMode("edit")
         setEditingPost(post)
         setOpen(true)
-        setMode("");
     }
 
     const closeEdit = () => {
@@ -65,7 +64,7 @@ export function PostEditorProvider({
                 setOpen,
                 openCreate,
                 openEdit,
-                closeEdit
+                closeEdit,
             }}
         >
             {children}

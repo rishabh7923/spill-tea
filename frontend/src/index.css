@@ -102,7 +102,7 @@
     --sidebar-border: oklch(90% 0.004 264);
     --sidebar-ring: oklch(58% 0.22 275);
 
-    --sidebar-link-active: oklch(92% 0.02 275);
+    --sidebar-link-active: oklch(89.47% 0.0422 273.7);
     --sidebar-link-hover: oklch(95% 0.01 264);
 }
 
@@ -152,7 +152,7 @@
     --sidebar-border: oklch(30% 0.01 264);
     --sidebar-ring: oklch(68% 0.22 275);
 
-    --sidebar-link-active: oklch(35% 0.05 275);
+    --sidebar-link-active: oklch(68% 0.22 275);
     --sidebar-link-hover: oklch(26% 0.01 264);
 }
 

@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 
 function Topbar() {
     return (
-        <div className='h-16 sticky top-0 left-0 right-0 z-10 border-b bg-background px-2'>
+        <div className='h-13 sticky top-0 left-0 right-0 z-10 border-b bg-background px-2'>
             <div className='flex items-center gap-4 justify-around h-full'>
                 <div className='flex items-center gap-2'>
                     <Button size="icon">

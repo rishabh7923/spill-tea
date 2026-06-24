@@ -13,7 +13,7 @@ export type UserPreview = BaseUser & {
 export type User = BaseUser & {
     email: string;
     password: string;
-    displayName: string;
+    display_name: string;
     avatar: Avatar;
     bio: string;
     verified: boolean;

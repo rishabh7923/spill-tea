@@ -1,7 +1,6 @@
 import type { PostCardProps } from "@/types/post";
 import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-import DOMPurify from "dompurify";
 import { Bookmark, ShareIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PostCardCategoryTag from "./PostCardCategoryTag";
@@ -11,20 +10,21 @@ import { PostCardDropDown } from "./PostCardDropDown";
 import { UserInfo } from "../user/components/UserInfo";
 import { toast } from "sonner";
 import dayjs from "@/utils/dayjs";
+import MarkdownRenderer from "./create-edit-post/MarkdownRenderer";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
   return (
     <div
       ref={ref}
-      className="group rounded-lg p-4 transition hover:bg-sidebar text-card-foreground"
+      className="group rounded-lg p-4 transition hover:bg-sidebar text-card-foreground my-2"
     >
       {/* Header */}
       <div className="flex items-start justify-between">
         <UserInfo
           avatar={post.user?.avatar?.url || ""}
-          name={post.user.displayName}
-          description={<PostCardCategoryTag category={post.category.name} />}
+          name={post.user?.display_name || ""}
+          description={<PostCardCategoryTag category={post.category?.name || ""} />}
           size="lg"
           time={dayjs(post.createdAt).fromNow()}
         />
@@ -36,11 +36,9 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       <div>
         <p className="text-sm leading-relaxed whitespace-pre-line">
         </p>
-        <div className="mt-3"
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(post.content),
-          }}
-        ></div>
+        <div className="mt-3">
+          <MarkdownRenderer content={post.content} />
+        </div>
       </div>
 
       {/* Image */}

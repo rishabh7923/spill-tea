@@ -19,22 +19,25 @@ function PostFeed() {
 
     const posts = data?.pages.flatMap((page) => page.posts) ?? [];
     return (
-        <ul className="mx-auto w-full px-2">
+        <ul className="mx-auto w-full px-2 divide-y">
             {posts.map((post, i) => (
-                <PostCard
-                    key={post.id}
-                    id={post.id}
-                    createdAt={post.created_at}
-                    content={post.content}
-                    likesCount={post.likes_count}
-                    comments={8}
-                    liked={post.liked}
-                    saved={false}
-                    ref={i === posts.length - 1 ? lastPostRef : null}
-                    user={post.user}
-                    category={post.category}
-                    attachments={post.attachments}
-                />
+                <li>
+                    <PostCard
+                        key={post.id}
+                        id={post.id}
+                        createdAt={post.created_at}
+                        content={post.content}
+                        likesCount={post.likes_count}
+                        comments={8}
+                        liked={post.liked}
+                        saved={false}
+                        ref={i === posts.length - 1 ? lastPostRef : null}
+                        user={post.user}
+                        category={post.category}
+                        attachments={post.attachments}
+                    />
+                </li>
+
             ))}
 
             {isFetchingNextPage && <PostCardSkeleton />}
