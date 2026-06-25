@@ -23,7 +23,7 @@ export class Comment extends BaseEntity {
     @OneToMany(() => Comment, comment => comment.parent)
     children: Comment[]
 
-    @VirtualColumn({ query: (alias) => `SELECT COUNT(*) FROM comments WHERE parent_id = ${alias}.id` })
+    @Column({ default: 0 })
     reply_count: number;
     
     @ManyToOne(() => Post, (post) => post.comments, { onDelete: "CASCADE" })

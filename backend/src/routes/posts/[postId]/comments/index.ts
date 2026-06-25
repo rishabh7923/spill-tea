@@ -8,6 +8,7 @@ import { ApiError } from '../../../../common/utils/ApiError.js';
 import { NOT_FOUND } from '../../../../common/errors.js';
 import { serializeComment } from '../../../../common/serialize.js';
 import { optionalAuthenticated } from '../../../../middlewares/auth/optionalAuthenticated.js';
+import AppDataSource from '../../../../database/connection.js';
 
 
 export const post: Handler[] = [
@@ -19,11 +20,17 @@ export const post: Handler[] = [
         const post = await Post.findOne({ where: { id: +postId } })
         if (!post) throw new ApiError(404, NOT_FOUND, "Post not found");
 
-        const { id } = await Comment.create({
-            post: { id: +postId },
-            user: { id: req.user.id },
-            content: content,
-        }).save();
+        const id = await AppDataSource.transaction(async (manager) => {
+            const { id } = await manager.create(Comment, {
+                 post: { id: +postId },
+                 user: { id: req.user.id },
+                 content: content,
+            }).save()
+
+            await manager.increment(Post, { id: +postId }, 'comment_count', 1);
+
+            return id;
+        })
 
         const comment = await Comment.findOne({
             where: { id },
