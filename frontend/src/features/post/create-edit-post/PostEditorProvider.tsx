@@ -4,15 +4,14 @@ import {
     useContext,
     useState,
 } from "react"
+import { useNavigate } from "react-router-dom"
 
 type Mode = "create" | "edit" | ""
 
 type PostEditorContextType = {
-    open: boolean
     mode: Mode
     editingPost: Post | null
 
-    setOpen: (open: boolean) => void
     openCreate: () => void
     openEdit: (post: Post) => void
     closeEdit: () => void
@@ -28,11 +27,11 @@ export function PostEditorProvider({
 }: {
     children: React.ReactNode
 }) {
-    const [open, setOpen] =
-        useState(false)
-
     const [mode, setMode] =
         useState<Mode>("create")
+
+    const navigate =
+        useNavigate()
 
     const [editingPost, setEditingPost] =
         useState<Post | null>(null)
@@ -40,28 +39,25 @@ export function PostEditorProvider({
     const openCreate = () => {
         setMode("create")
         setEditingPost(null)
-        setOpen(true)
+        navigate("/create")
     }
 
     const openEdit = (post: Post) => {
         setMode("edit")
         setEditingPost(post)
-        setOpen(true)
+        navigate("/edit")
+
     }
 
     const closeEdit = () => {
-        setOpen(false);
-        setMode("create");
         setEditingPost(null);
     }
 
     return (
         <PostEditorContext.Provider
             value={{
-                open,
                 mode,
                 editingPost,
-                setOpen,
                 openCreate,
                 openEdit,
                 closeEdit,

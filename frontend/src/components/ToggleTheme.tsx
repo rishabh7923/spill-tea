@@ -1,37 +1,45 @@
-import { Moon, Sun } from "lucide-react"
+import { useTheme } from "./ThemeProvider";
 
-import { Button } from "@/components/ui/button"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useTheme } from "./ThemeProvider"
+  Field,
+  FieldContent,
+  FieldLabel,
+} from "@/components/ui/field";
 
-export default function ToggleTheme() {
-  const { setTheme } = useTheme()
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/ui/radio-group";
+
+export function ToggleTheme() {
+  const { theme, setTheme } = useTheme();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="rounded-full" variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+    <RadioGroup
+      value={theme}
+      onValueChange={(value) => setTheme(value as "light" | "dark" | "system")}
+      className="w-fit"
+    >
+      <Field orientation="horizontal">
+        <RadioGroupItem value="system" id="theme-system" />
+        <FieldContent>
+          <FieldLabel htmlFor="theme-system">System</FieldLabel>
+        </FieldContent>
+      </Field>
+
+      <Field orientation="horizontal">
+        <RadioGroupItem value="dark" id="theme-dark" />
+        <FieldContent>
+          <FieldLabel htmlFor="theme-dark">Dark</FieldLabel>
+        </FieldContent>
+      </Field>
+
+      <Field orientation="horizontal">
+        <RadioGroupItem value="light" id="theme-light" />
+        <FieldContent>
+          <FieldLabel htmlFor="theme-light">Light</FieldLabel>
+        </FieldContent>
+      </Field>
+    </RadioGroup>
+  );
 }

@@ -10,17 +10,18 @@ import {
 import { EllipsisVertical } from "lucide-react"
 import PostCardDeleteButton from "./PostCardDeleteButton"
 import { useAuth } from "../auth/context/AuthContext"
-import { usePostEditor } from "./create-edit-post/PostEditorProvider"
 import type { Post, PostCardProps } from "@/types/post"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
+import { usePostEditor } from "./create-edit-post/PostEditorProvider"
 
 export function PostCardDropDown({ post }: { post: PostCardProps }) {
-  const { user } = useAuth();
+  const navigate = useNavigate();
   const { openEdit } = usePostEditor();
+  const { user } = useAuth();
   const userId = post.user.id;
   const postId = post.id;
-  const navigate = useNavigate();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

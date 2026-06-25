@@ -19,7 +19,7 @@ function PostFeed() {
 
     const posts = data?.pages.flatMap((page) => page.posts) ?? [];
     return (
-        <ul className="mx-auto w-full px-2 md:px-4 divide-y">
+        <ul className="mx-auto w-full divide-y">
             {posts.map((post, i) => (
                 <li key={post.id}>
                     <PostCard

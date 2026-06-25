@@ -1,7 +1,6 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { CupSoda, Search } from 'lucide-react';
+import { Bell, CupSoda, MessageCircle, Search } from 'lucide-react';
 import { DropdownMenuAvatar } from './DropdownMenuAvatar';
-import ToggleTheme from './ToggleTheme';
 import { Button } from './ui/button';
 
 function Topbar() {
@@ -22,8 +21,13 @@ function Topbar() {
                         <Search />
                     </InputGroupAddon>
                 </InputGroup>
-                <div className='space-x-4 flex gap-2 items-center'>
-                    <ToggleTheme />
+                <div className='flex gap-2 items-center'>
+                    <Button className="rounded-full" size="icon" variant="ghost">
+                        <MessageCircle />
+                    </Button>
+                    <Button className="rounded-full" size="icon" variant="ghost">
+                        <Bell />
+                    </Button>
                     <DropdownMenuAvatar />
                 </div>
             </div>

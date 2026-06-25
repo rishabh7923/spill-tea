@@ -18,7 +18,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   return (
     <div
       ref={ref}
-      className={clsx("group rounded-lg  md:py-4 transition text-card-foreground my-2 " + post.className)}
+      className={clsx("group rounded-lg p-2 md:p-4 transition text-card-foreground my-2 hover:bg-sidebar " + post.className)}
     >
       {/* Header */}
       <div className="flex items-start justify-between">

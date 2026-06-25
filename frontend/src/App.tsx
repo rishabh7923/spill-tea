@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
@@ -12,10 +12,15 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { Toaster } from 'sonner';
 import Verify from './pages/Verify';
 import Profile from './pages/Profile';
-import PostPage from './pages/PostPage';
+import Post from './pages/Post';
 import { PostEditorProvider } from './features/post/create-edit-post/PostEditorProvider';
 import ProtectRoute from './components/ProtectRoute';
-import EditCreatePost from './features/post/create-edit-post/PostEditor';
+import Settings from './pages/Settings';
+import Create from './pages/Create';
+import ProfileTab from './features/setting/components/ProfileTab';
+import PreferencesTab from './features/setting/components/PreferencesTab';
+import AccountTab from './features/setting/components/AccountTab';
+import PrivacyTab from './features/setting/components/PrivacyTab';
 
 
 function App() {
@@ -29,8 +34,19 @@ function App() {
               <PostEditorProvider>
                 <Routes>
                   <Route path='/' element={<Home />}></Route>
-                  <Route path='p/:pid' element={<PostPage />} />
-                  {/*ROUTE TO BE PROTECT*/}
+                  <Route path='p/:pid' element={<Post />} />
+                  <Route path='/create' element={<Create />} />
+                  <Route path='/edit' element={<Create />} />
+                  <Route path='/settings' element={<Settings />}>
+                    <Route index element={<Navigate to='profile' />} />
+                    <Route path='profile' element={<ProfileTab />} />
+                    <Route path='preferences' element={<PreferencesTab />} />
+                    <Route path='account' element={<AccountTab />} />
+                    <Route path='privacy' element={<PrivacyTab />} />
+                  </Route>
+
+
+                  {/*PROTECTED ROUTES*/}
                   <Route path='/u' element={
                     <ProtectRoute>
                       <Profile />
@@ -41,7 +57,6 @@ function App() {
                   <Route path='/signup' element={<Signup />} />
                   <Route path='/verify' element={<Verify />} />
                 </Routes>
-                <EditCreatePost />
               </PostEditorProvider>
             </TooltipProvider>
           </ThemeProvider>

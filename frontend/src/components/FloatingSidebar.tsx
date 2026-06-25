@@ -1,4 +1,4 @@
-import { Globe, Home, Plus, Shapes } from "lucide-react"
+import { Home, Plus } from "lucide-react"
 import { Button } from "./ui/button"
 import SideBarLink from "./SideBarLink"
 import { usePostEditor } from "@/features/post/create-edit-post/PostEditorProvider"

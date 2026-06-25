@@ -6,7 +6,7 @@ import usePost from '@/features/post/hooks/usePost';
 import PostCardSkeleton from '@/features/post/PostCardSkeleton';
 
 
-function PostPage() {
+function Post() {
   const { post, status } = usePost();
   return (
     <Layout>
@@ -38,5 +38,5 @@ function PostPage() {
   )
 }
 
-export default PostPage
+export default Post
 

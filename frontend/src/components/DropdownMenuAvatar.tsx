@@ -25,7 +25,7 @@ export function DropdownMenuAvatar() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button size="icon" variant="ghost" className="rounded-full">
           <Avatar>
             <AvatarImage src={isAuthenticated ? user?.avatar?.url : ""} alt={"user avatar"} />
             <AvatarFallback>UK</AvatarFallback>
@@ -44,7 +44,7 @@ export function DropdownMenuAvatar() {
             Notifications
           </DropdownMenuItem>
 
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/settings")}>
             <Settings />
             Settings
           </DropdownMenuItem>

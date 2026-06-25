@@ -3,7 +3,7 @@ import type { User } from "./user";
 export type CreatePostResponse = {
     success: boolean;
     message: string;
-    data: Post
+    data: { post: Post }
 }
 
 

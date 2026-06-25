@@ -25,3 +25,5 @@ export type UserResponse = {
         user: User;
     };
 };
+
+export interface UpdateProfileParams { display_name?: string, avatar_id?: number, bio?: string }

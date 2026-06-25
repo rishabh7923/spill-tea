@@ -9,25 +9,25 @@ export default function MarkdownRenderer({
     <ReactMarkdown
       components={{
         h1: ({ children }) => (
-          <h1 className="text-4xl font-bold mb-4 mt-6">
+          <h1 className="text-3xl font-bold mb-4 mt-6">
             {children}
           </h1>
         ),
 
         h2: ({ children }) => (
-          <h2 className="text-3xl font-semibold mb-3 mt-5">
+          <h2 className="text-2xl font-semibold mb-3 mt-5">
             {children}
           </h2>
         ),
 
         h3: ({ children }) => (
-          <h3 className="text-2xl font-semibold mb-3 mt-4">
+          <h3 className="text-xl font-semibold mb-3 mt-4">
             {children}
           </h3>
         ),
 
         p: ({ children }) => (
-          <p className="leading-7 mb-4">
+          <p className="text-sm leading-7 mb-4">
             {children}
           </p>
         ),
