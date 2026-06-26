@@ -8,6 +8,7 @@ import useUpdateProfile from "@/features/user/hooks/useUpdateProfile"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { useAuth } from "@/features/auth/context/AuthContext"
 import type { UpdateProfileParams } from "@/types/user"
+import { toast } from "sonner"
 
 function ProfileTab() {
     const { user } = useAuth();
@@ -94,7 +95,7 @@ function ProfileTab() {
                 title="Avatar"
                 description="Edit your avatar or upload an image"
                 right={
-                    <Button className="group-hover:bg-accent rounded-full" variant="ghost" size="icon">
+                    <Button className="group-hover:bg-accent rounded-full" variant="ghost" size="icon" onClick={() => toast.info("Avatar changes are currently disabled")}>
                         <ChevronRight />
                     </Button>
                 }

@@ -12,49 +12,49 @@ import { toast } from "sonner";
 import dayjs from "@/utils/dayjs";
 import MarkdownRenderer from "./create-edit-post/MarkdownRenderer";
 import clsx from "clsx";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
   return (
-    <div
+    <Card
       ref={ref}
-      className={clsx("group rounded-lg p-2 md:p-4 transition text-card-foreground my-2 hover:bg-sidebar " + post.className)}
+      className={clsx("border-0 bg-transparent transition-all duration-200 ease-in-out shadow-none group rounded-lg my-2 hover:bg-sidebar")}
     >
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <CardHeader className="flex items-start justify-between">
         <UserInfo
           avatar={post.user?.avatar?.url || ""}
           name={post.user?.display_name || ""}
           description={<PostCardCategoryTag category={post.category?.name || ""} />}
           size="sm"
+          category={post.category.name}
           time={dayjs(post.createdAt).fromNow()}
         />
 
         <PostCardDropDown post={post} />
-      </div>
+      </CardHeader>
 
       {/* Content */}
-      <div>
-        <p className="text-sm leading-relaxed whitespace-pre-line">
-        </p>
-        <div className="mt-2">
+      <CardContent>
+        <div>
           <MarkdownRenderer content={post.content} />
         </div>
-      </div>
 
-      {/* Image */}
-      {post.attachments.length > 0 ? (
-        <div className="mt-2 overflow-hidden rounded-xl border">
-          <img
-            src={post.attachments[0].url}
-            className="w-full max-h-[420px] object-cover transition group-hover:scale-[1.01]"
-            alt="post"
-          />
-        </div>
-      ) : null}
+        {/* Image */}
+        {post.attachments.length > 0 ? (
+          <div className="mt-2 overflow-hidden rounded-xl border">
+            <img
+              src={post.attachments[0].url}
+              className="w-full max-h-[420px] object-cover transition group-hover:scale-[1.01]"
+              alt="post"
+            />
+          </div>
+        ) : null}
+      </CardContent>
 
       {/* Actions */}
-      <div className="mt-2 flex items-center justify-between text-muted-foreground">
+      <CardFooter className="mt-2 flex items-center justify-between text-muted-foreground">
         <div className="flex items-center gap-5">
           <LikeButton
             likes={post.likesCount}
@@ -83,8 +83,8 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
               }`}
           />
         </Button>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 });
 export default PostCard;

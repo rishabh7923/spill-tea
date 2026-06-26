@@ -1,10 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import clsx from "clsx"
+import PostCardCategoryTag from "@/features/post/PostCardCategoryTag"
 
 type UserInfoProps = {
     avatar?: string
     name: string
     description?: React.ReactNode
+    category?: string
     time?: string
     size?: "lg" | "md" | "sm"
 }
@@ -12,42 +13,29 @@ type UserInfoProps = {
 export function UserInfo({
     avatar,
     name,
-    description,
     time,
-    size = "md",
+    category
 }: UserInfoProps) {
     return (
-        <div className="flex items-start gap-3">
-            <Avatar
-                className={clsx(
-                    "shrink-0",
-                    size === "sm" && "h-8 w-8",
-                    size === "md" && "h-9 w-9",
-                    size === "lg" && "h-12 w-12"
-                )}
-            >
-                <AvatarImage src={avatar} />
+        <div className="flex gap-3.5">
+            <Avatar className="h-12 w-12">
+                <AvatarImage src={avatar} alt="author avatar" />
                 <AvatarFallback>UK</AvatarFallback>
             </Avatar>
 
-            <div className="min-w-0 flex flex-col">
-                <div className="flex items-center gap-1.5">
-                    <span className="truncate text-sm font-semibold">
-                        {name}
-                    </span>
+            <div className="info">
+                <h3 className="font-medium">{name}</h3>
 
-                    {time && (
-                        <span className="text-xs text-muted-foreground">
-                            • {time}
-                        </span>
-                    )}
+                <div className="flex gap-2 items-center text-sm text-muted-foreground">
+                    <span>{time}</span>
+                    {category ?
+                        <>
+                            <span>•</span>
+                            <PostCardCategoryTag category={category} />
+                        </>
+                        : null
+                    }
                 </div>
-
-                {description && (
-                    <div className="mt-2 text-sm text-muted-foreground">
-                        {description}
-                    </div>
-                )}
             </div>
         </div>
     )

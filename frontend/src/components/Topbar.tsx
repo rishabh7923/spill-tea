@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 function Topbar() {
     return (
         <div className='sticky top-0 z-10 h-14 p-2 border-b bg-background px-2'>
-            <div className='flex items-center gap-4 justify-around h-full'>
+            <div className='flex items-center gap-4 justify-between md:justify-around h-full'>
                 <div className='flex items-center gap-2'>
                     <Button size="icon">
                         <CupSoda className="-rotate-16" />
@@ -15,7 +15,7 @@ function Topbar() {
                         Spill
                     </p>
                 </div>
-                <InputGroup className='shrink grow max-w-2xl rounded-2xl'>
+                <InputGroup className='hidden md:flex shrink grow max-w-2xl rounded-2xl'>
                     <InputGroupInput className='w-full' placeholder='Find anything' />
                     <InputGroupAddon>
                         <Search />
