@@ -42,7 +42,7 @@ export const serializedComment = z.object({
   user: z.object({
     id: userSchema.shape.id,
     username: userSchema.shape.username,
-    display_name: userSchema.shape.displayName,
+    display_name: userSchema.shape.display_name,
     avatar_url: avatarSchema.shape.url.nullable(),
   })
 })

@@ -11,6 +11,7 @@ import { optionalAuthenticated } from "../../middlewares/auth/optionalAuthentica
 import { INVALID_PARAMETERS } from "../../common/errors.js";
 import { listPostRequestSchema } from "../../schemas/post.js";
 import { createPostRequestSchema } from "../../schemas/post.js";
+import { validateSchema } from "../../common/utils/validateSchema.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -75,10 +76,7 @@ export const post: Handler[] = [
 export const get: Handler[] = [
     optionalAuthenticated,
     async (req, res) => {
-        const parsed = listPostRequestSchema.safeParse(req.query);
-        if (!parsed) return res.status(400).json({ success: false, error: INVALID_PARAMETERS });
-
-        const { cursor, limit } = parsed.data;   
+        const { cursor, limit } = validateSchema(listPostRequestSchema, req.query);
         const [cursorCreatedAt, cursorId] = cursor ? cursor.split("_") : [undefined, undefined];
 
         const qb = Post.createQueryBuilder("post")

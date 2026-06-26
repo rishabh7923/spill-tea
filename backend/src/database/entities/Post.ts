@@ -1,4 +1,4 @@
-import { BaseEntity, OneToMany, type Relation } from "typeorm";
+import { BaseEntity, OneToMany, VirtualColumn, type Relation } from "typeorm";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany, JoinTable } from "typeorm";
 
 import { User } from "./User.js";
@@ -17,6 +17,9 @@ export class Post extends BaseEntity {
 
     @Column({ default: 0 })
     likes_count: number;
+
+    @Column({ default: 0 })
+    comment_count: number;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     created_at: Date;

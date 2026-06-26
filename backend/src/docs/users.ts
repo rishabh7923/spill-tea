@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { errorResponseSchema } from "../schemas/error.js";
-import { updateUserRequestSchema, updateUserResponseSchema, userSchema } from "../schemas/user.js";
+import { updateUserRequestSchema, updateUserResponseSchema, userSchema, serializedUserSchema } from "../schemas/user.js";
 import { usernameParam } from "./registry.js";
 
 export const registerUserDocs = (registry) => {
@@ -16,7 +16,7 @@ export const registerUserDocs = (registry) => {
         description: "Current user profile",
         content: {
           "application/json": {
-            schema: z.object({ success: z.literal(true) }).extend({ data: z.object({ user: userSchema }) })
+            schema: z.object({ success: z.literal(true) }).extend({ data: z.object({ user: serializedUserSchema }) })
           }
         }
       },
@@ -69,7 +69,7 @@ export const registerUserDocs = (registry) => {
         description: "User profile",
         content: {
           "application/json": {
-            schema: z.object({ success: z.literal(true) }).extend({ data: z.object({ user: userSchema }) })
+            schema: z.object({ success: z.literal(true) }).extend({ data: z.object({ user: serializedUserSchema }) })
           }
         }
       }

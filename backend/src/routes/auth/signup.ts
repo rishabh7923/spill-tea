@@ -5,34 +5,17 @@ import jwt from 'jsonwebtoken';
 import { INVALID_PARAMETERS, EMAIL_EXIST, USERNAME_EXISTS } from '../../common/errors.js';
 import { User } from '../../database/entities/User.js';
 import { signUpRequestBodySchema } from '../../schemas/signup.js';
+import { validateSchema } from '../../common/utils/validateSchema.js';
+import { ApiError } from '../../common/utils/ApiError.js';
 
 export const post: Handler = async (req, res) => {
-    const body = signUpRequestBodySchema.safeParse(req.body);
-
-    if (!body.success) {
-        return res.status(400).json({
-            success: false,
-            error: Object.assign(INVALID_PARAMETERS, { message: body.error.issues[0]?.message }),
-        });
-    }
-
-    const { password, email, username } = req.body;
+    const { password, email, username } = validateSchema(signUpRequestBodySchema, req.body);
 
     /* Check if the email is unique */
-    if (await User.findOneBy({ email })) {
-        return res.status(400).json({
-            success: false,
-            error: EMAIL_EXIST
-        });
-    }
+    if (await User.findOneBy({ email })) throw new ApiError(409, EMAIL_EXIST);
 
     /* Check if the username is unique */
-    if (await User.findOneBy({ username })) {
-        return res.status(400).json({
-            success: false,
-            error: USERNAME_EXISTS
-        });
-    }
+    if (await User.findOneBy({ username })) throw new ApiError(409, USERNAME_EXISTS);
 
     let payload = {
         id: null,

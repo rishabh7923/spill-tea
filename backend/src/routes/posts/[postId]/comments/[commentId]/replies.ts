@@ -7,6 +7,7 @@ import { Comment } from "../../../../../database/entities/Comment.js";
 import { createReplyRequestSchema, listCommentRequestSchema } from "../../../../../schemas/comment.js";
 import { validateSchema } from "../../../../../common/utils/validateSchema.js";
 import { serializeComment } from "../../../../../common/serialize.js";
+import AppDataSource from "../../../../../database/connection.js";
 
 export const get: Handler[] = [
     isAuthenticated,
@@ -50,12 +51,18 @@ export const post: Handler[] = [
         const parentComment = await Comment.findOne({ where: { id: +commentId, post: { id: +postId } } });
         if (!parentComment) throw new ApiError(404, NOT_FOUND, "Cannot reply to a non-existent comment");
 
-        const { id } = await Comment.create({
-            post: { id: +postId },
-            user: { id: req.user.id },
-            parent: { id: parentComment.id },
-            content: content,
-        }).save();
+        const id = await AppDataSource.transaction(async (manager) => {
+            const { id } = await manager.create(Comment, {
+                post: { id: +postId },
+                user: { id: req.user.id },
+                parent: { id: parentComment.id },
+                content: content,
+            }).save()
+
+            await manager.increment(Comment, { id: parentComment.id }, 'reply_count', 1);
+
+            return id;
+        })
 
         const comment = await Comment.findOne({
             where: { id },

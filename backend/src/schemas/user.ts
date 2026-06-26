@@ -42,11 +42,14 @@ export const userSchema = z.object({
       example: "Password123"
     }),
 
-  displayName: z.string(),
+  display_name: z.string(),
 
-  avatar: avatarSchema,
+  avatar: avatarSchema.nullable(),
 
-  bio: z.string(),
+  bio: z.string().nullable().openapi({
+    description: "User's bio",
+    example: "Software engineer and tech enthusiast"
+  }),
 
   verified: z.boolean().openapi({
     description: "Whether the user's email has been verified",
@@ -55,15 +58,29 @@ export const userSchema = z.object({
 }).openapi("User");
 
 
+export const serializedUserSchema = z.object({
+  id: userSchema.shape.id,
+  username: userSchema.shape.username,
+  email: userSchema.shape.email,
+  display_name: userSchema.shape.display_name,
+  verified: userSchema.shape.verified,
+  bio: userSchema.shape.bio.optional(),
+  avatar: z.object({
+    id: avatarSchema.shape.id,
+    url: avatarSchema.shape.url
+  }).optional().nullable()
+}).openapi("UserResponse");
+
+
 /** Request */
 export const updateUserRequestSchema = z.object({
   avatar_id: avatarSchema.shape.id.optional().nullable(),
-  display_name: userSchema.shape.displayName.optional(),
+  display_name: userSchema.shape.display_name.optional(),
   bio: userSchema.shape.bio.optional()
 })
 
 /** Response */
 export const updateUserResponseSchema = z.object({
   success: z.literal(true),
-  data: z.object({ user: userSchema })
+  data: z.object({ user: serializedUserSchema })
 })
