@@ -18,7 +18,7 @@ export function UserInfo({
 }: UserInfoProps) {
     return (
         <div className="flex gap-3.5">
-            <Avatar className="h-12 w-12">
+            <Avatar className="h-10 w-10">
                 <AvatarImage src={avatar} alt="author avatar" />
                 <AvatarFallback>UK</AvatarFallback>
             </Avatar>

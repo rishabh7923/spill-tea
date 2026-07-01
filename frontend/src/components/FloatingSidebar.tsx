@@ -1,4 +1,4 @@
-import { Home, Plus } from "lucide-react"
+import { Globe, Home, Plus, Shapes } from "lucide-react"
 import { Button } from "./ui/button"
 import SideBarLink from "./SideBarLink"
 import { usePostEditor } from "@/features/post/create-edit-post/PostEditorProvider"
@@ -12,12 +12,12 @@ function FloatingSidebar() {
                     <SideBarLink to="/">
                         <Home /> Home
                     </SideBarLink>
-                    {/* <SideBarLink to="/">
+                    <SideBarLink to="/explore">
                         <Globe />Explore
                     </SideBarLink>
-                    <SideBarLink to="/">
+                    <SideBarLink to="/communities">
                         <Shapes /> Communities
-                    </SideBarLink> */}
+                    </SideBarLink>
                 </ul>
                 <div className="justify-self-end space-y-2">
                     <Button className='w-full' onClick={() => openCreate()}>
@@ -36,7 +36,6 @@ function FloatingSidebar() {
     mt-8
     hidden
     overflow-hidden
-    rounded-3xl
     border
     border-border
     bg-card

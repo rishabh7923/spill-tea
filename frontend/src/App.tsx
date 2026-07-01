@@ -21,6 +21,8 @@ import ProfileTab from './features/setting/components/ProfileTab';
 import PreferencesTab from './features/setting/components/PreferencesTab';
 import AccountTab from './features/setting/components/AccountTab';
 import PrivacyTab from './features/setting/components/PrivacyTab';
+import Explore from './pages/Explore';
+import Notifications from './pages/Notifications';
 
 
 function App() {
@@ -37,7 +39,14 @@ function App() {
                   <Route path='p/:pid' element={<Post />} />
                   <Route path='/create' element={<Create />} />
                   <Route path='/edit' element={<Create />} />
-                  <Route path='/settings' element={<Settings />}>
+                  <Route path='/explore' element={<Explore />} />
+
+                  {/*PROTECTED ROUTES*/}
+                  <Route path='/settings' element={
+                    <ProtectRoute>
+                      <Settings />
+                    </ProtectRoute>
+                  }>
                     <Route index element={<Navigate to='profile' />} />
                     <Route path='profile' element={<ProfileTab />} />
                     <Route path='preferences' element={<PreferencesTab />} />
@@ -46,10 +55,15 @@ function App() {
                   </Route>
 
 
-                  {/*PROTECTED ROUTES*/}
                   <Route path='/u' element={
                     <ProtectRoute>
                       <Profile />
+                    </ProtectRoute>
+                  } />
+
+                  <Route path='/notifications' element={
+                    <ProtectRoute>
+                      <Notifications />
                     </ProtectRoute>
                   } />
 

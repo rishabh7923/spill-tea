@@ -1,7 +1,7 @@
 import type { PostCardProps } from "@/types/post";
 import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bookmark, ShareIcon } from "lucide-react";
+import { Bookmark, Share2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PostCardCategoryTag from "./PostCardCategoryTag";
 import LikeButton from "./LikeButton";
@@ -46,7 +46,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           <div className="mt-2 overflow-hidden rounded-xl border">
             <img
               src={post.attachments[0].url}
-              className="w-full max-h-[420px] object-cover transition group-hover:scale-[1.01]"
+              className="w-full max-h-[420px] aspect-square object-cover transition group-hover:scale-[1.01]"
               alt="post"
             />
           </div>
@@ -73,7 +73,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
             await navigator.clipboard.writeText(window.location.host + "p/" + post.id);
             toast.success("Link copied!")
           }}>
-            <ShareIcon className="h-4 w-4" />
+            <Share2Icon className="h-4 w-4" />
           </Button>
         </div>
 

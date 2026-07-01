@@ -196,7 +196,7 @@ function CreateEditPostForm() {
                 >
                     <Vote />
                 </Button>
-                <Button className="ml-auto rounded-full"
+                <Button className="ml-auto"
                     size="sm"
                     disabled={creating === "pending" || editing === "pending" || (content.length === 0 && mode !== "edit")}
                     onClick={createOrEdit}>

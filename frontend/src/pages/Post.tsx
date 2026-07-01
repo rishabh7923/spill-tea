@@ -11,7 +11,7 @@ function Post() {
   return (
     <Layout>
       <div className='w-full mx-auto min-h-screen'>
-        <div className='px-2 md:px-4'>
+        <div>
           {status === "pending" && <PostCardSkeleton />}
           {post && <PostCard
             className='py-0 my-0'
@@ -27,9 +27,8 @@ function Post() {
             category={post.category}
             attachments={post.attachments} />}
         </div>
-        <div className="px-2 lg:px-4 my-4">
-          <AddComment mode="comment" />
-        </div>
+        <div className='mt-4'></div>
+        <AddComment mode="comment" />
 
         {/*  COMMENTS */}
         <PostComments />

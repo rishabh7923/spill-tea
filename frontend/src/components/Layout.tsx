@@ -13,7 +13,7 @@ function Layout({ children }: { children: ReactNode }) {
             <Container>
                 <div className='flex md:px-2 gap-6'>
                     <FloatingSidebar />
-                    <ScrollArea className="h-[calc(100dvh-5.5rem)] md:h-[calc(100dvh-3.5rem)] p-2 border border-t-0 border-b-0  flex-1 w-full mx-auto">
+                    <ScrollArea className="h-[calc(100dvh-5.5rem)] md:h-[calc(100dvh-3.5rem)] p-2 md:border border-t-0 border-b-0  flex-1 w-full mx-auto">
                         {children}
                     </ScrollArea>
                     <TrendingDiscussions />

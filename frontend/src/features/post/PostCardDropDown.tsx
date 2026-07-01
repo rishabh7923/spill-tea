@@ -29,7 +29,7 @@ export function PostCardDropDown({ post }: { post: PostCardProps }) {
           <EllipsisVertical />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent side="bottom" align="end">
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => navigate(`/p/${postId}`)}>Go to post</DropdownMenuItem>
           <DropdownMenuItem onClick={async () => {
