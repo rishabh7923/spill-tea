@@ -13,6 +13,8 @@ import { In } from "typeorm";
 import { optionalAuthenticated } from "../../../middlewares/auth/optionalAuthenticated.js";
 import { Reaction } from "../../../database/entities/Reaction.js";
 import { ApiError } from "../../../common/utils/ApiError.js";
+import { validateSchema } from "../../../common/utils/validateSchema.js";
+import { generatePostSummary } from "../../../common/utils/ai.js";
 
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -43,15 +45,14 @@ export const patch: Handler[] = [
     isAuthenticated,
     upload.array("attachments_to_add"),
     async (req, res) => {
-        const parsed = editPostRequestSchema.safeParse(req.body);
+        const {
+            content,
+            attachments_to_add,
+            attachments_to_remove,
+            category_id
+        } = validateSchema(editPostRequestSchema, req.body);
 
-        if (!parsed.success) return res
-            .status(400)
-            .json({ success: false, error: Object.assign(INVALID_PARAMETERS, { message: parsed.error.issues[0]?.message }) });
-
-        const { content, attachments_to_add, attachments_to_remove, category_id } = parsed.data;
         const { postId } = req.params;
-
         const files = Array.isArray(req.files) ? req.files : [];
         let publicIds: string[] = [];
 
@@ -64,6 +65,8 @@ export const patch: Handler[] = [
                 )
             )
         );
+
+        const summary = (content?.length > 1024) ? await generatePostSummary(content) : null;
 
         await AppDataSource.transaction(async (manager) => {
             const post = await manager.findOneOrFail(Post, {
@@ -82,7 +85,6 @@ export const patch: Handler[] = [
                 });
 
                 publicIds.push(...attachments.map(a => a.public_id));
-
                 await manager.delete(Attachment, { id: In(attachments_to_remove) });
             }
 
@@ -96,6 +98,8 @@ export const patch: Handler[] = [
             )
 
             if (content) post.content = content;
+            if (summary) post.summary = summary;
+
             if (category_id) post.category = await manager.findOne(Category, { where: { id: Number(category_id) } })
 
             await manager.save(post);

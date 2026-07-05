@@ -12,10 +12,9 @@ import { INVALID_PARAMETERS } from "../../common/errors.js";
 import { listPostRequestSchema } from "../../schemas/post.js";
 import { createPostRequestSchema } from "../../schemas/post.js";
 import { validateSchema } from "../../common/utils/validateSchema.js";
-import { GoogleGenAI } from "@google/genai";
+import { generatePostSummary } from "../../common/utils/ai.js";
 
 const upload = multer({ storage: multer.memoryStorage() });
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const post: Handler[] = [
     isAuthenticated,
@@ -66,21 +65,8 @@ export const post: Handler[] = [
             })),
         })
 
-        if (content.length > 1024) {
-            const response = await ai.models.generateContent({
-                model: "gemini-3.1-flash-lite",
-                contents: `
-            You are an AI assistant that summarizes social media posts.
-            Summarize the following post in 2-3 sentences.
-            Keep the important information.
-            Do not add information that isn't present.
-
-            Post: ${content}
-            `
-            })
-
-            newPost.summary = response.text;
-        }
+        if (content.length > 1024)
+            newPost.summary = await generatePostSummary(content);
 
         const { id: postId } = await newPost.save()
 
