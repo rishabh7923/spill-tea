@@ -2,11 +2,12 @@ import { Globe, Home, Plus, Shapes } from "lucide-react"
 import { Button } from "./ui/button"
 import SideBarLink from "./SideBarLink"
 import { usePostEditor } from "@/features/post/create-edit-post/PostEditorProvider"
+import { Card } from "./ui/card";
 
 function FloatingSidebar() {
     const { openCreate } = usePostEditor();
     return (
-        <div className="hidden w-60 self-start mt-4 md:block">
+        <div className="hidden w-60 self-start mt-4 md:block sticky top-18">
             <div className="bg-sidebar md:flex flex-col gap-16 rounded-lg p-3 border">
                 <ul className="space-y-4">
                     <SideBarLink to="/">
@@ -30,7 +31,7 @@ function FloatingSidebar() {
             </div>
 
 
-            <div
+            <Card
                 className="
     relative
     mt-8
@@ -124,7 +125,7 @@ function FloatingSidebar() {
                         Upgrade to Pro
                     </Button>
                 </div>
-            </div>
+            </Card>
 
         </div>
 

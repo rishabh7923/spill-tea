@@ -12,11 +12,11 @@ import { useReply } from './context/ReplyProvider';
 import RepliesList from './reply/RepliesList';
 
 
-interface CommentProps {
+type CommentProps = {
     comment: CommentType;
-}
+} & { depth: number }
 
-function Comment({ comment }: CommentProps) {
+function Comment({ comment, depth }: CommentProps) {
     const [showReplies, setShowReplies] = useState(false);
     const { pid } = useParams();
     const setSearchParams = useSearchParams()[1];
@@ -46,13 +46,13 @@ function Comment({ comment }: CommentProps) {
     }
 
     return (
-        <li>
-            <div className="flex gap-3">
+        <li className="relative after:content-[''] after:absolute after:bottom-0 after:left-1/2  after:border">
+            <div className="flex items-stretch gap-3 relative">
                 <UserIcon url={comment.user.avatar_url!} />
 
                 <div className="flex-1">
                     {/* Comment body */}
-                    <div className="rounded-xl bg-muted/40 p-3 border">
+                    <div>
                         <div className="flex items-center gap-2">
                             <span className="truncate text-sm font-semibold">
                                 {comment.user.display_name}
@@ -79,11 +79,12 @@ function Comment({ comment }: CommentProps) {
                         </p>
 
                         <div>
-                            <div className="mt-2 flex items-center justify-start gap-1">
+                            {/* Comment actions */}
+                            <div className="mt-2 flex items-center justify-start gap-4">
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 rounded-full hover:bg-red-100 hover:text-red-500"
+                                    className="h-6 w-6 rounded-full hover:bg-red-100 hover:text-red-500"
                                 >
                                     <Heart className="h-4 w-4" />
                                 </Button>
@@ -91,7 +92,7 @@ function Comment({ comment }: CommentProps) {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 rounded-full hover:bg-blue-100 hover:text-blue-500"
+                                    className="h-6 w-6 rounded-full hover:bg-blue-100 hover:text-blue-500"
                                     onClick={handleReplyBox}
                                 >
                                     <Reply className="h-4 w-4" />
@@ -100,7 +101,7 @@ function Comment({ comment }: CommentProps) {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 rounded-full hover:bg-green-100 hover:text-green-500"
+                                    className="h-6 w-6 rounded-full hover:bg-green-100 hover:text-green-500"
                                 >
                                     <ShareIcon className="h-4 w-4" />
                                 </Button>
@@ -108,7 +109,7 @@ function Comment({ comment }: CommentProps) {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 rounded-full hover:bg-yellow-100 hover:text-yellow-500"
+                                    className="h-6 w-6 rounded-full hover:bg-yellow-100 hover:text-yellow-500"
                                 >
                                     <Bookmark className="h-4 w-4" />
                                 </Button>
@@ -139,8 +140,7 @@ function Comment({ comment }: CommentProps) {
                     }
                 </div>
             </div>
-            {/* Replies */}
-            {comment.reply_count > 0 ? <RepliesList show={showReplies} parentCommentId={comment.id} /> : null}
+            {comment.reply_count > 0 ? <RepliesList show={showReplies} parentCommentId={comment.id} depth={depth + 1} /> : null}
         </li>
     )
 }

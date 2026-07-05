@@ -11,18 +11,18 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import AddImage from "../AddImage"
+import AddImage from "./AddImage"
 import useNavigateToLogin from "@/features/auth/hooks/useNavigateToLogin"
-import { usePostEditor } from '../PostEditorProvider'
-import useCreatePost from '../../hooks/useCreatePost'
+import { usePostEditor } from './PostEditorProvider'
+import useCreatePost from '../hooks/useCreatePost'
 import type { CreatePostSchema, PostImage } from '@/types/post'
-import useEditPost from '../../hooks/useEditPost';
+import useEditPost from '../hooks/useEditPost';
 import { UserInfo } from '@/features/user/components/UserInfo';
 import { useAuth } from '@/features/auth/context/AuthContext';
 import { Textarea } from '@/components/ui/textarea'
 import clsx from 'clsx'
 import { toast } from 'sonner'
-import SingleImageNotice from '../SingleImageNotice'
+import SingleImageNotice from './SingleImageNotice'
 
 const categories = [
     { value: 1, label: "Issue" },

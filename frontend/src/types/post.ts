@@ -25,6 +25,7 @@ export type Post = {
     id: string | number;
     created_at: string;
     content: string;
+    summary: string;
     attachments: PostImage[];
     liked: boolean
     likes_count: number
@@ -47,6 +48,7 @@ export type PostImage = {
 export type PostCardProps = {
     id: string | number;
     content: string;
+    summary: string;
     user: User
     createdAt: string;
     likesCount: number;

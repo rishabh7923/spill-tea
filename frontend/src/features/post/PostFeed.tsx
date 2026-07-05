@@ -33,6 +33,7 @@ function PostFeed() {
                         ref={i === posts.length - 1 ? lastPostRef : null}
                         user={post.user}
                         category={post.category}
+                        summary={post.summary}
                         attachments={post.attachments}
                     />
                 </li>

@@ -75,7 +75,7 @@ export default function Notifications() {
                     </TabsList>
                 </Tabs>
                 <section>
-                    <div className="p-4 space-y-4">
+                    <div className="space-y-4 mt-2">
                         {notifications.map((notification) => (
                             <NotificationCard
                                 key={notification.id}

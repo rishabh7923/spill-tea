@@ -15,7 +15,7 @@ import Row from '@/components/Row';
 function Home() {
     return (<>
         <Layout>
-            <Row className='border-b pb-2 md:pb-4'>
+            <Row className='border-b pb-2 md:pb-4 max-w-3xl'>
                 <Select>
                     <SelectTrigger className="w-fit">
                         <SelectValue placeholder="Best" />
@@ -43,7 +43,10 @@ function Home() {
                     </SelectContent>
                 </Select>
             </Row>
-            <PostFeed />
+            <Row className='gap-8 max-w-3xl'>
+                <PostFeed />
+            </Row>
+
         </Layout >
     </ >
     )

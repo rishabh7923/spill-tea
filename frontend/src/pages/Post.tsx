@@ -14,6 +14,7 @@ function Post() {
         <div>
           {status === "pending" && <PostCardSkeleton />}
           {post && <PostCard
+            summary={post.summary}
             className='py-0 my-0'
             key={post.id}
             id={post.id}

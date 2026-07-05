@@ -1,7 +1,11 @@
 import type { PostCardProps } from "@/types/post";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bookmark, Share2Icon } from "lucide-react";
+import {
+  Bookmark,
+  Share2Icon,
+  SparklesIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PostCardCategoryTag from "./PostCardCategoryTag";
 import LikeButton from "./LikeButton";
@@ -12,48 +16,136 @@ import { toast } from "sonner";
 import dayjs from "@/utils/dayjs";
 import MarkdownRenderer from "./create-edit-post/MarkdownRenderer";
 import clsx from "clsx";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
+
+  const [showSummary, setShowSummary] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [displayedSummary, setDisplayedSummary] = useState("");
+
+  useEffect(() => {
+    if (!showSummary) return;
+
+    let index = 0;
+
+    setDisplayedSummary("");
+
+    const interval = setInterval(() => {
+      setDisplayedSummary(post.summary.slice(0, index));
+      index++;
+
+      if (index > post.summary.length) {
+        clearInterval(interval);
+      }
+    }, 10);
+
+    return () => clearInterval(interval);
+  }, [post.summary, showSummary]);
+
+  const handleSummary = async () => {
+    if (showSummary) {
+      setShowSummary(false);
+      return;
+    }
+
+    setIsGenerating(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setIsGenerating(false);
+    setShowSummary(true);
+  };
+
   return (
     <Card
       ref={ref}
-      className={clsx("border-0 bg-transparent transition-all duration-200 ease-in-out shadow-none group rounded-lg my-2 hover:bg-sidebar")}
+      className={clsx(
+        "group my-2 rounded-lg border-0 bg-transparent shadow-none transition-all duration-200 ease-in-out hover:bg-sidebar"
+      )}
     >
-      {/* Header */}
       <CardHeader className="flex items-start justify-between">
         <UserInfo
           avatar={post.user?.avatar?.url || ""}
           name={post.user?.display_name || ""}
-          description={<PostCardCategoryTag category={post.category?.name || ""} />}
+          description={
+            <PostCardCategoryTag category={post.category?.name || ""} />
+          }
           size="sm"
           category={post.category.name}
-          time={dayjs(post.createdAt).fromNow()}
+          time={dayjs(post.createdAt)
+            .fromNow(true)
+            .split(" ")
+            .map((x) => x[0])
+            .join(" ")}
         />
 
         <PostCardDropDown post={post} />
       </CardHeader>
 
-      {/* Content */}
       <CardContent>
-        <div>
-          <MarkdownRenderer content={post.content} />
+        <div className="space-y-3">
+          <div
+            className={clsx(
+              "transition-opacity duration-300",
+              isGenerating && "opacity-40"
+            )}
+          >
+            {!showSummary ? (
+              <MarkdownRenderer content={post.content} />
+            ) : (
+              <div className="rounded-xl border bg-muted/40 p-4">
+                <div className="mb-3 flex items-center gap-2 text-sm font-medium">
+                  <SparklesIcon className="size-4" />
+                  AI Summary
+                </div>
+
+                <p className="whitespace-pre-wrap text-sm leading-relaxed">
+                  {displayedSummary}
+
+                  {displayedSummary.length < post.summary.length && (
+                    <span className="animate-pulse">|</span>
+                  )}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {isGenerating && (
+            <div className="space-y-2 rounded-xl border p-4">
+              <div className="h-4 animate-pulse rounded bg-muted" />
+              <div className="h-4 w-5/6 animate-pulse rounded bg-muted" />
+              <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
+            </div>
+          )}
+
+          {post.summary && <Button
+            size="sm"
+            variant="ghost"
+            disabled={isGenerating}
+            onClick={handleSummary}
+            className="gap-2"
+          >
+            <SparklesIcon className="size-4" />
+            {showSummary ? "Show Original" : "AI Summary"}
+          </Button>}
         </div>
 
-        {/* Image */}
-        {post.attachments.length > 0 ? (
-          <div className="mt-2 overflow-hidden rounded-xl border">
+        {post.attachments.length > 0 && (
+          <div className="mt-4 overflow-hidden rounded-xl border">
             <img
               src={post.attachments[0].url}
-              className="w-full max-h-[420px] aspect-square object-cover transition group-hover:scale-[1.01]"
               alt="post"
+              className="aspect-square max-h-105 w-full object-cover transition group-hover:scale-[1.01]"
             />
           </div>
-        ) : null}
+        )}
       </CardContent>
 
-      {/* Actions */}
       <CardFooter className="mt-2 flex items-center justify-between text-muted-foreground">
         <div className="flex items-center gap-5">
           <LikeButton
@@ -65,19 +157,32 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           <CommentButton
             onClick={() =>
               navigate(`/p/${post.id}`, {
-                state: { post }
+                state: { post },
               })
             }
           />
-          <Button variant="ghost" size="icon" className="transition-all hover:text-green-500 rounded-full hover:bg-green-100" onClick={async () => {
-            await navigator.clipboard.writeText(window.location.host + "p/" + post.id);
-            toast.success("Link copied!")
-          }}>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full transition-all hover:bg-green-100 hover:text-green-500"
+            onClick={async () => {
+              await navigator.clipboard.writeText(
+                `${window.location.origin}/p/${post.id}`
+              );
+
+              toast.success("Link copied!");
+            }}
+          >
             <Share2Icon className="h-4 w-4" />
           </Button>
         </div>
 
-        <Button variant="ghost" size="icon" className="transition-all hover:text-yellow-500 rounded-full hover:bg-yellow-100">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full transition-all hover:bg-yellow-100 hover:text-yellow-500"
+        >
           <Bookmark
             className={`h-4 w-4 transition ${post.saved ? "fill-yellow-500 text-yellow-500" : ""
               }`}
@@ -87,4 +192,8 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
     </Card>
   );
 });
+
+PostCard.displayName = "PostCard";
+
 export default PostCard;
+

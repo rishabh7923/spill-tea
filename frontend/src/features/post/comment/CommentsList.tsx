@@ -6,15 +6,15 @@ function CommentsList() {
     const { comments, status, } = useComments();
     return (
         <ReplyProvider>
-            <div className="px-2 md:px-4 mt-2">
-                <ul className="space-y-4">
+            <div className="mt-4">
+                <ul className="space-y-3">
                     {status === "pending" ? <>
                         <li className="w-full animate-pulse"></li>
                         <li className="w-full animate-pulse"></li>
                         <li className="w-full animate-pulse"></li>
                     </>
                         :
-                        status === "error" ? "Something went wrong" : comments?.map(comment => comment.parent_id === null ? <Comment comment={comment} key={comment.id} /> : null)
+                        status === "error" ? "Something went wrong" : comments?.map(comment => comment.parent_id === null ? <Comment comment={comment} key={comment.id} depth={0} /> : null)
                     }
                 </ul>
             </div >
