@@ -18,7 +18,7 @@ function Post() {
             className='py-0 my-0'
             key={post.id}
             id={post.id}
-            createdAt="2h ago"
+            createdAt={post.created_at}
             content={post.content}
             likesCount={post.likes_count}
             comments={8}
