@@ -18,6 +18,8 @@ export const postSchema = z.object({
     example: "Hello, world!"
   }),
 
+  summary: z.string(),
+
   user: userSchema,
 
   attachments: z.array(attachmentSchema).optional().openapi({

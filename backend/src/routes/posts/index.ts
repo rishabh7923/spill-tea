@@ -12,8 +12,10 @@ import { INVALID_PARAMETERS } from "../../common/errors.js";
 import { listPostRequestSchema } from "../../schemas/post.js";
 import { createPostRequestSchema } from "../../schemas/post.js";
 import { validateSchema } from "../../common/utils/validateSchema.js";
+import { GoogleGenAI } from "@google/genai";
 
 const upload = multer({ storage: multer.memoryStorage() });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const post: Handler[] = [
     isAuthenticated,
@@ -53,7 +55,7 @@ export const post: Handler[] = [
             ? await Hashtag.find({ where: { name: In(tags) } })
             : [];
 
-        const { id: postId } = await Post.save({
+        const newPost = Post.create({
             content,
             category: { id: category_id },
             hashtags,
@@ -62,7 +64,25 @@ export const post: Handler[] = [
                 url: x.secure_url,
                 public_id: x.public_id
             })),
-        });
+        })
+
+        if (content.length > 1024) {
+            const response = await ai.models.generateContent({
+                model: "gemini-3.1-flash-lite",
+                contents: `
+            You are an AI assistant that summarizes social media posts.
+            Summarize the following post in 2-3 sentences.
+            Keep the important information.
+            Do not add information that isn't present.
+
+            Post: ${content}
+            `
+            })
+
+            newPost.summary = response.text;
+        }
+
+        const { id: postId } = await newPost.save()
 
         const post = await Post.findOne({
             where: { id: postId },
@@ -88,8 +108,8 @@ export const get: Handler[] = [
 
         if (req.user && req.user.id) {
             qb
-            .leftJoin("reactions", "reaction", "reaction.post_id = post.id AND reaction.user_id = :userId", { userId: req.user.id })
-            .addSelect("CASE WHEN reaction.id IS NOT NULL THEN true ELSE false END", "liked");
+                .leftJoin("reactions", "reaction", "reaction.post_id = post.id AND reaction.user_id = :userId", { userId: req.user.id })
+                .addSelect("CASE WHEN reaction.id IS NOT NULL THEN true ELSE false END", "liked");
         }
 
         let { entities: posts, raw } = await qb
@@ -104,7 +124,7 @@ export const get: Handler[] = [
             .take(limit)
             .getRawAndEntities();
 
-        posts = posts.map((post:any, i) => Object.assign(post, { liked: req.user ? Boolean(+raw[i].liked) : false }))
+        posts = posts.map((post: any, i) => Object.assign(post, { liked: req.user ? Boolean(+raw[i].liked) : false }))
 
         const lastPost = posts[posts.length - 1];
 

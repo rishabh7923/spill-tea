@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "dev": "tsc && node dist/index.js"
   },
   "keywords": [],
@@ -19,11 +19,16 @@
     "@types/multer": "^2.1.0",
     "@types/node": "^25.3.3",
     "@types/nodemailer": "^7.0.11",
+    "@types/supertest": "^7.2.0",
+    "@vitest/ui": "^4.1.9",
+    "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.9"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.5.0",
+    "@google/genai": "^2.10.0",
     "@scalar/express-api-reference": "^0.9.20",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",

@@ -15,6 +15,9 @@ export class Post extends BaseEntity {
     @Column({ type: "text" })
     content: string;
 
+    @Column({ nullable: true, type: "text" })
+    summary: string;
+
     @Column({ default: 0 })
     likes_count: number;
 
