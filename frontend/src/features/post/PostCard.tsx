@@ -13,7 +13,6 @@ import CommentButton from "./comment/CommentButton";
 import { PostCardDropDown } from "./PostCardDropDown";
 import { UserInfo } from "../user/components/UserInfo";
 import { toast } from "sonner";
-import dayjs from "@/utils/dayjs";
 import MarkdownRenderer from "./create-edit-post/MarkdownRenderer";
 import clsx from "clsx";
 import {
@@ -22,6 +21,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import timeAgo from "@/utils/timeAgo";
 
 const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
   const navigate = useNavigate();
@@ -77,11 +77,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           }
           size="sm"
           category={post.category.name}
-          time={dayjs(post.createdAt)
-            .fromNow(true)
-            .split(" ")
-            .map((x) => x[0])
-            .join(" ")}
+          time={timeAgo(post.createdAt)}
         />
 
         <PostCardDropDown post={post} />

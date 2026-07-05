@@ -8,11 +8,24 @@ export default function MarkdownRenderer({
 }) {
 
   return (
-    <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap">
+    <div className="
+    prose
+    dark:prose-invert
+    prose-p:my-0
+    prose-headings:my-1
+    prose-ul:my-1
+    prose-ol:my-1
+    prose-blockquote:my-1 
+    max-w-none 
+    whitespace-pre-wrap">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
-          br: () => <br />,
+          p: ({ children }) => (
+            <p className="my-0 text-muted-foreground">
+              {children}
+            </p>
+          )
         }}
       >
         {content}
