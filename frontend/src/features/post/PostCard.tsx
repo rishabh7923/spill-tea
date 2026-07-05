@@ -132,11 +132,11 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
         </div>
 
         {post.attachments.length > 0 && (
-          <div className="mt-4 overflow-hidden rounded-xl border">
+          <div className="mt-4 overflow-hidden rounded-xl border bg-foreground">
             <img
               src={post.attachments[0].url}
               alt="post"
-              className="aspect-square max-h-105 w-full object-cover transition group-hover:scale-[1.01]"
+              className="aspect-square max-h-105 w-full object-contain transition group-hover:scale-[1.01]"
             />
           </div>
         )}
