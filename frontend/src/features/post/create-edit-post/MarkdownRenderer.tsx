@@ -12,6 +12,7 @@ export default function MarkdownRenderer({
     prose
     dark:prose-invert
     prose-p:my-0
+    prose-p:text-foreground
     prose-headings:my-1
     prose-ul:my-1
     prose-ol:my-1

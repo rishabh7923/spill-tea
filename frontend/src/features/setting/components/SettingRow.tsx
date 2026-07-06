@@ -1,30 +1,42 @@
+import type { ReactNode } from "react";
 
-function SettingRow({
+type SettingRowProps = {
+    icon: any;
+    title: string;
+    description?: string;
+    right?: ReactNode;
+    danger?: boolean;
+    onClick: () => void;
+};
+
+export default function SettingRow({
     icon: Icon,
     title,
     description,
     right,
     danger,
-}: {
-    icon: any
-    title: string
-    description?: string
-    right?: React.ReactNode
-    danger?: boolean
-}) {
+    onClick
+}: SettingRowProps) {
     return (
-        <div className="flex items-center justify-between p-2 group my-2">
+        <div className="group my-2 flex items-center justify-between p-2" onClick={onClick}>
             <div className="flex items-center gap-4">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+                <div className="bg-muted flex h-8 w-8 items-center justify-center rounded-full">
                     <Icon className="h-4 w-4" />
                 </div>
 
                 <div>
-                    <p className={danger ? "text-sm font-medium text-destructive" : "text-sm font-medium"}>
+                    <p
+                        className={
+                            danger
+                                ? "text-destructive text-sm font-medium"
+                                : "text-sm font-medium"
+                        }
+                    >
                         {title}
                     </p>
+
                     {description && (
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                             {description}
                         </p>
                     )}
@@ -33,7 +45,5 @@ function SettingRow({
 
             {right}
         </div>
-    )
+    );
 }
-
-export default SettingRow

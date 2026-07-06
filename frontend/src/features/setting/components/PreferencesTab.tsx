@@ -1,57 +1,81 @@
-import SettingRow from "./SettingRow"
-import { Bell, ChevronRight, Globe, Paintbrush, Shield } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import SettingDialog from "./SettingDialog"
-import { ToggleTheme } from "@/components/ToggleTheme"
+import { useState } from "react";
+import SettingRow from "./SettingRow";
+import SettingDialog from "./SettingDialog";
+import { Bell, Globe, Paintbrush, Shield } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { ToggleTheme } from "@/components/ToggleTheme";
+
+const settings = [
+    {
+        id: "appearance",
+        icon: Paintbrush,
+        title: "Appearance",
+        description: "Customize how the app looks.",
+    },
+    {
+        id: "language",
+        icon: Globe,
+        title: "Language",
+        description: "Choose your preferred language.",
+    },
+    {
+        id: "privacy",
+        icon: Shield,
+        title: "Privacy",
+        description: "Manage your privacy settings.",
+    },
+] as const;
 
 function PreferencesTab() {
+    const [activeSetting, setActiveSetting] = useState<
+        (typeof settings)[number] | null
+    >(null);
+
     return (
-        <section>
-            <SettingRow
-                icon={Bell}
-                title="Notifications"
-                description="Receive updates and announcements"
-                right={<Switch defaultChecked />}
-            />
+        <>
+            <section>
+                <SettingRow
+                    icon={Bell}
+                    title="Notifications"
+                    description="Receive updates and announcements."
+                    right={<Switch defaultChecked />}
+                    onClick={() => { }}
+                />
 
-            <SettingRow
-                icon={Paintbrush}
-                title="Appearance"
-                description="Dark"
-                right={
-                    <SettingDialog
-                        title="Appearance"
-                        trigger={
-                            <Button className="group-hover:bg-accent rounded-full" variant="ghost" size="icon">
-                                <ChevronRight />
-                            </Button>}>
-                        <ToggleTheme />
-                    </SettingDialog>
-                }
-            />
+                {settings.map((setting) => (
+                    <SettingRow
+                        key={setting.id}
+                        icon={setting.icon}
+                        title={setting.title}
+                        description={setting.description}
+                        onClick={() => setActiveSetting(setting)}
+                    />
+                ))}
+            </section>
 
-            <SettingRow
-                icon={Globe}
-                title="Language"
-                description="English"
-                right={
-                    <Button className="group-hover:bg-accent rounded-full" variant="ghost" size="icon">
-                        <ChevronRight />
-                    </Button>}
-            />
+            <SettingDialog
+                open={!!activeSetting}
+                onOpenChange={(open) => {
+                    if (!open) setActiveSetting(null);
+                }}
+                title={activeSetting?.title ?? ""}
+                description={activeSetting?.description}
+                onSubmit={() => setActiveSetting(null)}
+            >
+                {activeSetting?.id === "appearance" && (
+                    <ToggleTheme />
+                )}
 
-            <SettingRow
-                icon={Shield}
-                title="Privacy"
-                description="Manage your privacy settings"
-                right={
-                    <Button className="group-hover:bg-accent rounded-full" variant="ghost" size="icon">
-                        <ChevronRight />
-                    </Button>}
-            />
-        </section>
-    )
+                {activeSetting?.id === "language" && (
+                    <p>Select your preferred language.</p>
+                )}
+
+                {activeSetting?.id === "privacy" && (
+                    <p>Configure privacy preferences.</p>
+                )}
+            </SettingDialog>
+        </>
+    );
 }
 
-export default PreferencesTab
+export default PreferencesTab;

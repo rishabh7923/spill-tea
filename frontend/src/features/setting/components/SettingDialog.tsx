@@ -1,41 +1,36 @@
 import type { ReactNode } from "react";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 type SettingDialogProps = {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
     title: string;
     description?: string;
-    trigger: ReactNode;
     children: ReactNode;
     onSubmit?: () => void;
 };
 
 export default function SettingDialog({
+    open,
+    onOpenChange,
     title,
     description,
-    trigger,
     children,
     onSubmit,
 }: SettingDialogProps) {
     return (
-        <Dialog>
-            <DialogTrigger asChild>{
-                <button type="button">
-                    {trigger}
-                </button>
-            }</DialogTrigger>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="p-4">
                 <form
-                    className="gap-4 flex flex-col"
+                    className="flex flex-col gap-4"
                     onSubmit={(e) => {
                         e.preventDefault();
                         onSubmit?.();
@@ -43,19 +38,28 @@ export default function SettingDialog({
                 >
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
+
                         {description && (
-                            <DialogDescription>{description}</DialogDescription>
+                            <DialogDescription>
+                                {description}
+                            </DialogDescription>
                         )}
                     </DialogHeader>
 
                     {children}
 
                     <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant="outline">Cancel</Button>
-                        </DialogClose>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => onOpenChange(false)}
+                        >
+                            Cancel
+                        </Button>
 
-                        <Button type="submit">Save changes</Button>
+                        <Button type="submit">
+                            Save changes
+                        </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

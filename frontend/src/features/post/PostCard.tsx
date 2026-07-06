@@ -44,7 +44,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       if (index > post.summary.length) {
         clearInterval(interval);
       }
-    }, 10);
+    }, 5);
 
     return () => clearInterval(interval);
   }, [post.summary, showSummary]);
@@ -71,7 +71,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       <CardHeader className="flex items-start justify-between">
         <UserInfo
           avatar={post.user?.avatar?.url || ""}
-          name={post.user?.display_name || ""}
+          name={post.user.username + (post.user?.display_name ? ` / ${post.user.display_name}` : "")}
           description={
             <PostCardCategoryTag category={post.category?.name || ""} />
           }
@@ -91,11 +91,10 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
               isGenerating && "opacity-40"
             )}
           >
-            {!showSummary ? (
-              <MarkdownRenderer content={post.content} />
-            ) : (
-              <div className="rounded-xl border bg-muted/40 p-4">
-                <div className="mb-3 flex items-center gap-2 text-sm font-medium">
+            <MarkdownRenderer content={post.content} />
+            {!showSummary ? null :
+              <div className="rounded-xl border bg-muted/40 mt-2 p-4">
+                <div className="mb-3 flex items-center gap-2 text-sm font-medium text-primary">
                   <SparklesIcon className="size-4" />
                   AI Summary
                 </div>
@@ -108,7 +107,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
                   )}
                 </p>
               </div>
-            )}
+            }
           </div>
 
           {isGenerating && (
@@ -119,16 +118,17 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
             </div>
           )}
 
-          {post.summary && <Button
-            size="sm"
-            variant="ghost"
-            disabled={isGenerating}
-            onClick={handleSummary}
-            className="gap-2"
-          >
-            <SparklesIcon className="size-4" />
-            {showSummary ? "Show Original" : "AI Summary"}
-          </Button>}
+          {(post.summary && !showSummary) &&
+            <Button
+              size="sm"
+              variant="ghost"
+              disabled={isGenerating}
+              onClick={handleSummary}
+              className="gap-2"
+            >
+              <SparklesIcon className="size-4" />
+              AI Summary
+            </Button>}
         </div>
 
         {post.attachments.length > 0 && (
