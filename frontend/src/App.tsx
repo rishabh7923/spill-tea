@@ -21,9 +21,9 @@ import ProfileTab from './features/setting/components/ProfileTab';
 import PreferencesTab from './features/setting/components/PreferencesTab';
 import AccountTab from './features/setting/components/AccountTab';
 import PrivacyTab from './features/setting/components/PrivacyTab';
-import Explore from './pages/Explore';
 import Notifications from './pages/Notifications';
 import PageNotFound from './pages/PageNotFound';
+import Avatar from './pages/Avatar';
 
 
 function App() {
@@ -58,6 +58,12 @@ function App() {
                   <Route path='/u' element={
                     <ProtectRoute>
                       <Profile />
+                    </ProtectRoute>
+                  } />
+
+                  <Route path='/avatar/edit' element={
+                    <ProtectRoute>
+                      <Avatar />
                     </ProtectRoute>
                   } />
 

@@ -9,7 +9,7 @@ function useUpdateProfile() {
             toast("Profile updated successfully");
         },
         onError: (e) => {
-            toast(e.message);
+            toast.success(e.message);
         }
     })
     return { updateProfile, isSuccess, data, error, status }

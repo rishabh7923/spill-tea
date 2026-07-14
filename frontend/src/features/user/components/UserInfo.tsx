@@ -3,7 +3,8 @@ import PostCardCategoryTag from "@/features/post/PostCardCategoryTag"
 
 type UserInfoProps = {
     avatar?: string
-    name: string
+    username: string,
+    displayname: string,
     description?: React.ReactNode
     category?: string
     time?: string
@@ -12,7 +13,8 @@ type UserInfoProps = {
 
 export function UserInfo({
     avatar,
-    name,
+    username,
+    displayname,
     time,
     category
 }: UserInfoProps) {
@@ -24,7 +26,7 @@ export function UserInfo({
             </Avatar>
 
             <div className="info">
-                <h3 className="font-medium">{name}</h3>
+                <span className="font-medium">{displayname || username}</span>  <span className="text-base text-muted-foreground">{"  "}@{username}</span>
 
                 <div className="flex gap-2 items-center text-sm text-muted-foreground">
                     <span>{time}</span>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { ChevronRight, FileText, Signature, User } from "lucide-react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
@@ -19,6 +18,7 @@ import type { UpdateProfileParams } from "@/types/user";
 
 import SettingDialog from "./SettingDialog";
 import SettingRow from "./SettingRow";
+import { useNavigate } from "react-router-dom";
 
 const settings = [
     {
@@ -47,7 +47,7 @@ function ProfileTab() {
     const [activeSetting, setActiveSetting] = useState<
         (typeof settings)[number] | null
     >(null);
-
+    const navigate = useNavigate();
     const { user } = useAuth();
     const { updateProfile } = useUpdateProfile();
 
@@ -96,10 +96,7 @@ function ProfileTab() {
                 icon={User}
                 title="Avatar"
                 description="Edit your avatar or upload an image"
-                onClick={() =>
-                    toast.info(
-                        "Avatar changes are currently disabled"
-                    )
+                onClick={() => navigate("/avatar/edit")
                 }
                 right={
                     <Button

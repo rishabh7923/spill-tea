@@ -71,7 +71,8 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
       <CardHeader className="flex items-start justify-between">
         <UserInfo
           avatar={post.user?.avatar?.url || ""}
-          name={post.user.username + (post.user?.display_name ? ` / ${post.user.display_name}` : "")}
+          username={post.user.username}
+          displayname={post.user?.display_name ?? post.user.username}
           description={
             <PostCardCategoryTag category={post.category?.name || ""} />
           }

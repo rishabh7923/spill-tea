@@ -10,7 +10,7 @@ function Layout({ children }: { children: ReactNode }) {
         <div>
             <Topbar />
             <Container>
-                <Row className="gap-16 mt-2 md:mt-4">
+                <Row className="gap-8 mt-2 md:mt-4">
                     <FloatingSidebar />
                     <div className="grow">
                         {children}

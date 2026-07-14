@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -36,7 +37,8 @@
     --sidebar-accent-foreground: oklch(0 0 0);
     --sidebar-border: oklch(0.9401 0 0);
     --sidebar-ring: oklch(0 0 0);
-    --font-sans: Plus Jakarta Sans, sans-serif;
+    --font-poppins: "Poppins", sans-serif;
+    --font-sans: "Poppins", sans-serif;
     --font-serif: Lora, serif;
     --font-mono: IBM Plex Mono, monospace;
     --radius: 1.4rem;
@@ -91,7 +93,7 @@
     --sidebar-accent-foreground: oklch(0.6132 0.2294 291.7437);
     --sidebar-border: oklch(0.3289 0.0092 268.3843);
     --sidebar-ring: oklch(0.6132 0.2294 291.7437);
-    --font-sans: Plus Jakarta Sans, sans-serif;
+    --font-sans: "Poppins", sans-serif;
     --font-serif: Lora, serif;
     --font-mono: IBM Plex Mono, monospace;
     --radius: 1.4rem;
@@ -177,7 +179,7 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground font-sans;
         letter-spacing: var(--tracking-normal);
     }
 }

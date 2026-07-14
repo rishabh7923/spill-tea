@@ -23,7 +23,6 @@ export default function Settings() {
                         {/* <TabsTrigger onClick={() => navigate("support")} value="support">Support</TabsTrigger> */}
                     </TabsList>
                     <Outlet />
-
                 </Tabs>
             </div>
         </Layout >
