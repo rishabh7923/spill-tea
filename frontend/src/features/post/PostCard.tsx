@@ -93,13 +93,13 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           >
             <MarkdownRenderer content={post.content} />
             {!showSummary ? null :
-              <div className="rounded-xl border bg-muted/40 mt-2 p-4">
-                <div className="mb-3 flex items-center gap-2 text-sm font-medium text-primary">
+              <div className="mt-2 p-4 bg-muted/40 border rounded-xl">
+                <div className="flex gap-2 items-center mb-3 font-medium text-primary text-sm">
                   <SparklesIcon className="size-4" />
                   AI Summary
                 </div>
 
-                <p className="whitespace-pre-wrap text-sm leading-relaxed">
+                <p className="leading-relaxed text-sm whitespace-pre-wrap">
                   {displayedSummary}
 
                   {displayedSummary.length < post.summary.length && (
@@ -111,10 +111,10 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           </div>
 
           {isGenerating && (
-            <div className="space-y-2 rounded-xl border p-4">
-              <div className="h-4 animate-pulse rounded bg-muted" />
-              <div className="h-4 w-5/6 animate-pulse rounded bg-muted" />
-              <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
+            <div className="p-4 space-y-2 border rounded-xl">
+              <div className="h-4 bg-muted animate-pulse rounded" />
+              <div className="h-4 w-5/6 bg-muted animate-pulse rounded" />
+              <div className="h-4 w-3/4 bg-muted animate-pulse rounded" />
             </div>
           )}
 
@@ -132,18 +132,25 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
         </div>
 
         {post.attachments.length > 0 && (
-          <div className="mt-4 overflow-hidden rounded-xl border bg-foreground">
+          <div className="overflow-hidden mt-4 bg-foreground border rounded-xl">
             <img
               src={post.attachments[0].url}
               alt="post"
-              className="aspect-square max-h-105 w-full object-contain transition group-hover:scale-[1.01]"
+              className="
+                object-contain
+                max-h-105
+                w-full
+                transition
+                aspect-square
+                group-hover:scale-[1.01]
+              "
             />
           </div>
         )}
       </CardContent>
 
-      <CardFooter className="mt-2 flex items-center justify-between text-muted-foreground">
-        <div className="flex items-center gap-5">
+      <CardFooter className="flex items-center justify-between mt-2 text-muted-foreground">
+        <div className="flex gap-5 items-center">
           <LikeButton
             likes={post.likesCount}
             liked={post.liked}
@@ -161,7 +168,7 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full transition-all hover:bg-green-100 hover:text-green-500"
+            className="transition-all hover:bg-green-100 hover:text-green-500 rounded-full"
             onClick={async () => {
               await navigator.clipboard.writeText(
                 `${window.location.origin}/p/${post.id}`
@@ -177,11 +184,12 @@ const PostCard = forwardRef<HTMLDivElement, PostCardProps>((post, ref) => {
         <Button
           variant="ghost"
           size="icon"
-          className="rounded-full transition-all hover:bg-yellow-100 hover:text-yellow-500"
+          className="transition-all hover:bg-yellow-100 hover:text-yellow-500 rounded-full"
         >
           <Bookmark
-            className={`h-4 w-4 transition ${post.saved ? "fill-yellow-500 text-yellow-500" : ""
-              }`}
+            className={clsx(
+              "h-4 w-4 transition", post.saved ? "fill-yellow-500 text-yellow-500" : ""
+            )}
           />
         </Button>
       </CardFooter>

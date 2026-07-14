@@ -1,7 +1,8 @@
 import { useState } from "react";
 import SettingRow from "./SettingRow";
 import SettingDialog from "./SettingDialog";
-import { Download, KeyRound, Mail, Trash2 } from "lucide-react";
+import { ChevronRight, Download, KeyRound, Mail, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const settings = [
     {
@@ -47,6 +48,15 @@ function AccountTab() {
                         description={setting.description}
                         danger={"danger" in setting && setting.danger}
                         onClick={() => setActiveSetting(setting)}
+                        right={
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="group-hover:bg-accent rounded-full"
+                            >
+                                <ChevronRight />
+                            </Button>
+                        }
                     />
                 ))}
             </section>

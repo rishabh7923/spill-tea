@@ -23,6 +23,7 @@ import AccountTab from './features/setting/components/AccountTab';
 import PrivacyTab from './features/setting/components/PrivacyTab';
 import Explore from './pages/Explore';
 import Notifications from './pages/Notifications';
+import PageNotFound from './pages/PageNotFound';
 
 
 function App() {
@@ -39,7 +40,6 @@ function App() {
                   <Route path='p/:pid' element={<Post />} />
                   <Route path='/create' element={<Create />} />
                   <Route path='/edit' element={<Create />} />
-                  <Route path='/explore' element={<Explore />} />
 
                   {/*PROTECTED ROUTES*/}
                   <Route path='/settings' element={
@@ -70,6 +70,7 @@ function App() {
                   <Route path='/login' element={<Login />} />
                   <Route path='/signup' element={<Signup />} />
                   <Route path='/verify' element={<Verify />} />
+                  <Route path='*' element={<PageNotFound />} />
                 </Routes>
               </PostEditorProvider>
             </TooltipProvider>

@@ -10,12 +10,12 @@ function Post() {
   const { post, status } = usePost();
   return (
     <Layout>
-      <div className='w-full mx-auto min-h-screen'>
-        <div>
+      <div className='max-w-3xl min-h-screen'>
+        <div className='-my-2'>
           {status === "pending" && <PostCardSkeleton />}
           {post && <PostCard
             summary={post.summary}
-            className='py-0 my-0'
+            className='my-0 py-0'
             key={post.id}
             id={post.id}
             createdAt={post.created_at}

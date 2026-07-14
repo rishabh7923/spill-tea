@@ -142,7 +142,7 @@ function CreateEditPostForm() {
     }, [mode, editingPost]);
 
     return (
-        <div className="flex flex-col gap-6 overflow-y-auto no-scrollbar">
+        <div className="overflow-y-auto flex flex-col gap-6 no-scrollbar">
             <UserInfo
                 avatar={user?.avatar?.url || ""}
                 name={user?.display_name || "Unknown"}
@@ -178,7 +178,7 @@ function CreateEditPostForm() {
 
             {/* {showPole ? <Poll /> : null} */}
             {/* Actions */}
-            <div className="flex w-full gap-2">
+            <div className="flex gap-2 w-full">
                 <AddImage onChange={handleImageChange} />
                 <Button
                     variant="outline"
@@ -206,15 +206,15 @@ function CreateEditPostForm() {
 
             {/* Images */}
             <div className="space-y-3">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                     {mode === "edit" && exitingImages.map((attachment, index) => <div
                         key={index}
-                        className="relative overflow-hidden rounded-xl border aspect-square group"
+                        className="overflow-hidden relative border aspect-square group rounded-xl"
                     >
                         <img
                             src={attachment.url}
                             alt="Post image"
-                            className="h-full w-full object-cover"
+                            className="object-cover h-full w-full"
                         />
 
                         <button
@@ -224,7 +224,22 @@ function CreateEditPostForm() {
                                 setAttachmentsToRemove([...attachmentsToRemove, Number(attachment.id)]);
                             }
                             }
-                            className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition group-hover:opacity-100"
+                            className="
+                                flex
+                                items-center
+                                justify-center
+                                absolute
+                                right-2
+                                top-2
+                                h-8
+                                w-8
+                                text-white
+                                bg-black/60
+                                opacity-0
+                                transition
+                                group-hover:opacity-100
+                                rounded-full
+                            "
                         >
                             <X className="size-4" />
                         </button>
@@ -232,12 +247,12 @@ function CreateEditPostForm() {
                     {images.map((image, index) => (
                         <div
                             key={index}
-                            className="relative overflow-hidden rounded-xl border aspect-square group"
+                            className="overflow-hidden relative border aspect-square group rounded-xl"
                         >
                             <img
                                 src={image}
                                 alt="Post image"
-                                className="h-full w-full object-cover"
+                                className="object-cover h-full w-full"
                             />
 
                             <button
@@ -245,7 +260,22 @@ function CreateEditPostForm() {
                                 onClick={() =>
                                     removeImage(index)
                                 }
-                                className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition group-hover:opacity-100"
+                                className="
+                                    flex
+                                    items-center
+                                    justify-center
+                                    absolute
+                                    right-2
+                                    top-2
+                                    h-8
+                                    w-8
+                                    text-white
+                                    bg-black/60
+                                    opacity-0
+                                    transition
+                                    group-hover:opacity-100
+                                    rounded-full
+                                "
                             >
                                 <X className="size-4" />
                             </button>

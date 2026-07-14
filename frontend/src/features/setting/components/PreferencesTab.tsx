@@ -1,9 +1,10 @@
 import { useState } from "react";
 import SettingRow from "./SettingRow";
 import SettingDialog from "./SettingDialog";
-import { Bell, Globe, Paintbrush, Shield } from "lucide-react";
+import { Bell, ChevronRight, Globe, Paintbrush, Shield } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { ToggleTheme } from "@/components/ToggleTheme";
+import { Button } from "@/components/ui/button";
 
 const settings = [
     {
@@ -49,6 +50,15 @@ function PreferencesTab() {
                         title={setting.title}
                         description={setting.description}
                         onClick={() => setActiveSetting(setting)}
+                        right={
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="group-hover:bg-accent rounded-full"
+                            >
+                                <ChevronRight />
+                            </Button>
+                        }
                     />
                 ))}
             </section>

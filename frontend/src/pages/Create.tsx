@@ -4,7 +4,9 @@ import CreateEditPostForm from "@/features/post/create-edit-post/CreateEditPostF
 function Create() {
     return (
         <Layout>
-            <CreateEditPostForm />
+            <div className="max-w-3xl">
+                <CreateEditPostForm />
+            </div>
         </Layout>
     )
 }

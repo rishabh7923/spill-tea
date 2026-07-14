@@ -65,25 +65,27 @@ const notifications = [
 export default function Notifications() {
     return (
         <Layout>
-            <h1 className="p-2 text-3xl font-bold">Notifications</h1>
-            <div className="m-2">
-                <Tabs defaultValue="all" className="mt-4">
-                    <TabsList className="gap-4 my-2">
-                        <TabsTrigger value="all">All</TabsTrigger>
-                        <TabsTrigger value="unread">Unread</TabsTrigger>
-                        <TabsTrigger value="read">Read</TabsTrigger>
-                    </TabsList>
-                </Tabs>
-                <section>
-                    <div className="space-y-4 mt-2">
-                        {notifications.map((notification) => (
-                            <NotificationCard
-                                key={notification.id}
-                                {...notification}
-                            />
-                        ))}
-                    </div>
-                </section>
+            <div className="max-w-3xl">
+                <h1 className="p-2 font-bold text-3xl">Notifications</h1>
+                <div className="m-2">
+                    <Tabs defaultValue="all" className="mt-4">
+                        <TabsList className="gap-4 my-2">
+                            <TabsTrigger value="all">All</TabsTrigger>
+                            <TabsTrigger value="unread">Unread</TabsTrigger>
+                            <TabsTrigger value="read">Read</TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                    <section>
+                        <div className="mt-2 space-y-4">
+                            {notifications.map((notification) => (
+                                <NotificationCard
+                                    key={notification.id}
+                                    {...notification}
+                                />
+                            ))}
+                        </div>
+                    </section>
+                </div>
             </div>
         </Layout >
     )

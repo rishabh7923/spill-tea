@@ -2,28 +2,21 @@ import type { ReactNode } from "react"
 import Topbar from "./Topbar"
 import Container from "./Container"
 import FloatingSidebar from "./FloatingSidebar"
-import { Button } from "./ui/button"
-import { Plus } from "lucide-react"
-import { Link } from "react-router-dom"
+import Row from "./Row"
 
 function Layout({ children }: { children: ReactNode }) {
+
     return (
-        <div className="h-vh">
+        <div>
             <Topbar />
             <Container>
-                <div className='flex md:px-2 gap-6'>
+                <Row className="gap-16 mt-2 md:mt-4">
                     <FloatingSidebar />
-                    <div className="p-2 border-t-0 border-b-0  flex-1 w-full mx-auto">
+                    <div className="grow">
                         {children}
                     </div>
-                </div>
+                </Row>
             </Container>
-            {/* <Bottombar /> */}
-            <Button className="fixed md:hidden bottom-4 right-4" size="icon">
-                <Link to="/create">
-                    <Plus />
-                </Link>
-            </Button>
         </div>
     )
 }
